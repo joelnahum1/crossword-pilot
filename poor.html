@@ -8,6 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 body {
   margin: 0;
   font-family: 'Heebo', sans-serif;
@@ -39,16 +45,20 @@ h3::before {
 }
 
 .letters-title {
-  margin: 0.6rem 1.2rem 0.2rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #555;
+  margin: 1.2rem 0 0.4rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #b00020;
+  border-right: 4px solid #b00020;
+  background: #fff5f5;
 }
 
 .letters-title::before {
   content: "🔤 ";
 }
 
+<div class="page">
 .intro {
   padding: 1rem 1.2rem;
   background: #f7f7f7;
@@ -67,6 +77,10 @@ h3::before {
 .definition-count {
   color: #666;
   margin-top: 0.2rem;
+}
+
+.solutions {
+  margin-bottom: 1.5rem;
 }
 
 .group-title {
@@ -106,8 +120,9 @@ h3::before {
 }
 
 .niqqud {
-  margin-right: 0.4rem;
-  font-weight: 600;
+  font-size: 1em;
+  font-weight: 400;
+  color: #333;
 }
 
 .solution-links {
@@ -119,6 +134,15 @@ h3::before {
   margin-left: 0.6rem;
 }
 
+<img src="https://ssl.gstatic.com/social/photosui/images/logo/2x/photos_96dp.png" alt="תמונות" class="icon">
+<img src="https://maps.gstatic.com/favicon3.ico" alt="מפות" class="icon">
+
+.icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
 a {
   color: #1a73e8;
   text-decoration: none;
@@ -127,6 +151,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+</div>
 
 footer {
   background: #f7f7f7;
