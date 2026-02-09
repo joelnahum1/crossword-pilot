@@ -83,34 +83,40 @@ header h1 {
 .solution-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
   padding: 0.35rem 0;
   border-bottom: 1px solid #eee;
   font-size: 1.05rem;
   white-space: nowrap;
-  overflow-x: auto;
 }
 
 .heb {
   font-weight: 800;
   color: #1a73e8;
+  margin-left: 1.4rem; /* ← הרווח הגדול והיחיד */
 }
 
 .niqqud {
   color: #555;
   font-weight: 400;
+  margin-left: 0.4rem;
 }
 
 .en {
-  color: #444;
-  font-size: 1rem;
-  margin-right: 0.6rem;
+  color: #1a73e8;
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin-left: 0.4rem;
+}
+
+.en:hover {
+  text-decoration: underline;
 }
 
 .icon {
   width: 18px;
   height: 18px;
   opacity: 0.75;
+  margin-left: 0.4rem;
 }
 
 a {
@@ -155,15 +161,15 @@ footer {
   <a href="https://he.wikipedia.org/wiki/%D7%A6%D7%91" target="_blank" class="heb">צב</a>
   <span class="niqqud">צָב</span>
 
-  <span class="en">turtle</span>
+  <a href="https://en.wikipedia.org/wiki/turtle" target="_blank" class="en">turtle</a>
 
   <a href="https://www.google.com/search?tbm=isch&q=%D7%A6%D7%91" target="_blank" title="תמונות">
     <img src="https://ssl.gstatic.com/social/photosui/images/logo/2x/photos_96dp.png"
      class="icon" alt="תמונות">
   </a>
 
-  <a href="https://www.google.com/maps/search/%D7%A6%D7%91" target="_blank" title="מפות">
-    <img src="https://www.gstatic.com/images/icons/material/system_gm/2x/place_gm_blue_24dp.png"
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%A6%D7%91&hl=he&gl=IL" target="_blank" title="מפות">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Google_Maps_pin.svg"
      class="icon" alt="מפות">
   </a>
 </li></ul>
