@@ -20,9 +20,13 @@ body {
 }
 
 header {
-  padding: 1rem;
+  margin-bottom: 0;
   border-bottom: 1px solid #e6e6e6;
   background: #fff;
+}
+
+.header-inner {
+  padding: 1rem 0;
 }
 
 header h1 {
@@ -39,6 +43,8 @@ header h1 {
 }
 
 .intro {
+  margin-top: 0;
+  border-top: none;
   margin-bottom: 1.2rem;
   font-size: 0.95rem;
   color: #444;
@@ -55,8 +61,15 @@ header h1 {
 }
 
 .group-title {
-  font-size: 1.05rem;
   margin-top: 1.4rem;
+  margin: 1.2rem 0 0.4rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #f1f6fc;
+  color: #2c4a6e;
+  border-radius: 6px;
+  display: inline-block;
 }
 
 .letters-title {
@@ -117,8 +130,8 @@ header h1 {
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   opacity: 0.75;
   object-fit: contain; /* שומר על הפרופורציות של האייקון */
   vertical-align: middle;
@@ -149,7 +162,9 @@ footer {
 <body>
 
 <header>
-  <h1>מאגר פתרונות תשבצים</h1>
+  <div class="page header-inner">
+    <h1>מאגר פתרונות תשבצים</h1>
+  </div>
 </header>
 
 <div class="page">
@@ -164,13 +179,8 @@ footer {
     </section>
     <h3 class="group-title">מילה אחת</h3><h4 class="letters-title">2 אותיות</h4><ul class="solutions">
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9A" target="_blank" class="heb">דך</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">דַּךְ</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9A" class="heb">דך</a>
+  <span class="niqqud">דַּךְ</span>
 
   <a href="https://en.wikipedia.org/wiki/lowly" target="_blank" class="en">lowly</a>
 
@@ -185,13 +195,8 @@ footer {
   </a>
 </li>
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9C" target="_blank" class="heb">דל</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">דַּל</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9C" class="heb">דל</a>
+  <span class="niqqud">דַּל</span>
 
   <a href="https://en.wikipedia.org/wiki/poor" target="_blank" class="en">poor</a>
 
@@ -206,13 +211,8 @@ footer {
   </a>
 </li>
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%9E%D7%9A" target="_blank" class="heb">מך</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">מָךְ</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%9E%D7%9A" class="heb">מך</a>
+  <span class="niqqud">מָךְ</span>
 
   <a href="https://en.wikipedia.org/wiki/infra" target="_blank" class="en">infra</a>
 
@@ -227,13 +227,8 @@ footer {
   </a>
 </li>
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%A8%D7%A9" target="_blank" class="heb">רש</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">רָשׁ</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%A8%D7%A9" class="heb">רש</a>
+  <span class="niqqud">רָשׁ</span>
 
   <a href="https://en.wikipedia.org/wiki/Rash" target="_blank" class="en">Rash</a>
 
@@ -248,13 +243,8 @@ footer {
   </a>
 </li></ul><h4 class="letters-title">5 אותיות</h4><ul class="solutions">
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%90%D7%91%D7%99%D7%95%D7%9F" target="_blank" class="heb">אביון</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">אֶבְיוֹן</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%90%D7%91%D7%99%D7%95%D7%9F" class="heb">אביון</a>
+  <span class="niqqud">אֶבְיוֹן</span>
 
   <a href="https://en.wikipedia.org/wiki/pauper" target="_blank" class="en">pauper</a>
 
@@ -269,13 +259,8 @@ footer {
   </a>
 </li>
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9C%D7%A4%D7%95%D7%9F" target="_blank" class="heb">דלפון</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">דַּלְפוֹן</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9C%D7%A4%D7%95%D7%9F" class="heb">דלפון</a>
+  <span class="niqqud">דַּלְפוֹן</span>
 
   <a href="https://en.wikipedia.org/wiki/Delfon" target="_blank" class="en">Delfon</a>
 
@@ -290,13 +275,8 @@ footer {
   </a>
 </li></ul><h3 class="group-title">שתי מילים</h3></ul><h4 class="letters-title">5 אותיות</h4><ul class="solutions">
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%97%D7%A1%D7%A8_%D7%9B%D7%9C" target="_blank" class="heb">חסר כל</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">חֲסַר כֹּל</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%97%D7%A1%D7%A8_%D7%9B%D7%9C" class="heb">חסר כל</a>
+  <span class="niqqud">חֲסַר כֹּל</span>
 
   <a href="https://en.wikipedia.org/wiki/destitute" target="_blank" class="en">destitute</a>
 
