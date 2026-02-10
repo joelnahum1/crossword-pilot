@@ -20,9 +20,13 @@ body {
 }
 
 header {
-  padding: 1rem;
+  margin-bottom: 0;
   border-bottom: 1px solid #e6e6e6;
   background: #fff;
+}
+
+.header-inner {
+  padding: 1rem 0;
 }
 
 header h1 {
@@ -39,6 +43,8 @@ header h1 {
 }
 
 .intro {
+  margin-top: 0;
+  border-top: none;
   margin-bottom: 1.2rem;
   font-size: 0.95rem;
   color: #444;
@@ -55,8 +61,15 @@ header h1 {
 }
 
 .group-title {
-  font-size: 1.05rem;
   margin-top: 1.4rem;
+  margin: 1.2rem 0 0.4rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #f1f6fc;
+  color: #2c4a6e;
+  border-radius: 6px;
+  display: inline-block;
 }
 
 .letters-title {
@@ -117,8 +130,8 @@ header h1 {
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   opacity: 0.75;
   object-fit: contain; /* שומר על הפרופורציות של האייקון */
   vertical-align: middle;
@@ -149,7 +162,9 @@ footer {
 <body>
 
 <header>
-  <h1>מאגר פתרונות תשבצים</h1>
+  <div class="page header-inner">
+    <h1>מאגר פתרונות תשבצים</h1>
+  </div>
 </header>
 
 <div class="page">
@@ -164,13 +179,8 @@ footer {
     </section>
     <h3 class="group-title">מילה אחת</h3><h4 class="letters-title">2 אותיות</h4><ul class="solutions">
 <li class="solution-item">
-  <span class="col-solution">
-    <a href="https://he.wikipedia.org/wiki/%D7%A6%D7%91" target="_blank" class="heb">צב</a>
-  </span>
-
-  <span class="col-niqqud">
-    <span class="niqqud">צָב</span>
-  </span>
+  <a href="https://he.wikipedia.org/wiki/%D7%A6%D7%91" class="heb">צב</a>
+  <span class="niqqud">צָב</span>
 
   <a href="https://en.wikipedia.org/wiki/turtle" target="_blank" class="en">turtle</a>
 
