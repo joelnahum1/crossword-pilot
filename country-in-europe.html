@@ -60,32 +60,45 @@ header h1 {
   margin-bottom: 1rem;
 }
 
+/* ה-Group: רקע על כל הרוחב, קו ימני כהה ופונט גדול */
+.letters-title {
+  margin: 1.1rem 0 0.4rem;
+  padding: 0.5rem 1rem;
+  
+  /* הגדרות פונט: גדול יותר מהטייטל */
+  font-size: 1.3rem; 
+  font-weight: 700;
+
+  /* רקע וצבעים */
+  background: #fff4cc; 
+  color: #5a4a00;
+  
+  /* קו ימני עבה וכהה יותר מהרקע */
+  border-right: 6px solid #e6b800; 
+  
+  /* גורם לרקע להיחתך בדיוק לפי אורך המשפט */
+  display: inline-block; 
+}
+
+/* הטייטל: רקע תחום למשפט ופונט קטן יותר */
 .group-title {
-  margin-top: 1.4rem;
   margin: 1rem 0 0.3rem;
   padding: 0.3rem 0.6rem;
+  
+  /* הגדרות פונט: קטן יותר מהגרופ */
   font-size: 1.05rem;
   font-weight: 700;
 
-  border-right: 4px solid #f0c94a;
+  /* רקע וצבעים */
   background: #f1f6fc;
   color: #2c4a6e;
-
-  border-radius: 6px;
-  display: inline-block;
-}
-
-.letters-title {
-  margin: 1.1rem 0 0.4rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-
-  background: #fff4cc;
-  color: #5a4a00;
-
-  border-radius: 6px;
+  
+  /* קו ימני דק יותר */
   border-right: 4px solid #f0c94a;
+  border-radius: 6px;
+
+  /* גורם לרקע להימרח על כל הרוחב */
+  display: block;
 }
 
 .solutions {
