@@ -62,7 +62,7 @@ header h1 {
 
 .group-title {
   /* צמצום הרווח למטה rem 0.1 */
-  margin: 0.6rem 0 0.1rem; 
+  margin: 1.2rem 0 0.1rem; 
   padding: 0.5rem 1rem;
   
   font-size: 1.3rem;
@@ -104,16 +104,45 @@ header h1 {
   margin: 0 0 0.6rem;
 }
 
+// @media (max-width: 600px) {
+//   .solution-item {
+//     display: flex;
+//     align-items: center;
+//     padding: 0.35rem 0;
+//     border-bottom: 1px solid #eee;
+//     font-size: 1.05rem;
+//     white-space: normal;     /* ← מאפשר ירידת שורה */
+//     flex-wrap: wrap;
+//   }
+
+.solution-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+/* ביטול קו אחרון */
+.solution-item:last-child {
+  border-bottom: none;
+}
+
+/* ריחוף עדין בדסקטופ */
+@media (hover: hover) {
+  .solution-item:hover {
+    background: #fafafa;
+  }
+}
+
+/* מובייל */
 @media (max-width: 600px) {
   .solution-item {
-    display: flex;
-    align-items: center;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid #eee;
-    font-size: 1.05rem;
-    white-space: normal;     /* ← מאפשר ירידת שורה */
     flex-wrap: wrap;
+    font-size: 1.05rem;
   }
+}
 
   .solution-links {
     margin-top: 0.2rem;
@@ -215,7 +244,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -234,7 +263,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -253,7 +282,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -272,7 +301,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -291,7 +320,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -310,7 +339,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -329,7 +358,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -348,7 +377,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -367,7 +396,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -386,7 +415,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -405,7 +434,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -424,7 +453,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -443,7 +472,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -462,7 +491,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -481,7 +510,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -500,7 +529,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -519,7 +548,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -538,7 +567,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -557,7 +586,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -576,7 +605,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -595,7 +624,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -614,7 +643,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -633,7 +662,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -652,7 +681,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -671,7 +700,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -690,7 +719,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -709,7 +738,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -728,7 +757,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -747,7 +776,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -766,7 +795,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -785,7 +814,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -804,7 +833,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -823,7 +852,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -842,7 +871,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -861,7 +890,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -880,7 +909,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -899,7 +928,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -918,7 +947,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -937,7 +966,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -956,7 +985,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -975,7 +1004,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -994,7 +1023,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1013,7 +1042,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1032,7 +1061,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1051,7 +1080,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1070,7 +1099,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1089,7 +1118,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1108,7 +1137,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1127,7 +1156,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1146,7 +1175,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1165,7 +1194,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1184,7 +1213,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1203,7 +1232,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1222,7 +1251,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1241,7 +1270,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1260,7 +1289,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
@@ -1279,7 +1308,7 @@ footer {
   </a>
 
   
-    <a href="מפות" target="_blank" title="מפות">
+  <a href="https://www.google.com/maps/search/?api=1&query=%D7%9E%D7%A4%D7%95%D7%AA" target="_blank" title="מפות">
     <img src="https://www.gstatic.com/images/branding/product/2x/maps_96dp.png"
      class="icon" alt="גוגל מפות">
   </a>
