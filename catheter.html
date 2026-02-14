@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>קתטר – מאגר פתרונות תשבצים</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
-
-// <?!= include('style'); ?>
-
-<style>
-/* משתנים גלובליים */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>קתטר – מאגר פתרונות תשבצים</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+ 
 :root {
   --link-blue: #1a73e8;
   --bg-main: #f2f4f7;
@@ -28,10 +22,10 @@ body {
   font-family: 'Heebo', sans-serif;
   background: var(--bg-main);
   color: var(--text-dark);
-  direction: rtl; /* הגדרה כללית לעברית */
+  direction: rtl;  
 }
 
-/* מבנה דף אחיד - ה-Container */
+ 
 .page {
   max-width: var(--max-page-width);
   margin: 0 auto;
@@ -39,7 +33,7 @@ body {
   background: var(--bg-white);
 }
 
-/* Header & Footer */
+ 
 header, footer {
   width: 100%;
   background: var(--bg-white);
@@ -54,7 +48,7 @@ footer {
   color: var(--text-gray);
 }
 
-/* ביטול רקע לבן בתוך header ו-footer */
+ 
 header .page, footer .page {
   background: transparent;
   padding: 1rem 1.4rem;
@@ -66,7 +60,7 @@ header h1 {
   font-weight: 800;
 }
 
-/* כותרות וטקסט */
+ 
 .intro {
   margin-bottom: 1.2rem;
   font-size: 0.95rem;
@@ -83,9 +77,9 @@ header h1 {
   margin-bottom: 1rem;
 }
 
-/* עיצוב הקבוצות */
+ 
 .group-title {
-  margin: 2rem 0 0.1rem; /* רווח גדול למעלה וקטן למטה */
+  margin: 2rem 0 0.1rem;  
   padding: 0.5rem 1rem;
   font-size: 1.3rem;
   font-weight: 700;
@@ -107,7 +101,7 @@ header h1 {
   display: inline-block;
 }
 
-/* רשימת פתרונות */
+ 
 .solutions {
   list-style: none;
   padding: 0;
@@ -127,7 +121,7 @@ header h1 {
   border-bottom: none;
 }
 
-/* קישורים ואייקונים */
+ 
 a {
   text-decoration: none;
   color: var(--link-blue);
@@ -163,7 +157,7 @@ a:hover {
   margin-left: 0.4rem;
 }
 
-/* מובייל */
+ 
 @media (max-width: 600px) {
   .solution-item {
     flex-wrap: wrap;
@@ -175,7 +169,7 @@ a:hover {
     width: 100%;
   }
 
-  /* ריחוף עדין רק בדסקטופ למניעת באגים במגע */
+   
   @media (hover: hover) {
     .solution-item:hover {
       background: #fafafa;
@@ -183,50 +177,24 @@ a:hover {
   }
 }
 </style>
-
-
-
 </head>
-
 <body>
-
-<header>
-  <div class="page header-inner">
-    <h1>מאגר פתרונות תשבצים</h1>
-  </div>
-</header>
-
-<div class="page">
-  <section class="intro">
-    דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית, ומספק פתרון מלא לתשבצים. מעבר לפתרון המבוקש, הדף כולל מידע להרחבת הידע: ניקוד מלא של המילה, תרגום לאנגלית וקישורים לאתרים רלוונטיים. בתחתית העמוד ניתן לשלוח הערות, הצעות או רעיונות לשיפור התוכן.
-  </section>
-
-  
-        <section class="definition">
-        <h2 class="definition-title">קתטר</h2>
-        <div class="definition-count">הצעה אחת</div>
-      </section>
-      <h3 class="group-title">מילה אחת</h3><h4 class="letters-title">4 אותיות</h4><ul class="solutions">
-<li class="solution-item">
-  <a href="https://he.wikipedia.org/wiki/%D7%A6%D7%A0%D7%AA%D7%A8" class="heb">צנתר</a>
-
-  <a href="https://en.wikipedia.org/wiki/Catheter" target="_blank" class="en">Catheter</a>
-
-  <a href="https://www.google.com/search?tbm=isch&q=%D7%A6%D7%A0%D7%AA%D7%A8" target="_blank" title="תמונות">
-    <img src="https://ssl.gstatic.com/social/photosui/images/logo/2x/photos_96dp.png"
-     class="icon" alt="גוגל תמונות">
-  </a>
-
-  
-
-</li></ul>
-</div>
-
-<footer>
-  © כל הזכויות שמורות • לשימוש אישי בלבד  <br>להערות, תיקונים או הצעות ייעול – מוזמנים ליצור קשר.
-</footer>
-
+  <header><div class="page"><h1>מאגר פתרונות תשבצים</h1></div></header>
+  <main class="page">
+    <section class="intro">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית, ומספק פתרון מלא לתשבצים. מעבר לפתרון המבוקש, הדף כולל מידע להרחבת הידע: ניקוד מלא של המילה, תרגום לאנגלית וקישורים לאתרים רלוונטיים. בתחתית העמוד ניתן לשלוח הערות, הצעות או רעיונות לשיפור התוכן.</section>
+    <section class="definition">
+    <h2 class="definition-title">קתטר</h2>
+    <div class="definition-count">הצעה אחת</div>
+  </section><h3 class="group-title">מילה אחת</h3><h4 class="letters-title">4 אותיות</h4><ul class="solutions">
+    <li class="solution-item">
+      <a href="https://he.wikipedia.org/wiki/%D7%A6%D7%A0%D7%AA%D7%A8" class="heb">צנתר</a>
+      <a href="https://en.wikipedia.org/wiki/Catheter" target="_blank" class="en">Catheter</a>
+      <a href="https://www.google.com/search?tbm=isch&q=%D7%A6%D7%A0%D7%AA%D7%A8" target="_blank" title="תמונות">
+        <img src="https://ssl.gstatic.com/social/photosui/images/logo/2x/photos_96dp.png" class="icon" alt="תמונות">
+      </a>
+      
+    </li></ul>
+  </main>
+  <footer><div class="page">© כל הזכויות שמורות • לשימוש אישי בלבד  <br>להערות, תיקונים או הצעות ייעול – מוזמנים ליצור קשר.</div></footer>
 </body>
-
-
 </html>
