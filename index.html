@@ -6,10 +6,19 @@
   <title>אינדקס הגדרות</title>
   <style>
 :root {
+   
+  --font-main-title: 1.8rem;     
+  --font-def-title: 2.2rem;      
+  --font-group-title: 1.4rem;    
+  --font-letters-title: 1.1rem;  
+  --font-heb-word: 1.3rem;       
+  --font-niqqud: 1.15rem;        
+  --font-en-word: 1.1rem;        
+  
+   
   --link-blue: #1a73e8;
   --bg-main: #f2f4f7;
   --bg-white: #fff;
-  --border-color: #e6e6e6;
   --text-dark: #202124;
   --text-gray: #5f6368;
   --max-page-width: 760px;
@@ -20,118 +29,114 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;  
   background: var(--bg-main);
   font-family: 'Heebo', sans-serif;
   direction: rtl;
 }
 
  
+header {
+  background: var(--bg-white);
+  border-bottom: 1px solid #e6e6e6;
+}
+
+header .page {
+  padding-top: 0.5rem;     
+  padding-bottom: 0.5rem; 
+}
+
+header h1 {
+  margin: 0;
+  font-size: var(--font-main-title);  
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
 .page {
   max-width: var(--max-page-width);
   margin: 0 auto;
   padding: 1rem 1.2rem;
   background: var(--bg-white);
-  box-sizing: border-box;  
+  box-sizing: border-box;
 }
 
  
-header {
-  background: var(--bg-white);
-  border-bottom: 1px solid var(--border-color);
-  width: 100%;
-}
-
-header h1 {
+ul.solutions {
+  padding: 0;
   margin: 0;
-  padding: 1rem 0;
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--text-dark);
+  list-style: none;
 }
 
  
-.definition-title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin: 0.8rem 0 0.2rem;
-  color: #1a3a5f;
-}
-
 .group-title {
-  margin: 1.5rem 0 0.5rem;
+  margin: 3rem 0 0.5rem;  
   padding: 0.5rem 1rem;
-  font-size: 1.3rem;
+  font-size: var(--font-group-title);
   background: #f1f6fc;
   border-right: 6px solid #1a3a5f;
 }
 
- 
 .letters-title {
-  margin: 1rem 0 0.5rem;
+  margin: 2rem 0 0.4rem;  
   padding: 0.2rem 0.8rem;
-  font-size: 1rem;
+  font-size: var(--font-letters-title);
   background: #fff4cc;
   border-right: 4px solid #f0c94a;
-  display: inline-block;  
+  display: inline-block;
 }
 
  
 .solution-item {
   display: flex;
   align-items: center;
-  padding: 0.4rem 0;  
-  border-bottom: 1px solid #f8f9fa;
-  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f1f3f4;
+  gap: 12px;  
 }
 
  
 .heb {
-  font-size: 1.15rem;
+  font-size: var(--font-heb-word);
   font-weight: 800;
   color: var(--link-blue);
-  text-decoration: none;
+  text-decoration: underline;  
+  margin-left: 1.5rem;         
 }
 
+ 
 .niqqud {
-  font-size: 1rem;
-  color: #555;
+  font-size: var(--font-niqqud);
+  font-weight: 600;  
+  color: #333;
   margin-left: 0.8rem;
 }
 
+ 
 .en {
-  font-size: 1rem;
-  color: var(--link-blue);  
-  text-decoration: none;
+  font-size: var(--font-en-word);
+  color: var(--link-blue);
+  text-decoration: underline;  
+  margin-left: 0.8rem;
 }
 
  
 .icon-group {
-  margin-right: auto;  
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
+   
 }
 
 .icon {
-  width: 22px;
-  height: 22px;
-  vertical-align: middle;
-}
-
-footer {
-  background: var(--bg-main);
-  padding-bottom: 2rem;  
+  width: 24px;
+  height: 24px;
 }
 
  
-@media (max-width: 600px) {
-  .page {
-    width: 100%;
-    box-shadow: none;
-  }
-  .solution-item {
-    flex-wrap: wrap;  
-  }
+.definition-title {
+  font-size: var(--font-def-title);
+  font-weight: 800;
+  margin: 1rem 0 0.2rem;
 }
 </style>
 </head>
