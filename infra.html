@@ -9,7 +9,182 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
 
-<?!= include('style'); ?>
+// <?!= include('style'); ?>
+
+<style>
+/* משתנים גלובליים */
+:root {
+  --link-blue: #1a73e8;
+  --bg-main: #f2f4f7;
+  --bg-white: #fff;
+  --border-color: #e6e6e6;
+  --text-dark: #222;
+  --text-gray: #444;
+  --max-page-width: 760px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-dark);
+  direction: rtl; /* הגדרה כללית לעברית */
+}
+
+/* מבנה דף אחיד - ה-Container */
+.page {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 1.2rem 1.4rem;
+  background: var(--bg-white);
+}
+
+/* Header & Footer */
+header, footer {
+  width: 100%;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+}
+
+footer {
+  background: #f7f7f7;
+  border-bottom: none;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+/* ביטול רקע לבן בתוך header ו-footer */
+header .page, footer .page {
+  background: transparent;
+  padding: 1rem 1.4rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+/* כותרות וטקסט */
+.intro {
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--text-gray);
+}
+
+.definition-title {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.definition-count {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* עיצוב הקבוצות */
+.group-title {
+  margin: 2rem 0 0.1rem; /* רווח גדול למעלה וקטן למטה */
+  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: #f1f6fc;
+  color: #2c4a6e;
+  border-right: 6px solid #1a3a5f; 
+  display: block;
+}
+
+.letters-title {
+  margin: 0.5rem 0 0.2rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #fff4cc;
+  color: #5a4a00;
+  border-right: 4px solid #f0c94a;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* רשימת פתרונות */
+.solutions {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.6rem;
+}
+
+.solution-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+.solution-item:last-child {
+  border-bottom: none;
+}
+
+/* קישורים ואייקונים */
+a {
+  text-decoration: none;
+  color: var(--link-blue);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.heb {
+  font-weight: 800;
+  margin-left: 1.2rem;
+}
+
+.niqqud {
+  color: #555;
+  font-weight: 500;
+  margin-left: 0.4rem;
+}
+
+.en {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-left: 0.4rem;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.75;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+}
+
+/* מובייל */
+@media (max-width: 600px) {
+  .solution-item {
+    flex-wrap: wrap;
+    font-size: 1.05rem;
+  }
+  
+  .solution-links {
+    margin-top: 0.2rem;
+    width: 100%;
+  }
+
+  /* ריחוף עדין רק בדסקטופ למניעת באגים במגע */
+  @media (hover: hover) {
+    .solution-item:hover {
+      background: #fafafa;
+    }
+  }
+}
+</style>
+
+
 
 </head>
 
