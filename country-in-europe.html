@@ -6,148 +6,175 @@
   <title>מדינה באירופה – מאגר פתרונות תשבצים</title>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
+ 
 :root {
-   
-  --font-main-title: 1.6rem;     
-  --font-def-title: 2.2rem;      
-  --font-group-title: 1.4rem;    
-  --font-letters-title: 1.1rem;  
-  --font-heb-word: 1.3rem;       
-  --font-niqqud: 1.15rem;        
-  --font-en-word: 1.1rem;        
-  
-   
   --link-blue: #1a73e8;
   --bg-main: #f2f4f7;
   --bg-white: #fff;
-  --text-dark: #202124;
-  --text-gray: #5f6368;
+  --border-color: #e6e6e6;
+  --text-dark: #222;
+  --text-gray: #444;
   --max-page-width: 760px;
 }
 
- 
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  background: var(--bg-main);
   font-family: 'Heebo', sans-serif;
-  direction: rtl;
+  background: var(--bg-main);
+  color: var(--text-dark);
+  direction: rtl;  
 }
 
  
-header {
+.page {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 1.2rem 1.4rem;
   background: var(--bg-white);
-  border-bottom: 1px solid #e6e6e6;
 }
 
-header .page {
-  padding-top: 0.5rem;     
-  padding-bottom: 0.5rem; 
+ 
+header, footer {
+  width: 100%;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+}
+
+footer {
+  background: #f7f7f7;
+  border-bottom: none;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+ 
+header .page, footer .page {
+  background: transparent;
+  padding: 1rem 1.4rem;
 }
 
 header h1 {
   margin: 0;
-  font-size: var(--font-main-title);  
+  font-size: 1.4rem;
   font-weight: 800;
-  color: var(--text-dark);
-}
-
-.page {
-  max-width: var(--max-page-width);
-  margin: 0 auto;
-  padding: 1rem 1.2rem;
-  background: var(--bg-white);
-  box-sizing: border-box;
 }
 
  
-ul.solutions {
-  padding: 0;
+.intro {
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--text-gray);
+}
+
+.definition-title {
+  font-size: 1.3rem;
   margin: 0;
-  list-style: none;
+}
+
+.definition-count {
+  color: #666;
+  margin-bottom: 1rem;
 }
 
  
 .group-title {
-  margin: 2rem 0 0.2rem;  
+  margin: 2rem 0 0.1rem;  
   padding: 0.5rem 1rem;
-  font-size: var(--font-group-title);
+  font-size: 1.3rem;
+  font-weight: 700;
   background: #f1f6fc;
-  border-right: 6px solid #1a3a5f;
+  color: #2c4a6e;
+  border-right: 6px solid #1a3a5f; 
+  display: block;
 }
 
 .letters-title {
-  margin: 1rem 0 0.1rem;  
-  padding: 0.2rem 0.8rem;
-  font-size: var(--font-letters-title);
+  margin: 0.5rem 0 0.2rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
   background: #fff4cc;
+  color: #5a4a00;
   border-right: 4px solid #f0c94a;
+  border-radius: 6px;
   display: inline-block;
 }
 
-
  
+.solutions {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.6rem;
+}
+
 .solution-item {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   padding: 0.6rem 0;
-  border-bottom: 1px solid #f1f3f4;
-  gap: 12px;
-  flex-wrap: wrap;  
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+.solution-item:last-child {
+  border-bottom: none;
 }
 
  
-.icon-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  min-width: fit-content; 
+a {
+  text-decoration: none;
+  color: var(--link-blue);
 }
 
- 
+a:hover {
+  text-decoration: underline;
+}
+
 .heb {
-  font-size: var(--font-heb-word);
   font-weight: 800;
-  color: var(--link-blue);
-  text-decoration: underline;  
-  margin-left: 0.1rem;         
+  margin-left: 1.2rem;
 }
 
- 
 .niqqud {
-  font-size: var(--font-niqqud);
-  font-weight: 600;  
-  color: #333;
-  margin-left: 0rem;
+  color: #555;
+  font-weight: 500;
+  margin-left: 0.4rem;
 }
 
- 
 .en {
-  font-size: var(--font-en-word);
-  color: var(--link-blue);
-  text-decoration: underline;  
-  margin-left: 0rem;
-}
-
- 
-.icon-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-   
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-left: 0.4rem;
 }
 
 .icon {
   width: 24px;
   height: 24px;
+  opacity: 0.75;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-left: 0.4rem;
 }
 
  
-.definition-title {
-  font-size: var(--font-def-title);
-  font-weight: 800;
-  margin: 1rem 0 0.2rem;
+@media (max-width: 600px) {
+  .solution-item {
+    flex-wrap: wrap;
+    font-size: 1.05rem;
+  }
+  
+  .solution-links {
+    margin-top: 0.2rem;
+    width: 100%;
+  }
+
+   
+  @media (hover: hover) {
+    .solution-item:hover {
+      background: #fafafa;
+    }
+  }
 }
 </style>
 </head>
