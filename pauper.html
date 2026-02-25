@@ -70,7 +70,7 @@ header h1 {
  
 .definition-header-box {
   background-color: #f1f3f4;
-  padding: 10px 15px;  
+  padding: 8px 15px 4px 15px;  
   border-radius: 8px;
   margin-bottom: 20px;
   border: 1px solid #dadce0;
@@ -83,8 +83,8 @@ header h1 {
 }
 
 .definition-title a {
-  text-decoration: none;
-  color: #202124;
+  text-decoration: underline;
+  color: var(--link-blue);
 }
 
 .definition-title a:hover {
@@ -149,8 +149,7 @@ header h1 {
 }
 
 
-
-
+ 
  
 ul.solutions {
   padding: 0;
@@ -215,12 +214,12 @@ ul.solutions {
 
  
 .icon {
-  width: var(--icon-size);
-  height: var(--icon-size);
-  display: block;  
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  display: inline-block !important;  
   vertical-align: middle;
-  margin-right: 8px;
   transition: transform 0.2s;
+  border: none;
 }
 
 .icon:hover {
@@ -228,15 +227,12 @@ ul.solutions {
 }
 
 .icon-group {
-  display: flex;
-  display: inline-flex;
-  gap: 6px;  
+  display: inline-flex !important;  
+  gap: 8px; 
   align-items: center;
-  margin-right: 15px;
+  margin-right: 12px;
+  vertical-align: middle;
 }
-
-
-
 
  
 
