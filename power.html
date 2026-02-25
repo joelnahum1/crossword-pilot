@@ -64,28 +64,42 @@ header h1 {
 }
 
  
-.definition-title {
-  font-size: var(--font-def-title);
-  font-weight: 800;
-  margin: 1rem 0 0.2rem;
-}
-
- 
 .definition-header-box {
-  background-color: #f1f3f4;  
-  padding: 20px;
+  background-color: #f1f3f4;
+  padding: 10px 15px;  
   border-radius: 8px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   border: 1px solid #dadce0;
 }
 
-.definition-enrichment {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-top: 15px;
-  padding-top: 15px;
+.definition-title {
+  font-size: var(--font-def-title);
+  font-weight: 800;
+  margin: 0;  
+}
+
+.definition-title a {
+  text-decoration: none;
+  color: #202124;
+}
+
+.definition-title a:hover {
+  text-decoration: underline;
+  color: #1a73e8;
+}
+
+.enrichment-row {
+  margin: 0 !important; 
+  padding: 2px 0 !important;  
+  border-bottom: none !important;
+}
+
+.solution-count {
+  margin-top: 10px;
   border-top: 1px solid #dadce0;
+  padding-top: 8px;
+  font-size: 0.9rem;
+  color: #5f6368;
 }
 
  
@@ -226,19 +240,26 @@ ul.solutions {
   <header><div class="page"><h1>מאגר פתרונות תשבצים</h1></div></header>
   <div class="page" dir="rtl">
     <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית, ומספק פתרון מלא לתשבצים. מעבר לפתרון המבוקש, הדף כולל מידע להרחבת הידע: ניקוד מלא של המילה, תרגום לאנגלית וקישורים לאתרים רלוונטיים. בתחתית העמוד ניתן לשלוח הערות, הצעות או רעיונות לשיפור התוכן.</div>
+    
     <div class="definition-header-box">
-      <div class="definition-title">עוצמה</div>
+      <div class="definition-title">
+        <a href="https://he.wikipedia.org/wiki/%D7%A2%D7%95%D7%A6%D7%9E%D7%94" target="_blank">עוצמה</a>
+      </div>
       
-      <div class="solution-item enrichment-row" style="margin-top:5px; border-bottom:none;">
-        <a href="https://he.wikipedia.org/wiki/%D7%A2%D7%95%D7%A6%D7%9E%D7%94" target="_blank" class="heb">עוצמה</a>
+      
+      <div class="solution-item enrichment-row">
         
         <a href="https://en.wikipedia.org/wiki/Power" target="_blank" class="en">Power</a>
+        
         <div class="icon-group">
           <a href="https://www.google.com/search?tbm=isch&q=%D7%A2%D7%95%D7%A6%D7%9E%D7%94" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
           
         </div>
       </div>
-      <div class="solution-count" style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">3 הצעות</div>
+      
+      <div class="solution-count" style="margin-top:10px; border-top:1px solid #ddd; padding-top:5px;">
+        3 הצעות
+      </div>
     </div>
     <ul class="solutions"><div class="group-title">מילה אחת</div><div class="letters-title">4 אותיות</div><li class="solution-item">
       <a href="https://he.wikipedia.org/wiki/%D7%97%D7%95%D7%96%D7%A7" target="_blank" class="heb">חוזק</a>
