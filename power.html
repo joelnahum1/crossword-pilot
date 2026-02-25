@@ -1,4 +1,8 @@
-<!DOCTYPE html><html lang="he"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>עוצמה</title><style>
+<!DOCTYPE html><html lang="he"><head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עוצמה - מאגר פתרונות תשבצים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
 :root {
    
   --font-main-title: 1.6rem;     
@@ -236,7 +240,8 @@ ul.solutions {
   font-size: 0.9rem;
 }
 </style>
-</head><body>
+
+  </head><body>
   <header><div class="page"><h1>מאגר פתרונות תשבצים</h1></div></header>
   <div class="page" dir="rtl">
     <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית, ומספק פתרון מלא לתשבצים. מעבר לפתרון המבוקש, הדף כולל מידע להרחבת הידע: ניקוד מלא של המילה, תרגום לאנגלית וקישורים לאתרים רלוונטיים. בתחתית העמוד ניתן לשלוח הערות, הצעות או רעיונות לשיפור התוכן.</div>
@@ -252,37 +257,118 @@ ul.solutions {
         <a href="https://en.wikipedia.org/wiki/Power" target="_blank" class="en">Power</a>
         
         <div class="icon-group">
-          <a href="https://www.google.com/search?tbm=isch&q=%D7%A2%D7%95%D7%A6%D7%9E%D7%94" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+          
           
         </div>
       </div>
       
-      <div class="solution-count" style="margin-top:10px; border-top:1px solid #ddd; padding-top:5px;">
-        3 הצעות
-      </div>
+      <div class="solution-count">3 הצעות</div>
     </div>
-    <ul class="solutions"><div class="group-title">מילה אחת</div><div class="letters-title">4 אותיות</div><li class="solution-item">
+
+    <div class="sort-control-container">
+      <button id="sortToggle" class="sort-toggle-btn" onclick="toggleSortMode()">
+        טוען מיון...
+      </button>
+    </div>
+
+    <ul id="solutionList" class="solutions">
+    <li class="solution-item" data-words="1" data-letters="4">
       <a href="https://he.wikipedia.org/wiki/%D7%97%D7%95%D7%96%D7%A7" target="_blank" class="heb">חוזק</a>
       
       <a href="https://en.wikipedia.org/wiki/strength" target="_blank" class="en">strength</a>
       <div class="icon-group">
-        <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%95%D7%96%D7%A7" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
         
       </div>
-    </li><li class="solution-item">
+    </li>
+    <li class="solution-item" data-words="1" data-letters="4">
       <a href="https://he.wikipedia.org/wiki/%D7%97%D7%95%D7%A1%D7%9F" target="_blank" class="heb">חוסן</a>
       
       <a href="https://en.wikipedia.org/wiki/sturdiness" target="_blank" class="en">sturdiness</a>
       <div class="icon-group">
-        <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%95%D7%A1%D7%9F" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
         
       </div>
-    </li><div class="letters-title">6 אותיות</div><li class="solution-item">
+    </li>
+    <li class="solution-item" data-words="1" data-letters="6">
       <a href="https://he.wikipedia.org/wiki/%D7%AA%D7%A2%D7%A6%D7%95%D7%9E%D7%94" target="_blank" class="heb">תעצומה</a>
       
       <a href="https://en.wikipedia.org/wiki/Petition" target="_blank" class="en">Petition</a>
       <div class="icon-group">
-        <a href="https://www.google.com/search?tbm=isch&q=%D7%AA%D7%A2%D7%A6%D7%95%D7%9E%D7%94" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
         
       </div>
-    </li></ul><footer class="footer-text" style="text-align:right;">© כל הזכויות שמורות • לשימוש אישי בלבד. להערות, תיקונים או הצעות ייעול – מוזמנים ליצור קשר.</footer></div></body></html>
+    </li>
+    </ul>
+    <div class="footer-separator"></div>
+    <footer class="footer-text">© כל הזכויות שמורות • לשימוש אישי בלבד. להערות, תיקונים או הצעות ייעול – מוזמנים ליצור קשר.</footer>
+  </div>
+
+  <script>
+    // ניהול מצב מיון וזיכרון בדפדפן
+    let currentMode = localStorage.getItem('sortMode') || 'letters'; 
+    
+    function renderList() {
+      const list = document.getElementById('solutionList');
+      const items = Array.from(list.getElementsByClassName('solution-item'));
+      const btn = document.getElementById('sortToggle');
+      
+      // ניקוי כותרות קיימות
+      Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
+      Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
+
+      if (currentMode === 'letters') {
+        // מיון לפי אותיות בלבד
+        items.sort((a, b) => a.dataset.letters - b.dataset.letters);
+        btn.innerText = "מיין לפי מספר מילים ומספר אותיות";
+        
+        let lastL = 0;
+        items.forEach(item => {
+          let l = item.dataset.letters;
+          if (l !== lastL) {
+            const title = document.createElement('div');
+            title.className = 'letters-title';
+            title.innerText = l + " אותיות";
+            list.insertBefore(title, item);
+            lastL = l;
+          }
+          list.appendChild(item);
+        });
+      } else {
+        // מיון לפי מילים ואז אותיות
+        items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
+        btn.innerText = "מיין לפי מספר אותיות בלבד";
+        
+        let lastW = 0, lastL = 0;
+        items.forEach(item => {
+          let w = item.dataset.words;
+          let l = item.dataset.letters;
+          if (w !== lastW) {
+            const wTitle = document.createElement('div');
+            wTitle.className = 'group-title';
+            wTitle.innerText = w == 1 ? "מילה אחת" : w + " מילים";
+            list.insertBefore(wTitle, item);
+            lastW = w; lastL = 0;
+          }
+          if (l !== lastL) {
+            const lTitle = document.createElement('div');
+            lTitle.className = 'letters-title';
+            lTitle.innerText = l + " אותיות";
+            list.insertBefore(lTitle, item);
+            lastL = l;
+          }
+          list.appendChild(item);
+        });
+      }
+    }
+
+    function toggleSortMode() {
+      currentMode = (currentMode === 'letters') ? 'words' : 'letters';
+      localStorage.setItem('sortMode', currentMode);
+      renderList();
+    }
+
+    // הפעלה ראשונית
+    window.onload = renderList;
+  </script>
+  </body></html>
