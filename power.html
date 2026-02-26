@@ -122,6 +122,7 @@ header h1 {
 .sort-toggle-btn {
   background: linear-gradient(to bottom, #ffffff 0%, #f1f3f4 100%);
    
+  color: #333 !important;  
   border: 1px solid #dadce0;
   padding: 12px 30px;  
   border-radius: 30px;
@@ -216,7 +217,8 @@ ul.solutions {
   vertical-align: middle;
   transition: transform 0.2s;
   border: none;
-  margin-right: 4px;
+   
+  margin: 0 !important;  
 }
 
 .icon:hover {
@@ -225,12 +227,11 @@ ul.solutions {
 
 .icon-group {
   display: inline-flex !important;  
-  gap: 8px; 
+  gap: 4px !important;  
   align-items: center;
-  margin-right: 12px;
+  margin-right: 8px !important;  
   vertical-align: middle;
 }
-
 
  
  
@@ -290,7 +291,7 @@ ul.solutions {
         </div>
       </div>
       
-      <div class="solution-count">3 הצעות</div>
+      <div class="solution-count">נמצאו 3 פתרונות אפשריים</div>
     </div>
 
     <div class="sort-control-container">
@@ -304,12 +305,8 @@ ul.solutions {
       <a href="https://he.wikipedia.org/wiki/%D7%97%D7%95%D7%96%D7%A7" target="_blank" class="heb">חוזק</a>
       
       <a href="https://en.wikipedia.org/wiki/strength" target="_blank" class="en">strength</a>
-      
       <div class="icon-group">
-        
-          <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%95%D7%96%D7%A7" target="_blank">
-            <img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png" title="חפש בתמונות">
-          </a>
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%95%D7%96%D7%A7" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
         
       </div>
     </li>
@@ -317,12 +314,8 @@ ul.solutions {
       <a href="https://he.wikipedia.org/wiki/%D7%97%D7%95%D7%A1%D7%9F" target="_blank" class="heb">חוסן</a>
       
       <a href="https://en.wikipedia.org/wiki/sturdiness" target="_blank" class="en">sturdiness</a>
-      
       <div class="icon-group">
-        
-          <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%95%D7%A1%D7%9F" target="_blank">
-            <img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png" title="חפש בתמונות">
-          </a>
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%95%D7%A1%D7%9F" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
         
       </div>
     </li>
@@ -330,12 +323,8 @@ ul.solutions {
       <a href="https://he.wikipedia.org/wiki/%D7%AA%D7%A2%D7%A6%D7%95%D7%9E%D7%94" target="_blank" class="heb">תעצומה</a>
       
       <a href="https://en.wikipedia.org/wiki/Petition" target="_blank" class="en">Petition</a>
-      
       <div class="icon-group">
-        
-          <a href="https://www.google.com/search?tbm=isch&q=%D7%AA%D7%A2%D7%A6%D7%95%D7%9E%D7%94" target="_blank">
-            <img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png" title="חפש בתמונות">
-          </a>
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%AA%D7%A2%D7%A6%D7%95%D7%9E%D7%94" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
         
       </div>
     </li>
@@ -352,13 +341,17 @@ ul.solutions {
       const items = Array.from(list.getElementsByClassName('solution-item'));
       const btn = document.getElementById('sortToggle');
       
-      // ניקוי כותרות קיימות
+      // 1. ניקוי כותרות קיימות - חובה!
       Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
       Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
 
       if (currentMode === 'letters') {
+        // מצב מיון: אותיות בלבד
         items.sort((a, b) => a.dataset.letters - b.dataset.letters);
+        
         btn.innerText = "מיין לפי מספר מילים ומספר אותיות";
+        btn.style.background = "linear-gradient(to bottom, #e8f5e9 0%, #c8e6c9 100%)"; // ירוק בהיר
+        btn.style.borderBottomColor = "#81c784";
         
         let lastL = 0;
         items.forEach(item => {
@@ -367,14 +360,18 @@ ul.solutions {
             const title = document.createElement('div');
             title.className = 'letters-title';
             title.innerText = l + " אותיות";
-            list.appendChild(title); // מוסיף כותרת
+            list.appendChild(title);
             lastL = l;
           }
-          list.appendChild(item); // מוסיף את הפריט מיד אחרי הכותרת שלו
+          list.appendChild(item);
         });
       } else {
+        // מצב מיון: מילים ואז אותיות
         items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
+        
         btn.innerText = "מיין לפי מספר אותיות בלבד";
+        btn.style.background = "linear-gradient(to bottom, #fff3e0 0%, #ffe0b2 100%)"; // כתום בהיר
+        btn.style.borderBottomColor = "#ffb74d";
         
         let lastW = 0, lastL = 0;
         items.forEach(item => {
