@@ -79,8 +79,9 @@ header h1 {
 }
 
 .definition-title a {
-  text-decoration: underline;
-  color: var(--link-blue);
+  text-decoration: underline !important;
+  color: var(--link-blue) !important;
+  cursor: pointer;
 }
 
 .definition-title a:hover {
@@ -112,11 +113,7 @@ header h1 {
 }
 
  
-.definition-enrichment .heb {
-  color: #202124 !important;
-  text-decoration: none !important;
-  font-size: 1.4rem;
-}
+ 
 
  
 .sort-toggle-btn {
@@ -216,6 +213,7 @@ ul.solutions {
   vertical-align: middle;
   transition: transform 0.2s;
   border: none;
+  margin-right: 4px;
 }
 
 .icon:hover {
@@ -230,8 +228,8 @@ ul.solutions {
   vertical-align: middle;
 }
 
- 
 
+ 
  
 .footer-separator {
   margin: 3rem 0 1.5rem;
