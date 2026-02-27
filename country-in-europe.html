@@ -34,6 +34,23 @@ html, body {
 }
 
  
+ 
+.index-page ul {
+  list-style: none;
+  padding: 0;
+}
+.index-page li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1.2rem;  
+}
+.index-page a {
+  text-decoration: none;
+  color: #1a73e8;
+  display: block;  
+}
+
+ 
 header {
   background: var(--bg-white);
   border-bottom: 1px solid #e6e6e6;
@@ -252,28 +269,45 @@ ul.solutions {
 }
 
  
- 
-.index-page ul {
-  list-style: none;
-  padding: 0;
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0; width: 100%; height: 100%; 
+  background-color: rgba(0,0,0,0.5);
 }
-.index-page li {
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 1.2rem;  
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
-.index-page a {
-  text-decoration: none;
-  color: #1a73e8;
-  display: block;  
+.close-modal {
+  position: absolute; left: 20px; top: 15px;
+  font-size: 28px; cursor: pointer; color: #aaa;
 }
+.form-group { margin-bottom: 15px; text-align: right; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+.form-group textarea, .form-group select {
+  width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;
+}
+.submit-btn {
+  background: #1a73e8; color: white; border: none; padding: 12px 25px;
+  border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1rem;
+}
+.legal-note { font-size: 0.75rem; color: #777; margin: 10px 0; }
+.modal-footer-links { margin-top: 15px; text-align: center; font-size: 0.9rem; }
 
 </style>
 
   </head><body>
   <header><div class="page"><h1>מאגר פתרונות תשבצים</h1></div></header>
   <div class="page" dir="rtl">
-    <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית, ומספק פתרון מלא לתשבצים. מעבר לפתרון המבוקש, הדף כולל מידע להרחבת הידע: ניקוד מלא של המילה, תרגום לאנגלית וקישורים לאתרים רלוונטיים. בתחתית העמוד ניתן לשלוח הערות, הצעות או רעיונות לשיפור התוכן.</div>
+    <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הוא מספק פתרונות לתשבצים ומידע משלים להעשרת הידע. מעבר לפתרון, מוצגים ניקוד מלא, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div>
     
     <div class="definition-header-box">
       <div class="definition-title">
@@ -816,7 +850,38 @@ ul.solutions {
     </li>
     </ul>
     <div class="footer-separator"></div>
-    <footer class="footer-text">© כל הזכויות שמורות • לשימוש אישי בלבד. להערות, תיקונים או הצעות ייעול – מוזמנים ליצור קשר.</footer>
+
+    <footer class="footer-text">© כל הזכויות שמורות • לשימוש אישי בלבד. 
+לדיווח על טעות, הצעת פתרון חסר או הצעות ייעול – ניתן ליצור קשר <a href="javascript:void(0)" onclick="openContactModal()" style="text-decoration: underline; color: var(--link-blue); font-weight: bold;">כאן</a>.</footer>
+
+  </div>
+
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeContactModal()">&times;</span>
+      <h3>צור קשר בנושא: <span id="topicName">מדינה באירופה</span></h3>
+      
+      <div class="form-group">
+        <label>מה ברצונך לדווח?</label>
+        <select id="feedbackType">
+          <option value="specific">הערה על הגדרה זו (חסר פתרון וכדומה)</option>
+          <option value="general">הצעה כללית או שיפור לאתר</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>תוכן ההודעה:</label>
+        <textarea id="feedbackContent" rows="4" placeholder="כתוב כאן..."></textarea>
+      </div>
+
+      <p class="legal-note">שליחת ההצעה מהווה הסכמה כי המידע ייעשה בו שימוש חופשי באתר ללא תמורה.</p>
+      
+      <button class="submit-btn" onclick="sendFeedback()">שלח הצעה</button>
+      
+      <div class="modal-footer-links">
+        <a href="index.html#feedback-board">לצפייה בלוח ההערות והסטטוסים</a>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -827,16 +892,13 @@ ul.solutions {
       const items = Array.from(list.getElementsByClassName('solution-item'));
       const btn = document.getElementById('sortToggle');
       
-      // 1. ניקוי כותרות קיימות - חובה!
       Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
       Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
 
       if (currentMode === 'letters') {
-        // מצב מיון: אותיות בלבד
         items.sort((a, b) => a.dataset.letters - b.dataset.letters);
-        
         btn.innerText = "מיין לפי מספר מילים ומספר אותיות";
-        btn.style.background = "linear-gradient(to bottom, #e8f5e9 0%, #c8e6c9 100%)"; // ירוק בהיר
+        btn.style.background = "linear-gradient(to bottom, #e8f5e9 0%, #c8e6c9 100%)"; 
         btn.style.borderBottomColor = "#81c784";
         
         let lastL = 0;
@@ -852,11 +914,9 @@ ul.solutions {
           list.appendChild(item);
         });
       } else {
-        // מצב מיון: מילים ואז אותיות
         items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
-        
         btn.innerText = "מיין לפי מספר אותיות בלבד";
-        btn.style.background = "linear-gradient(to bottom, #fff3e0 0%, #ffe0b2 100%)"; // כתום בהיר
+        btn.style.background = "linear-gradient(to bottom, #fff3e0 0%, #ffe0b2 100%)"; 
         btn.style.borderBottomColor = "#ffb74d";
         
         let lastW = 0, lastL = 0;
@@ -887,5 +947,23 @@ ul.solutions {
       localStorage.setItem('sortMode', currentMode);
       renderList();
     }
+
+    // פונקציות המודאל
+    function openContactModal() { 
+      document.getElementById('contactModal').style.display = 'block'; 
+    }
+    function closeContactModal() { 
+      document.getElementById('contactModal').style.display = 'none'; 
+    }
+    function sendFeedback() {
+      const topic = document.getElementById('topicName').innerText;
+      const content = document.getElementById('feedbackContent').value;
+      if (!content.trim()) { alert('אנא הכנס תוכן להודעה'); return; }
+      
+      // הודעה זמנית עד לחיבור ה-API
+      alert('תודה! ההצעה שלך בנושא "' + topic + '" התקבלה. מספר פנייה יוקצה בקרוב.');
+      closeContactModal();
+    }
+
     window.onload = renderList;
   </script></body></html>
