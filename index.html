@@ -30,6 +30,23 @@ html, body {
 }
 
  
+ 
+.index-page ul {
+  list-style: none;
+  padding: 0;
+}
+.index-page li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 1.2rem;  
+}
+.index-page a {
+  text-decoration: none;
+  color: #1a73e8;
+  display: block;  
+}
+
+ 
 header {
   background: var(--bg-white);
   border-bottom: 1px solid #e6e6e6;
@@ -248,21 +265,38 @@ ul.solutions {
 }
 
  
- 
-.index-page ul {
-  list-style: none;
-  padding: 0;
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0; width: 100%; height: 100%; 
+  background-color: rgba(0,0,0,0.5);
 }
-.index-page li {
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 1.2rem;  
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
-.index-page a {
-  text-decoration: none;
-  color: #1a73e8;
-  display: block;  
+.close-modal {
+  position: absolute; left: 20px; top: 15px;
+  font-size: 28px; cursor: pointer; color: #aaa;
 }
+.form-group { margin-bottom: 15px; text-align: right; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+.form-group textarea, .form-group select {
+  width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;
+}
+.submit-btn {
+  background: #1a73e8; color: white; border: none; padding: 12px 25px;
+  border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1rem;
+}
+.legal-note { font-size: 0.75rem; color: #777; margin: 10px 0; }
+.modal-footer-links { margin-top: 15px; text-align: center; font-size: 0.9rem; }
 
 </style>
 </head><body><h1>אינדקס</h1><ul><li><a href="pauper.html">אביון</a></li><li><a href="destitute.html">חסר כל</a></li><li><a href="country-in-europe.html">מדינה באירופה</a></li><li><a href="sapphire.html">ספיר</a></li><li><a href="power.html">עוצמה</a></li><li><a href="poor.html">עני</a></li><li><a href="catheter.html">קתטר</a></li><li><a href="the-beach.html">שלחופה</a></li><li><a href="note.html">תו</a></li></ul></body></html>
