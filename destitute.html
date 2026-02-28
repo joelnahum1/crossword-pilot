@@ -253,13 +253,13 @@ ul.solutions {
  
  
 .footer-separator {
-  margin: 3rem 0 1.5rem;
+  margin: 1rem 0 0.1rem;  
   border-top: 1px solid #eee;  
   width: 100%;
 }
 
 .footer-text {
-  margin-top: 2rem;
+   
   font-size: 0.85rem;
   color: #70757a;
   text-align: right;
@@ -307,7 +307,7 @@ ul.solutions {
   </head><body>
   <header><div class="page"><h1>מאגר פתרונות תשבצים</h1></div></header>
   <div class="page" dir="rtl">
-    <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הוא מספק פתרונות לתשבצים ומידע משלים להעשרת הידע. מעבר לפתרון, מוצגים ניקוד מלא, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div>
+    <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div>
     
     <div class="definition-header-box">
       <div class="definition-title">
@@ -402,7 +402,7 @@ ul.solutions {
     <div class="footer-separator"></div>
 
     <footer class="footer-text">© כל הזכויות שמורות • לשימוש אישי בלבד. 
-לדיווח על טעות, הצעת פתרון חסר או הצעות ייעול – ניתן ליצור קשר <a href="javascript:void(0)" onclick="openContactModal()" style="text-decoration: underline; color: var(--link-blue); font-weight: bold;">כאן</a>.</footer>
+לשליחת הערות והצעות לשיפור – ניתן ליצור קשר <a href="javascript:void(0)" onclick="openContactModal()" style="text-decoration: underline; color: var(--link-blue); font-weight: bold;">כאן</a>.</footer>
 
   </div>
 
@@ -505,15 +505,54 @@ ul.solutions {
     function closeContactModal() { 
       document.getElementById('contactModal').style.display = 'none'; 
     }
+
     function sendFeedback() {
       const topic = document.getElementById('topicName').innerText;
+      const type = document.getElementById('feedbackType').value;
       const content = document.getElementById('feedbackContent').value;
-      if (!content.trim()) { alert('אנא הכנס תוכן להודעה'); return; }
+      const btn = document.querySelector('.submit-btn');
       
-      // הודעה זמנית עד לחיבור ה-API
-      alert('תודה! ההצעה שלך בנושא "' + topic + '" התקבלה. מספר פנייה יוקצה בקרוב.');
-      closeContactModal();
+      if (!content.trim()) {
+        alert('אנא הכנס תוכן להודעה');
+        return;
+      }
+
+      // שינוי מצב הכפתור בזמן השליחה
+      btn.disabled = true;
+      btn.innerText = 'שולח...';
+
+      const data = {
+        topic: topic,
+        type: type,
+        content: content,
+        location: Intl.DateTimeFormat().resolvedOptions().timeZone
+      };
+
+      // שליחת הנתונים ל-Web App
+      const webAppUrl = 'https://script.google.com/macros/s/AKfycbxj_XaVif-lA3Pw8WoZXou6RY-JTmRtdoxndy2_No5d7cIRazs4KjZAw-_rcUBzt1la/exec';
+
+      fetch(webAppUrl, {
+        method: 'POST',
+        mode: 'no-cors', // חשוב למניעת שגיאות CORS מול Apps Script
+        cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        alert('תודה! ההצעה שלך בנושא "' + topic + '" נשלחה בהצלחה ותופיע בלוח בקרוב.');
+        closeContactModal();
+        document.getElementById('feedbackContent').value = ''; // ניקוי השדה
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('אירעה שגיאה בשליחה. אנא נסה שוב מאוחר יותר.');
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerText = 'שלח הצעה';
+      });
     }
+
 
     window.onload = renderList;
   </script></body></html>
