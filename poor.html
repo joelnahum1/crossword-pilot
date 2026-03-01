@@ -436,7 +436,18 @@ textarea {
     </div>
   </div>
   <script>
-    let currentMode = localStorage.getItem('sortMode') || 'letters'; 
+
+    // הגדרת משתנה גלובלית שזמינה לכל הפונקציות בדף
+    var currentMode = 'letters'; 
+    try {
+      var savedMode = localStorage.getItem('sortMode');
+      if (savedMode) {
+        currentMode = savedMode;
+      }
+    } catch (e) {
+      console.log('LocalStorage is blocked or unavailable');
+    }
+    
     const MAX_DAILY_REPORTS = 5;
 
     function renderList() {
@@ -540,10 +551,14 @@ textarea {
       fetch('https://script.google.com/macros/s/AKfycbypCX2kLbx4ozC8X7gHWyv34IXHRzmvJwieeB58opb86cZkZX5zVoQbRq_UGIPggbWo/exec', {
         method: 'POST',
         mode: 'no-cors', 
+        cache: 'no-cache',
+        referrerPolicy: 'no-referrer', // חשוב לפיירפוקס
+        credentials: 'omit',           // מונע חסימות אבטחה מסוימות
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
       .then(() => {
+        // הצלחה
         reportsToday.count++;
         localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
         
@@ -560,8 +575,8 @@ textarea {
         btn.style.background = '#888';
       })
       .catch(err => {
-        console.error('Error:', err);
-        alert('תקלה בתקשורת');
+        console.error('Fetch error:', err);
+        alert('תקלה בשליחה.');
         btn.disabled = false;
         btn.innerText = 'שליחה';
       });
