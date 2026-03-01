@@ -272,18 +272,17 @@ textarea {
   font-weight: bold;
   color: var(--link-blue);
 }
-</style></head><body>
-  <header><div class="page"><h1>מאגר פתרונות תשבצים</h1></div></header>
-  <div class="page" dir="rtl">
-    <div class="intro-text">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div>
-    
-    <div class="definition-header-box">
+</style></head><body><div class="page" id="mainContainer" dir="rtl">
+    <header id="siteHeader">
+      <h1>מאגר פתרונות תשבצים</h1>
+    </header><div class="intro-text" id="introSection">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div>
+    <div class="definition-header-box" id="definitionBox">
       <div class="definition-title">
         <a href="https://he.wikipedia.org/wiki/%D7%A1%D7%A4%D7%99%D7%A8" target="_blank">ספיר</a>
       </div>
       
       
-      <div class="solution-item enrichment-row">
+      <div class="solution-item enrichment-row" id="enrichmentRow">
         <span class="niqqud">סַפִּיר</span>
         <a href="https://en.wikipedia.org/wiki/sapphire" target="_blank" class="en">sapphire</a>
         
@@ -295,14 +294,11 @@ textarea {
       
       <div class="solution-count">נמצאו 3 פתרונות אפשריים</div>
     </div>
-
-    <div class="sort-control-container">
+    <div class="sort-control-container" id="sortContainer">
       <button id="sortToggle" class="sort-toggle-btn" onclick="toggleSortMode()">
         טוען מיון...
       </button>
-    </div>
-
-    <ul id="solutionList" class="solutions">
+    </div><ul id="solutionList" class="solutions" style="list-style:none; padding:0; margin:0;">
     <li class="solution-item" data-words="2" data-letters="5">
       <a href="https://he.wikipedia.org/wiki/%D7%90%D7%91%D7%9F%20%D7%97%D7%9F" target="_blank" class="heb">אבן חן</a>
       
@@ -330,20 +326,20 @@ textarea {
         
       </div>
     </li></ul>
-    <div class="footer-separator"></div>
-    <footer class="footer-text">© כל הזכויות שמורות • לשימוש אישי בלבד. 
+    <div class="footer-separator" id="footerDivider"></div>
+    <footer class="footer-text" id="siteFooter">© כל הזכויות שמורות • לשימוש אישי בלבד. 
 לשליחת הערות והצעות לשיפור – ניתן ליצור קשר <a href="javascript:void(0)" onclick="openContactModal()" style="text-decoration: underline; color: var(--link-blue); font-weight: bold;">כאן</a>.</footer>
   </div>
   <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeContactModal()">&times;</span>
+    <div class="modal-content" id="modalContainer">
+      <span class="close-modal" onclick="closeContactModal()">×</span>
       
       <div class="modal-header">
         <div class="main-title">מאגר פתרונות תשבצים</div>
         <div class="sub-title">דף משוב</div>
       </div>
 
-      <div class="feedback-options">
+      <div class="feedback-options" id="feedbackOptions">
         <label class="option-row">
           <input type="checkbox" id="typeSpecific" onclick="toggleFeedbackType('specific')">
           <span>הערה על ההגדרה: <strong>ספיר</strong></span>
@@ -354,7 +350,7 @@ textarea {
         </label>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" id="formFields">
         <label>תוכן ההודעה:</label>
         <div class="textarea-wrapper">
           <textarea id="feedbackContent" rows="4" maxlength="500" oninput="updateCharCount()" placeholder="כתוב כאן..."></textarea>
@@ -362,22 +358,22 @@ textarea {
         </div>
       </div>
 
-      <label class="legal-row">
+      <label class="legal-row" id="legalRow">
         <input type="checkbox" id="legalConsent" onclick="validateForm()">
         <span style="font-size: 0.8rem; line-height: 1.2;">שליחת הערה או הצעה מהווה הסכמה לשימוש חופשי בתוכן שנשלח באתר, לרבות פרסום, עריכה או שילוב מלא או חלקי, ללא תמורה.</span>
       </label>
 
       <div id="successMessage" style="display:none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
-        <div class="success-text" id="statusText" style="color: #2e7d32; font-weight: bold; text-align: center;"></div>
-        <div class="serial-text" style="text-align: center; font-weight: bold; color: #1a73e8; margin-top: 5px;">
+        <div class="success-text" id="statusText"></div>
+        <div class="serial-text">
           מספר פנייה למעקב: <span id="resSerial">יעודכן בלוח</span>
         </div>
       </div>
 
-      <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()" style="margin-top: 15px;">שליחה</button>
+      <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()">שליחה</button>
 
-      <div class="modal-footer-links" style="text-align: center; margin-top: 15px;">
-        <a href="feedback.html" style="font-size: 0.9rem; color: #1a73e8; text-decoration: underline;">לצפייה בלוח ההערות וההצעות</a>
+      <div class="modal-footer-links" id="modalFooter">
+        <a href="feedback.html">לצפייה בלוח ההערות וההצעות</a>
       </div>
     </div>
   </div>
@@ -385,7 +381,6 @@ textarea {
     let currentMode = localStorage.getItem('sortMode') || 'letters'; 
     const MAX_DAILY_REPORTS = 5;
 
-    // פונקציות המיון הקיימות שלך
     function renderList() {
       const list = document.getElementById('solutionList');
       const items = Array.from(list.getElementsByClassName('solution-item'));
@@ -439,7 +434,6 @@ textarea {
       renderList();
     }
 
-    // פונקציות המודאל החדשות
     function openContactModal() { document.getElementById('contactModal').style.display = 'block'; }
     function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
 
@@ -473,9 +467,8 @@ textarea {
       const type = document.getElementById('typeSpecific').checked ? 'specific' : 'general';
       const content = document.getElementById('feedbackContent').value;
 
-      // הכנת האובייקט לשליחה
       const data = {
-        topic: 'ספיר',
+        topic: "ספיר",
         type: type,
         content: content,
         location: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -484,40 +477,30 @@ textarea {
       btn.disabled = true; 
       btn.innerText = 'שולח...';
 
-      // שימוש בקישור הישיר לשרת של גוגל שמחזיר תשובה מלאה
       google.script.run
         .withSuccessHandler(function(response) {
-          // response הוא האובייקט שחוזר מפונקציית handleUserFeedback ב-main.gs
-          reportsToday.count++;
-          localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
-          
-          // 1. עדכון מספר הפנייה האמיתי מהשרת
-          if (response && response.serial) {
+          if (response && response.success) {
+            reportsToday.count++;
+            localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
             document.getElementById('resSerial').innerText = response.serial;
+            document.getElementById('statusText').innerText = type === 'specific' ? 'ההערה נקלטה. תודה!' : 'הצעת השיפור נקלטה. תודה!';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('feedbackContent').disabled = true;
+            document.getElementById('typeSpecific').disabled = true;
+            document.getElementById('typeGeneral').disabled = true;
+            document.getElementById('legalConsent').disabled = true;
+            btn.innerText = 'נשלח בהצלחה';
+            btn.disabled = true;
+            btn.style.background = '#888';
           }
-
-          // 2. עדכון טקסט הסטטוס והצגת הודעת ההצלחה
-          document.getElementById('statusText').innerText = type === 'specific' ? 'ההערה נקלטה. תודה!' : 'הצעת השיפור נקלטה. תודה!';
-          document.getElementById('successMessage').style.display = 'block';
-          
-          // 3. נטרול מוחלט של רכיבי המודאל
-          document.getElementById('feedbackContent').disabled = true;
-          document.getElementById('typeSpecific').disabled = true;
-          document.getElementById('typeGeneral').disabled = true;
-          document.getElementById('legalConsent').disabled = true;
-          
-          btn.innerText = 'נשלח בהצלחה';
-          btn.disabled = true;
-          btn.style.background = '#888';
         })
         .withFailureHandler(function() {
           alert('תקלה בשליחה.');
           btn.disabled = false; 
           btn.innerText = 'שליחה';
         })
-        .handleUserFeedback(data); // קריאה לפונקציית השרת ב-main.gs
+        .handleUserFeedback(data);
     }
-    // סוף פונקציית sendFeedback
 
     window.onload = renderList;
   </script></body></html>
