@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>שלחופה - מאגר פתרונות תשבצים</title><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="data:,"><title>שלחופה - מאגר פתרונות תשבצים</title><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet"><style>
  
 :root {
   --font-main-title: 1.6rem;
@@ -383,23 +383,29 @@ textarea {
   </div>
   <script>
 
-    // הגדרת משתנה גלובלית שזמינה לכל הפונקציות בדף
-    var currentMode = 'letters'; 
+    // 1. הגדרת משתנים כ-var כדי למנוע את שגיאת ה-Initialization בפיירפוקס
+    var currentMode = 'letters';
+    var MAX_DAILY_REPORTS = 5;
+
+    // 2. ניסיון טעינה בטוח מהזיכרון
     try {
-      var savedMode = localStorage.getItem('sortMode');
-      if (savedMode) {
-        currentMode = savedMode;
-      }
+      var saved = localStorage.getItem('sortMode');
+      if (saved) currentMode = saved;
     } catch (e) {
-      console.log('LocalStorage is blocked or unavailable');
+      console.warn('LocalStorage access denied by browser settings');
     }
-    
+
     const MAX_DAILY_REPORTS = 5;
 
+    // 3. פונקציית הרנדור
     function renderList() {
-      const list = document.getElementById('solutionList');
-      const items = Array.from(list.getElementsByClassName('solution-item'));
-      const btn = document.getElementById('sortToggle');
+      var list = document.getElementById('solutionList');
+      if (!list) return; // הגנה למקרה שהאלמנט עוד לא נטען
+      
+      var items = Array.from(list.getElementsByClassName('solution-item'));
+      var btn = document.getElementById('sortToggle');
+      if (!btn) return;
+
       Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
       Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
 
