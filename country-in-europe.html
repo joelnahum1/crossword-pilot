@@ -986,20 +986,19 @@ textarea {
       btn.disabled = true; 
       btn.innerText = 'שולח...';
 
-      // שימוש ב-fetch כדי לעקוף את חסימת GitHub
-      fetch('https://script.google.com/macros/s/AKfycbxj_XaVif-lA3Pw8WoZXou6RY-JTmRtdoxndy2_No5d7cIRazs4KjZAw-_rcUBzt1la/exec', {
+      // שליחה באמצעות fetch שעובדת גם מ-GitHub
+      fetch('https://script.google.com/macros/s/AKfycbypCX2kLbx4ozC8X7gHWyv34IXHRzmvJwieeB58opb86cZkZX5zVoQbRq_UGIPggbWo/exec', {
         method: 'POST',
         mode: 'no-cors', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
       .then(() => {
-        // הצלחה (במצב no-cors לא ניתן לקרוא תגובה מהשרת, אך הנתונים נשמרים בגיליון)
         reportsToday.count++;
         localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
         
         document.getElementById('resSerial').innerText = "נקלט במערכת";
-        document.getElementById('statusText').innerText = type === 'specific' ? 'ההערה נקלטה. תודה!' : 'הצעת השיפור נקלטה. תודה!';
+        document.getElementById('statusText').innerText = 'ההודעה נשלחה בהצלחה!';
         document.getElementById('successMessage').style.display = 'block';
         
         document.getElementById('feedbackContent').disabled = true;
@@ -1011,7 +1010,8 @@ textarea {
         btn.style.background = '#888';
       })
       .catch(err => {
-        alert('תקלה בשליחה: ' + err);
+        console.error('Error:', err);
+        alert('תקלה בתקשורת');
         btn.disabled = false;
         btn.innerText = 'שליחה';
       });
