@@ -965,6 +965,7 @@ textarea {
       document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
     }
 
+
     function sendFeedback() {
       const now = new Date().toLocaleDateString();
       let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{}');
@@ -985,31 +986,37 @@ textarea {
       btn.disabled = true; 
       btn.innerText = 'שולח...';
 
-      google.script.run
-        .withSuccessHandler(function(response) {
-          if (response && response.success) {
-            reportsToday.count++;
-            localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
-            document.getElementById('resSerial').innerText = response.serial;
-            document.getElementById('statusText').innerText = type === 'specific' ? 'ההערה נקלטה. תודה!' : 'הצעת השיפור נקלטה. תודה!';
-            document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('feedbackContent').disabled = true;
-            document.getElementById('typeSpecific').disabled = true;
-            document.getElementById('typeGeneral').disabled = true;
-            document.getElementById('legalConsent').disabled = true;
-            btn.innerText = 'נשלח בהצלחה';
-            btn.disabled = true;
-            btn.style.background = '#888';
-          }
-        })
-
-        .withFailureHandler(function(err) {
-          alert('תקלה בשליחה: ' + err); // שים לב ל-+ err
-          btn.disabled = false; 
-          btn.innerText = 'שליחה';
-        })
-        .handleUserFeedback(data);
+      // שימוש ב-fetch כדי לעקוף את חסימת GitHub
+      fetch('https://script.google.com/macros/s/AKfycbxj_XaVif-lA3Pw8WoZXou6RY-JTmRtdoxndy2_No5d7cIRazs4KjZAw-_rcUBzt1la/exec', {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        // הצלחה (במצב no-cors לא ניתן לקרוא תגובה מהשרת, אך הנתונים נשמרים בגיליון)
+        reportsToday.count++;
+        localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+        
+        document.getElementById('resSerial').innerText = "נקלט במערכת";
+        document.getElementById('statusText').innerText = type === 'specific' ? 'ההערה נקלטה. תודה!' : 'הצעת השיפור נקלטה. תודה!';
+        document.getElementById('successMessage').style.display = 'block';
+        
+        document.getElementById('feedbackContent').disabled = true;
+        document.getElementById('typeSpecific').disabled = true;
+        document.getElementById('typeGeneral').disabled = true;
+        document.getElementById('legalConsent').disabled = true;
+        
+        btn.innerText = 'נשלח בהצלחה';
+        btn.style.background = '#888';
+      })
+      .catch(err => {
+        alert('תקלה בשליחה: ' + err);
+        btn.disabled = false;
+        btn.innerText = 'שליחה';
+      });
     }
 
     window.onload = renderList;
+
   </script></body></html>
