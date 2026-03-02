@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><style>
+
+
+
+
+</style>
+
+
+
+<style>
+ 
+:root {
+  --font-main-title: 1.6rem;
+  --font-def-title: 2.2rem;
+  --font-group-title: 1.4rem;
+  --font-letters-title: 1.1rem;
+  --font-heb-word: 1.2rem;
+  --font-niqqud: 1.2rem;
+  --font-en-word: 1.1rem;
+  --icon-size: 20px;
+  --link-blue: #1a73e8;
+  --bg-main: #f2f4f7;
+  --bg-white: #fff;
+  --text-dark: #202124;
+  --text-gray: #5f6368;
+  --max-page-width: 760px;
+}
+
+ 
+* {
+  font-family: 'Heebo', sans-serif !important;
+}
+
+html, body {
+  margin: 0; padding: 0; width: 100%;
+  background: var(--bg-main);
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.page {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 1rem 1.2rem;
+  background: var(--bg-white);
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+ 
+header {
+  background: var(--bg-white);
+  border-bottom: 1px solid #e6e6e6;
+}
+
+header .page {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; 
+}
+
+header h1 {
+  margin: 0;
+  font-size: var(--font-main-title);
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+ 
+.intro-text {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin-bottom: 1rem;  
+  margin-top: 0.5rem;
+}
+
+ 
+.definition-header-box {
+  background-color: #f1f3f4;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dadce0;
+}
+
+.definition-title {
+  color: #1a73e8;  
+  font-size: var(--font-def-title);
+  font-weight: 800;
+  margin: 0;
+}
+
+.enrichment-row {
+  margin: 0 !important; 
+  padding: 2px 0 !important;
+  border-bottom: none !important;
+}
+
+.solution-count {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-top: 10px;
+  border-top: 1px solid #dadce0;
+  padding-top: 8px;
+  margin-bottom: 10px;
+}
+
+ 
+#sortBtn {
+  background-color: #2e7d32;  
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sort-container {
+  text-align: right;  
+  margin-bottom: 15px;
+}
+
+.sort-toggle-btn {
+  background: linear-gradient(to bottom, #fffde7 0%, #f9fbe7 100%);
+  color: #000000 !important;  
+  border: 1px solid #dadce0;
+  padding: 10px 25px;        
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: block;            
+  margin: 15px auto;         
+  max-width: 280px;          
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-bottom: 3px solid #ccc;
+  transition: background 0.2s;
+}
+
+.sort-toggle-btn:focus, .sort-toggle-btn:active {
+  background: #f0f4c3 !important;  
+  outline: none;
+  border-bottom: 1px solid #999;
+}
+
+ 
+.group-title {
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-group-title);
+  background: #f1f6fc;
+  border-right: 6px solid #1a3a5f;
+}
+
+.letters-title {
+  margin: 1rem 0 0.2rem;
+  padding: 0.2rem 0.8rem;
+  font-size: var(--font-letters-title);
+  background: #fff4cc;
+  border-right: 4px solid #f0c94a;
+  display: inline-block;
+}
+
+ 
+.solution-item {
+  display: flex;
+  align-items: center;
+  padding: 0.15rem 0;  
+  border-bottom: 1px solid #f1f3f4;
+  gap: 6px;  
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+
+.heb {
+  font-size: var(--font-heb-word);
+  font-weight: 800;
+  color: var(--link-blue);
+  text-decoration: underline;
+  margin-left: 0.8rem !important;
+  display: inline-block;
+}
+
+.niqqud {
+  font-size: var(--font-niqqud);
+  font-weight: 650;
+  color: #333;
+}
+
+.en {
+  font-size: var(--font-en-word);
+  color: var(--link-blue);
+  text-decoration: underline;
+}
+
+.icon-group {
+  display: inline-flex !important;
+  gap: 4px !important;
+  align-items: center;
+  margin-right: 8px !important;
+}
+
+.icon {
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  vertical-align: middle;
+}
+
+ 
+.footer-separator {
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  width: 100%;
+}
+
+ 
+.footer-text {
+  font-size: 0.95rem;        
+  color: var(--text-gray);
+  text-align: right;
+  padding: 15px 0;
+  line-height: 1.6;
+  white-space: pre-wrap;     
+}
+
+ 
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0; width: 100%; height: 100%; 
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.char-counter { 
+  position: absolute; 
+  left: 10px; 
+  bottom: 5px; 
+  font-size: 0.75rem; 
+  color: #888; 
+}
+
+.feedback-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f9f9f9;
+  padding: 8px;
+  border-right: 3px solid var(--link-blue);
+  margin: 15px 0;
+}
+
+.modal-header .main-title {
+  font-size: 1.4rem;     
+  font-weight: 800;      
+  text-align: center;    
+  margin-bottom: 5px;
+}
+
+.modal-header .sub-title {
+  font-size: 1.1rem;     
+  font-weight: 700;      
+  text-align: center;    
+  color: var(--text-gray);
+  margin-bottom: 20px;
+}
+
+ 
+.submit-btn {
+  background: var(--link-blue);
+  color: white;
+  border: none;
+  padding: 12px 0;       
+  border-radius: 6px;
+  cursor: pointer;
+  width: 60%;            
+  display: block;
+  margin: 25px auto;     
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+
+ 
+.success-text {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.serial-text {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: var(--link-blue);
+}
+</style></head><body><h1>אינדקס</h1><ul><li><a href="pauper.html">אביון</a></li><li><a href="destitute.html">חסר כל</a></li><li><a href="country-in-europe.html">מדינה באירופה</a></li><li><a href="sapphire.html">ספיר</a></li><li><a href="power.html">עוצמה</a></li><li><a href="poor.html">עני</a></li><li><a href="catheter.html">קתטר</a></li><li><a href="the-beach.html">שלחופה</a></li><li><a href="note.html">תו</a></li></ul></body></html>
