@@ -200,20 +200,38 @@ header h1 {
 }
 
  
-.footer-separator {
-  margin-top: 30px;
-  border-top: 1px solid #eee;
-  width: 100%;
+.site-footer {
+  border-top: 1px solid #e5e5e5;
+  padding: 25px 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 50px;
+  font-family: 'Heebo', sans-serif !important;
 }
 
- 
-.footer-text {
-  font-size: 0.95rem;        
-  color: var(--text-gray);
-  text-align: right;
-  padding: 15px 0;
-  line-height: 1.6;
-  white-space: pre-wrap;     
+.footer-copy {
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #1a73e8;  
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #000;
+  text-decoration: underline;
 }
 
  
@@ -317,8 +335,7 @@ textarea {
 </style></head><body><div class="page" id="mainContainer" dir="rtl">
     <header id="siteHeader">
       <h1>מאגר פתרונות תשבצים</h1>
-    </header><div class="intro-text" id="introSection">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.
-🔎<br><br>🔎 <a href="00_about.html" style="color: #1a73e8; text-decoration: underline; font-weight: bold;">איך זה עובד? קרא כאן על המערכת ועל הייחודיות שלה</a></div>
+    </header><div class="intro-text" id="introSection">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div>
     <div class="definition-header-box" id="definitionBox">
       <div class="definition-title">
         <a href="https://he.wikipedia.org/wiki/%D7%90%D7%91%D7%99%D7%95%D7%9F" target="_blank">אביון</a>
@@ -405,9 +422,16 @@ textarea {
         
       </div>
     </li></ul>
-    <div class="footer-separator" id="footerDivider"></div>
-    <footer class="footer-text" id="siteFooter">© כל הזכויות שמורות • לשימוש אישי בלבד. 
-לשליחת הערות והצעות לשיפור – ניתן ליצור קשר <a href="javascript:void(0)" onclick="openContactModal()" style="text-decoration: underline; color: var(--link-blue); font-weight: bold;">כאן</a>.</footer>
+    <footer class="site-footer">
+      <div class="footer-copy">
+        © כל הזכויות שמורות • לשימוש אישי בלבד
+      </div>
+      <nav class="footer-links">
+        <a href="#contact">שליחת הערות והצעות</a>
+        <a href="00_about.html">על המערכת ואופן פעולתה</a>
+        <a href="00_feedback.html">מעקב פניות וסטטוסים</a>
+      </nav>
+    </footer>
   </div>
   <div id="contactModal" class="modal">
     <div class="modal-content" id="modalContainer">
