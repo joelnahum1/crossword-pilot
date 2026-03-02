@@ -1,0 +1,612 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="data:,"><title>חסר כל - מאגר פתרונות תשבצים</title><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet"><style>
+ 
+:root {
+  --font-main-title: 1.6rem;
+  --font-def-title: 2.2rem;
+  --font-group-title: 1.4rem;
+  --font-letters-title: 1.1rem;
+  --font-heb-word: 1.2rem;
+  --font-niqqud: 1.2rem;
+  --font-en-word: 1.1rem;
+  --icon-size: 20px;
+  --link-blue: #1a73e8;
+  --bg-main: #f2f4f7;
+  --bg-white: #fff;
+  --text-dark: #202124;
+  --text-gray: #5f6368;
+  --max-page-width: 760px;
+}
+
+ 
+* {
+  font-family: 'Heebo', sans-serif !important;
+}
+
+html, body {
+  margin: 0; padding: 0; width: 100%;
+  background: var(--bg-main);
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.page {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 1rem 1.2rem;
+  background: var(--bg-white);
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+ 
+header {
+  background: var(--bg-white);
+  border-bottom: 1px solid #e6e6e6;
+}
+
+header .page {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; 
+}
+
+header h1 {
+  margin: 0;
+  font-size: var(--font-main-title);
+  font-weight: 800;
+  color: var(--text-dark);
+}
+
+ 
+.intro-text {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin-bottom: 1rem;  
+  margin-top: 0.5rem;
+}
+
+ 
+.definition-header-box {
+  background-color: #f1f3f4;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dadce0;
+}
+
+.definition-title {
+  color: #1a73e8;  
+  font-size: var(--font-def-title);
+  font-weight: 800;
+  margin: 0;
+}
+
+.enrichment-row {
+  margin: 0 !important; 
+  padding: 2px 0 !important;
+  border-bottom: none !important;
+}
+
+.solution-count {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-top: 10px;
+  border-top: 1px solid #dadce0;
+  padding-top: 8px;
+  margin-bottom: 10px;
+}
+
+ 
+#sortBtn {
+  background-color: #2e7d32;  
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sort-container {
+  text-align: right;  
+  margin-bottom: 15px;
+}
+
+.sort-toggle-btn {
+  background: linear-gradient(to bottom, #fffde7 0%, #f9fbe7 100%);
+  color: #000000 !important;  
+  border: 1px solid #dadce0;
+  padding: 10px 25px;        
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: block;            
+  margin: 15px auto;         
+  max-width: 280px;          
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-bottom: 3px solid #ccc;
+  transition: background 0.2s;
+}
+
+.sort-toggle-btn:focus, .sort-toggle-btn:active {
+  background: #f0f4c3 !important;  
+  outline: none;
+  border-bottom: 1px solid #999;
+}
+
+ 
+.group-title {
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-group-title);
+  background: #f1f6fc;
+  border-right: 6px solid #1a3a5f;
+}
+
+.letters-title {
+  margin: 1rem 0 0.2rem;
+  padding: 0.2rem 0.8rem;
+  font-size: var(--font-letters-title);
+  background: #fff4cc;
+  border-right: 4px solid #f0c94a;
+  display: inline-block;
+}
+
+ 
+.solution-item {
+  display: flex;
+  align-items: center;
+  padding: 0.15rem 0;  
+  border-bottom: 1px solid #f1f3f4;
+  gap: 6px;  
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+
+.heb {
+  font-size: var(--font-heb-word);
+  font-weight: 800;
+  color: var(--link-blue);
+  text-decoration: underline;
+  margin-left: 0.8rem !important;
+  display: inline-block;
+}
+
+.niqqud {
+  font-size: var(--font-niqqud);
+  font-weight: 650;
+  color: #333;
+}
+
+.en {
+  font-size: var(--font-en-word);
+  color: var(--link-blue);
+  text-decoration: underline;
+}
+
+.icon-group {
+  display: inline-flex !important;
+  gap: 4px !important;
+  align-items: center;
+  margin-right: 8px !important;
+}
+
+.icon {
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  vertical-align: middle;
+}
+
+ 
+.footer-separator {
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  width: 100%;
+}
+
+ 
+.footer-text {
+  font-size: 0.95rem;        
+  color: var(--text-gray);
+  text-align: right;
+  padding: 15px 0;
+  line-height: 1.6;
+  white-space: pre-wrap;     
+}
+
+ 
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0; width: 100%; height: 100%; 
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.char-counter { 
+  position: absolute; 
+  left: 10px; 
+  bottom: 5px; 
+  font-size: 0.75rem; 
+  color: #888; 
+}
+
+.feedback-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f9f9f9;
+  padding: 8px;
+  border-right: 3px solid var(--link-blue);
+  margin: 15px 0;
+}
+
+.modal-header .main-title {
+  font-size: 1.4rem;     
+  font-weight: 800;      
+  text-align: center;    
+  margin-bottom: 5px;
+}
+
+.modal-header .sub-title {
+  font-size: 1.1rem;     
+  font-weight: 700;      
+  text-align: center;    
+  color: var(--text-gray);
+  margin-bottom: 20px;
+}
+
+ 
+.submit-btn {
+  background: var(--link-blue);
+  color: white;
+  border: none;
+  padding: 12px 0;       
+  border-radius: 6px;
+  cursor: pointer;
+  width: 60%;            
+  display: block;
+  margin: 25px auto;     
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+
+ 
+.success-text {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.serial-text {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: var(--link-blue);
+}
+</style></head><body><div class="page" id="mainContainer" dir="rtl">
+    <header id="siteHeader">
+      <h1>מאגר פתרונות תשבצים</h1>
+    </header><div class="intro-text" id="introSection">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.
+🔎<br><br>🔎 <strong>איך זה עובד?</strong> קרא כאן על המערכת ועל הייחודיות שלה.<br><a href="00_about.html" style="color: #1a73e8; text-decoration: underline; font-weight: bold;">קרא כאן על המערכת ועל הייחודיות שלה</a></div>
+    <div class="definition-header-box" id="definitionBox">
+      <div class="definition-title">
+        <a href="https://he.wikipedia.org/wiki/%D7%97%D7%A1%D7%A8%20%D7%9B%D7%9C" target="_blank">חסר כל</a>
+      </div>
+      
+      
+      <div class="solution-item enrichment-row" id="enrichmentRow">
+        
+        <a href="https://en.wikipedia.org/wiki/destitute" target="_blank" class="en">destitute</a>
+        
+        <div class="icon-group">
+          <a href="https://www.google.com/search?tbm=isch&q=%D7%97%D7%A1%D7%A8%20%D7%9B%D7%9C" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+          
+        </div>
+      </div>
+      
+      <div class="solution-count">נמצאו 7 פתרונות אפשריים</div>
+    </div>
+    <div class="sort-control-container" id="sortContainer">
+      <button id="sortToggle" class="sort-toggle-btn" onclick="toggleSortMode()">
+        טוען מיון...
+      </button>
+    </div><ul id="solutionList" class="solutions" style="list-style:none; padding:0; margin:0;">
+    <li class="solution-item" data-words="1" data-letters="2">
+      <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9A" target="_blank" class="heb">דך</a>
+      
+      <a href="https://en.wikipedia.org/wiki/lowly" target="_blank" class="en">lowly</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%93%D7%9A" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li>
+    <li class="solution-item" data-words="1" data-letters="2">
+      <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9C" target="_blank" class="heb">דל</a>
+      
+      <a href="https://en.wikipedia.org/wiki/poor" target="_blank" class="en">poor</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%93%D7%9C" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li>
+    <li class="solution-item" data-words="1" data-letters="2">
+      <a href="https://he.wikipedia.org/wiki/%D7%9E%D7%9A" target="_blank" class="heb">מך</a>
+      
+      <a href="https://en.wikipedia.org/wiki/infra" target="_blank" class="en">infra</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%9E%D7%9A" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li>
+    <li class="solution-item" data-words="1" data-letters="2">
+      <a href="https://he.wikipedia.org/wiki/%D7%A8%D7%A9" target="_blank" class="heb">רש</a>
+      
+      <a href="https://en.wikipedia.org/wiki/Rash" target="_blank" class="en">Rash</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%A8%D7%A9" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li>
+    <li class="solution-item" data-words="1" data-letters="3">
+      <a href="https://he.wikipedia.org/wiki/%D7%A2%D7%A0%D7%99" target="_blank" class="heb">עני</a>
+      
+      <a href="https://en.wikipedia.org/wiki/poor" target="_blank" class="en">poor</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%A2%D7%A0%D7%99" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li>
+    <li class="solution-item" data-words="1" data-letters="5">
+      <a href="https://he.wikipedia.org/wiki/%D7%90%D7%91%D7%99%D7%95%D7%9F" target="_blank" class="heb">אביון</a>
+      
+      <a href="https://en.wikipedia.org/wiki/pauper" target="_blank" class="en">pauper</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%90%D7%91%D7%99%D7%95%D7%9F" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li>
+    <li class="solution-item" data-words="1" data-letters="5">
+      <a href="https://he.wikipedia.org/wiki/%D7%93%D7%9C%D7%A4%D7%95%D7%9F" target="_blank" class="heb">דלפון</a>
+      
+      <a href="https://en.wikipedia.org/wiki/Delfon" target="_blank" class="en">Delfon</a>
+      <div class="icon-group">
+        <a href="https://www.google.com/search?tbm=isch&q=%D7%93%D7%9C%D7%A4%D7%95%D7%9F" target="_blank"><img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png"></a>
+        
+      </div>
+    </li></ul>
+    <div class="footer-separator" id="footerDivider"></div>
+    <footer class="footer-text" id="siteFooter">© כל הזכויות שמורות • לשימוש אישי בלבד. 
+לשליחת הערות והצעות לשיפור – ניתן ליצור קשר <a href="javascript:void(0)" onclick="openContactModal()" style="text-decoration: underline; color: var(--link-blue); font-weight: bold;">כאן</a>.</footer>
+  </div>
+  <div id="contactModal" class="modal">
+    <div class="modal-content" id="modalContainer">
+      <span class="close-modal" onclick="closeContactModal()">×</span>
+      
+      <div class="modal-header">
+        <div class="main-title">מאגר פתרונות תשבצים</div>
+        <div class="sub-title">דף משוב</div>
+      </div>
+
+      <div class="feedback-options" id="feedbackOptions">
+        <label class="option-row">
+          <input type="checkbox" id="typeSpecific" onclick="toggleFeedbackType('specific')">
+          <span>הערה על ההגדרה: <strong>חסר כל</strong></span>
+        </label>
+        <label class="option-row">
+          <input type="checkbox" id="typeGeneral" onclick="toggleFeedbackType('general')">
+          <span>הצעה לשיפור</span>
+        </label>
+      </div>
+
+      <div class="form-group" id="formFields">
+        <label>תוכן ההודעה:</label>
+        <div class="textarea-wrapper">
+          <textarea id="feedbackContent" rows="4" maxlength="500" oninput="updateCharCount()" placeholder="כתוב כאן..."></textarea>
+          <div id="charCount" class="char-counter">500</div>
+        </div>
+      </div>
+
+      <label class="legal-row" id="legalRow">
+        <input type="checkbox" id="legalConsent" onclick="validateForm()">
+        <span style="font-size: 0.8rem; line-height: 1.2;">שליחת הערה או הצעה מהווה הסכמה לשימוש חופשי בתוכן שנשלח באתר, לרבות פרסום, עריכה או שילוב מלא או חלקי, ללא תמורה.</span>
+      </label>
+
+      <div id="successMessage" style="display:none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+        <div class="success-text" id="statusText"></div>
+        <div class="serial-text">
+          מספר פנייה למעקב: <span id="resSerial">יעודכן בלוח</span>
+        </div>
+      </div>
+
+      <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()">שליחה</button>
+
+      <div class="modal-footer-links" id="modalFooter">
+        <a href="feedback.html">לצפייה בלוח ההערות וההצעות</a>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    // 1. הגדרת משתנים כ-var כדי למנוע את שגיאת ה-Initialization בפיירפוקס
+    var currentMode = 'letters';
+    var MAX_DAILY_REPORTS = 5;
+
+    // 2. ניסיון טעינה בטוח מהזיכרון
+    try {
+      var saved = localStorage.getItem('sortMode');
+      if (saved) currentMode = saved;
+    } catch (e) {
+      console.warn('LocalStorage access denied by browser settings');
+    }
+
+    // 3. פונקציית הרנדור
+    function renderList() {
+      var list = document.getElementById('solutionList');
+      if (!list) return; // הגנה למקרה שהאלמנט עוד לא נטען
+      
+      var items = Array.from(list.getElementsByClassName('solution-item'));
+      var btn = document.getElementById('sortToggle');
+      if (!btn) return;
+
+      Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
+      Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
+
+      if (currentMode === 'letters') {
+        items.sort((a, b) => a.dataset.letters - b.dataset.letters);
+        btn.innerText = "מיין לפי מספר מילים ומספר אותיות";
+        let lastL = 0;
+        items.forEach(item => {
+          let l = item.dataset.letters;
+          if (l !== lastL) {
+            const title = document.createElement('div');
+            title.className = 'letters-title';
+            title.innerText = l + " אותיות";
+            list.appendChild(title);
+            lastL = l;
+          }
+          list.appendChild(item);
+        });
+      } else {
+        items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
+        btn.innerText = "מיין לפי מספר אותיות בלבד";
+        let lastW = 0, lastL = 0;
+        items.forEach(item => {
+          let w = item.dataset.words; let l = item.dataset.letters;
+          if (w !== lastW) {
+            const wTitle = document.createElement('div');
+            wTitle.className = 'group-title';
+            wTitle.innerText = w == 1 ? "מילה אחת" : w + " מילים";
+            list.appendChild(wTitle);
+            lastW = w; lastL = 0;
+          }
+          if (l !== lastL) {
+            const lTitle = document.createElement('div');
+            lTitle.className = 'letters-title';
+            lTitle.innerText = l + " אותיות";
+            list.appendChild(lTitle);
+            lastL = l;
+          }
+          list.appendChild(item);
+        });
+      }
+    }
+
+    function toggleSortMode() {
+      currentMode = (currentMode === 'letters') ? 'words' : 'letters';
+      localStorage.setItem('sortMode', currentMode);
+      renderList();
+    }
+
+    function openContactModal() { document.getElementById('contactModal').style.display = 'block'; }
+    function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
+
+    function updateCharCount() {
+      const textarea = document.getElementById('feedbackContent');
+      const counter = document.getElementById('charCount');
+      counter.innerText = 500 - textarea.value.length;
+      validateForm();
+    }
+
+    function toggleFeedbackType(selected) {
+      if (selected === 'specific') document.getElementById('typeGeneral').checked = false;
+      else document.getElementById('typeSpecific').checked = false;
+      validateForm();
+    }
+
+    function validateForm() {
+      const isTypeSelected = document.getElementById('typeSpecific').checked || document.getElementById('typeGeneral').checked;
+      const isLegalChecked = document.getElementById('legalConsent').checked;
+      const hasContent = document.getElementById('feedbackContent').value.trim().length > 0;
+      document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
+    }
+
+
+    function sendFeedback() {
+      const now = new Date().toLocaleDateString();
+      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{}');
+      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
+      if (reportsToday.count >= MAX_DAILY_REPORTS) { alert('הגעת למכסת הדיווחים היומית.'); return; }
+
+      const btn = document.getElementById('submitBtn');
+      const type = document.getElementById('typeSpecific').checked ? 'specific' : 'general';
+      const content = document.getElementById('feedbackContent').value;
+
+      const data = {
+        topic: "חסר כל",
+        type: type,
+        content: content,
+        location: Intl.DateTimeFormat().resolvedOptions().timeZone
+      };
+
+      btn.disabled = true; 
+      btn.innerText = 'שולח...';
+
+      // שליחה באמצעות fetch שעובדת גם מ-GitHub
+      fetch('https://script.google.com/macros/s/AKfycbypCX2kLbx4ozC8X7gHWyv34IXHRzmvJwieeB58opb86cZkZX5zVoQbRq_UGIPggbWo/exec', {
+        method: 'POST',
+        mode: 'no-cors', 
+        cache: 'no-cache',
+        referrerPolicy: 'no-referrer', // חשוב לפיירפוקס
+        credentials: 'omit',           // מונע חסימות אבטחה מסוימות
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        // הצלחה
+        reportsToday.count++;
+        localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+        
+        document.getElementById('resSerial').innerText = "נקלט במערכת";
+        document.getElementById('statusText').innerText = 'ההודעה נשלחה בהצלחה!';
+        document.getElementById('successMessage').style.display = 'block';
+        
+        document.getElementById('feedbackContent').disabled = true;
+        document.getElementById('typeSpecific').disabled = true;
+        document.getElementById('typeGeneral').disabled = true;
+        document.getElementById('legalConsent').disabled = true;
+        
+        btn.innerText = 'נשלח בהצלחה';
+        btn.style.background = '#888';
+      })
+      .catch(err => {
+        console.error('Fetch error:', err);
+        alert('תקלה בשליחה.');
+        btn.disabled = false;
+        btn.innerText = 'שליחה';
+      });
+    }
+
+    window.onload = renderList;
+
+  </script></body></html>
