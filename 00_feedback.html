@@ -1,170 +1,230 @@
 
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<title>מעקב פניות וסטטוסים</title>
-<style>
-  body { font-family: Arial, sans-serif; background: #fafafa; margin: 40px; direction: rtl; text-align: right; }
-  h1 { margin-bottom: 5px; }
-  h2 { margin-top: 0; color: #666; font-weight: normal; margin-bottom: 20px; }
-  
-  .ticket { border-radius: 8px; margin-bottom: 10px; overflow: hidden; transition: 0.2s; border: 1px solid #eee; }
-  .ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
-  .ticket-header:hover { opacity: 0.8; }
-  
-  .ticket-body { display: none; background: #ffffff; padding: 15px; line-height: 1.6; border-top: 1px solid #ddd; }
-  .ticket.open .ticket-body { display: block; }
-  
-  .arrow { margin-left: 8px; font-size: 14px; transition: transform 0.2s; display: inline-block; }
-  .ticket.open .arrow { transform: rotate(90deg); }
+    <!DOCTYPE html>
+    <html lang="he" dir="rtl">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>לוח פניות</title>
+      <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
+      
+    <style>
+      body { font-family: 'Heebo', sans-serif; background-color: #f8f9fa; direction: rtl; padding: 20px; text-align: right; color: #333; }
+      .container { max-width: 800px; margin: auto; }
+      h1 { text-align: center; color: #000; margin-bottom: 30px; font-weight: 800; }
+      
+      .accordion-item { border: 1px solid #e0e0e0; margin-bottom: 10px; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+      .accordion-header { padding: 18px; cursor: pointer; display: flex; align-items: center; }
+      
+      .arrow-icon { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 11px solid #777; margin-left: 15px; transition: 0.3s; }
+      .active .arrow-icon { transform: rotate(-90deg); border-left-color: #000; }
 
-  /* צבעי סטטוס דינמיים לפי ה-Key של הסטטוס */
-  .status-NEW       { background: #F2F2F2; }
-  .status-REVIEW    { background: #E3F2FD; }
-  .status-APPROVED  { background: #E8F5E9; }
-  .status-DONE      { background: #FFF9C4; }
-  .status-REJECTED  { background: #FDECEA; }
+      .info-line { flex-grow: 1; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1.05rem; }
+      .status-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.08); font-weight: 700; }
 
-  .note { margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 0.9em; color: #444; font-style: italic; }
+      .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fff; }
+      .content-inner { padding: 25px; border-top: 1px solid #eee; line-height: 1.7; }
+      .note-box { margin-top: 20px; padding-top: 15px; border-top: 2px dashed #ffcdd2; color: #b71c1c; }
+      
+      .back-nav { text-align: center; margin-top: 40px; }
+      .back-btn { background: #000; color: #fff; text-decoration: none; padding: 12px 35px; border-radius: 10px; font-weight: bold; display: inline-block; }
+    </style>
   
-  .back-btn { display: inline-block; margin-top: 30px; color: #1a73e8; text-decoration: none; font-weight: bold; }
-</style>
-</head>
-<body>
-  <h1>מאגר פתרונות תשבצים</h1>
-  <h2>מעקב פניות וסטטוסים</h2>
-
+    </head>
+    <body>
+      <div class="container">
+        <h1>מעקב פניות וסטטוסים</h1>
+        
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1011 | NEW | Mon Mar 02 2026 07:28:31 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1010 | REJECTED | Sun Mar 01 2026 22:46:50 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>שלחופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1009 | DONE | Sun Mar 01 2026 22:43:45 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">general</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1008 | APPROVED | Sun Mar 01 2026 22:42:50 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">general</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1007 | REVIEW | Sun Mar 01 2026 20:43:35 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1006 | NEW | Sun Mar 01 2026 20:43:07 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1005 | REJECTED | Sun Mar 01 2026 20:42:24 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1004 | DONE | Sun Mar 01 2026 19:58:44 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>ספיר</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1003 | APPROVED | Sun Mar 01 2026 19:54:49 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">general</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1002 | REVIEW | Sun Mar 01 2026 06:35:39 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">specific</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>ספיר</div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="accordion-item">
+        <div class="accordion-header" style="background-color: #F2F2F2" onclick="toggleAccordion(this)">
+          <div class="arrow-icon"></div>
+          <div class="info-line">
+            <span class="main-info">#1001 | NEW | Sat Feb 28 2026 23:45:35 GMT+0200 (Israel Standard Time)</span>
+            <span class="status-pill">general</span>
+          </div>
+        </div>
+        <div class="accordion-content">
+          <div class="content-inner">
+            <div class="msg-box"><strong>תוכן הפנייה:</strong><br>Asia/Jerusalem</div>
+            <div class="note-box"><strong>הערת המערכת:</strong><br>מדינה באירופה</div>
+          </div>
+        </div>
+      </div>
+    
+        <div class="back-nav"><a href="00_index.html" class="back-btn">חזרה לדף הראשי</a></div>
+      </div>
+      <script>
+        function toggleAccordion(header) {
+          const item = header.parentElement;
+          const content = header.nextElementSibling;
+          if (item.classList.contains('active')) {
+            item.classList.remove('active');
+            content.style.maxHeight = null;
+          } else {
+            item.classList.add('active');
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        }
+      </script>
+    </body>
+    </html>
   
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1011 | NEW | Mon Mar 02 2026 07:28:31 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1010 | REJECTED | Sun Mar 01 2026 22:46:50 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">שלחופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-general">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1009 | DONE | Sun Mar 01 2026 22:43:45 GMT+0200 (Israel Standard Time) | general
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-general">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1008 | APPROVED | Sun Mar 01 2026 22:42:50 GMT+0200 (Israel Standard Time) | general
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1007 | REVIEW | Sun Mar 01 2026 20:43:35 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1006 | NEW | Sun Mar 01 2026 20:43:07 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1005 | REJECTED | Sun Mar 01 2026 20:42:24 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1004 | DONE | Sun Mar 01 2026 19:58:44 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">ספיר</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-general">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1003 | APPROVED | Sun Mar 01 2026 19:54:49 GMT+0200 (Israel Standard Time) | general
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-specific">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1002 | REVIEW | Sun Mar 01 2026 06:35:39 GMT+0200 (Israel Standard Time) | specific
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">ספיר</div>
-        </div>
-      </div>
-    
-      <div class="ticket status-general">
-        <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">▶</span>
-          #1001 | NEW | Sat Feb 28 2026 23:45:35 GMT+0200 (Israel Standard Time) | general
-        </div>
-        <div class="ticket-body">
-          Asia/Jerusalem
-          <div class="note">מדינה באירופה</div>
-        </div>
-      </div>
-    
-
-  <a href="00_index.html" class="back-btn">← חזרה לדף הראשי</a>
-
-  <script>
-    function toggleTicket(header) {
-      const ticket = header.parentElement;
-      ticket.classList.toggle("open");
-    }
-  </script>
-</body>
-</html>
