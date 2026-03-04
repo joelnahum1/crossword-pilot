@@ -40,6 +40,28 @@ html, body {
 }
 
  
+ 
+.main-title { 
+  font-family: 'Heebo', sans-serif;
+  font-size: 2.5rem; 
+  font-weight: 800; 
+  margin-bottom: 5px; 
+  text-align: center; 
+  color: #000;
+  width: 100%;
+}
+
+.sub-title { 
+  font-family: 'Heebo', sans-serif;
+  font-size: 1.8rem; 
+  font-weight: 400; 
+  margin-top: 0; 
+  margin-bottom: 30px; 
+  text-align: center; 
+  color: #000;
+  width: 100%;
+}
+
 header {
   background: var(--bg-white);
   border-bottom: 1px solid #e6e6e6;
@@ -332,4 +354,41 @@ textarea {
   font-weight: bold;
   color: var(--link-blue);
 }
+
+
+ 
+.controls { text-align: right; margin-bottom: 15px; }
+
+.toggle-all { 
+  background: none; border: none; font-size: 16px; cursor: pointer; 
+  color: #333; display: flex; align-items: center; padding: 0; font-family: 'Heebo';
+}
+
+.toggle-all:hover { text-decoration: underline; }
+
+.ticket { border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
+
+.ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
+
+.icon-square { 
+  width: 22px; height: 22px; background: #007bff; color: #fff; 
+  display: flex; align-items: center; justify-content: center; 
+  border-radius: 4px; margin-left: 12px; font-size: 10px; transition: transform 0.3s;
+  transform: rotate(90deg); 
+}
+
+.ticket.open .icon-square { transform: rotate(180deg); }
+
+.ticket-body { display: none; background: #ffffff; padding: 20px; line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.1); }
+
+.ticket.open .ticket-body { display: block; }
+
+.separator { height: 1px; background: #eee; margin: 15px 0; }
+
+.system-note { font-style: italic; color: #444; }
+
+ 
+.about-container { max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem; }
+.about-section { margin-bottom: 25px; }
+
 </style></head><body><h1>אינדקס</h1><ul><li><a href="pauper.html">אביון</a></li><li><a href="destitute.html">חסר כל</a></li><li><a href="country-in-europe.html">מדינה באירופה</a></li><li><a href="sapphire.html">ספיר</a></li><li><a href="power.html">עוצמה</a></li><li><a href="poor.html">עני</a></li><li><a href="catheter.html">קתטר</a></li><li><a href="the-beach.html">שלחופה</a></li><li><a href="note.html">תו</a></li></ul></body></html>
