@@ -1,7 +1,8 @@
 <!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="data:,"><title>שלחופה - מאגר פתרונות תשבצים</title><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet"><style>
  
 :root {
-  --font-main-title: 1.6rem;
+  --font-main-title: 1.8rem;
+  --font-sub-title: 1.5rem;       
   --font-def-title: 2.2rem;
   --font-group-title: 1.4rem;
   --font-letters-title: 1.1rem;
@@ -15,6 +16,7 @@
   --text-dark: #202124;
   --text-gray: #5f6368;
   --max-page-width: 760px;
+  --link-blue: #007bff;           
 }
 
  
@@ -41,22 +43,20 @@ html, body {
 
  
  
+ 
 .main-title { 
-  font-family: 'Heebo', sans-serif;
-  font-size: 2.5rem; 
+  font-size: var(--font-main-title); 
   font-weight: 800; 
-  margin-bottom: 5px; 
+  margin: 20px 0 5px 0; 
   text-align: center; 
   color: #000;
   width: 100%;
 }
 
 .sub-title { 
-  font-family: 'Heebo', sans-serif;
-  font-size: 1.8rem; 
+  font-size: var(--font-sub-title); 
   font-weight: 400; 
-  margin-top: 0; 
-  margin-bottom: 30px; 
+  margin: 0 0 30px 0; 
   text-align: center; 
   color: #000;
   width: 100%;
@@ -360,24 +360,30 @@ textarea {
 .controls { text-align: right; margin-bottom: 15px; }
 
 .toggle-all { 
-  background: none; border: none; font-size: 16px; cursor: pointer; 
-  color: #333; display: flex; align-items: center; padding: 0; font-family: 'Heebo';
+  background: none; border: none; 
+  font-size: 16px; cursor: pointer; 
+  color: #007bff;  
+  font-weight: bold;  
+  display: flex; align-items: center; padding: 0; font-family: 'Heebo';
 }
 
 .toggle-all:hover { text-decoration: underline; }
 
-.ticket { border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
-
-.ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
-
 .icon-square { 
   width: 22px; height: 22px; background: #007bff; color: #fff; 
   display: flex; align-items: center; justify-content: center; 
-  border-radius: 4px; margin-left: 12px; font-size: 10px; transition: transform 0.3s;
-  transform: rotate(90deg); 
+  border-radius: 4px; margin-left: 12px; 
+  font-size: 14px;  
+  transition: transform 0.3s ease;
+  transform: rotate(-90deg);  
 }
 
-.ticket.open .icon-square { transform: rotate(180deg); }
+ 
+.ticket.open .icon-square { transform: rotate(0deg); }
+
+.ticket { border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
+
+.ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
 
 .ticket-body { display: none; background: #ffffff; padding: 20px; line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.1); }
 
