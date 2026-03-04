@@ -3,7 +3,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>0000000000000000000000000000000000000מעקב פניות וסטטוסים</title>
+<title>מעקב פניות וסטטוסים</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   body { 
@@ -12,209 +12,217 @@
     margin: 40px; 
     direction: rtl; 
     text-align: right; 
+    color: #000;
   }
   
-  h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; color: #000; } /* זהה לדף הגדרות */
-  h2 { font-size: 1.5rem; font-weight: 400; margin-top: 0; color: #666; margin-bottom: 30px; }
+  /* כותרות אחידות לכל הדפים */
+  .main-title { 
+    font-size: 2.5rem; 
+    font-weight: 800; 
+    margin-bottom: 5px; 
+    text-align: center; 
+    display: block;
+  }
   
+  .sub-title { 
+    font-size: 1.8rem; 
+    font-weight: 400; 
+    margin-top: 0; 
+    margin-bottom: 30px; 
+    text-align: center; 
+    display: block;
+  }
+  
+  /* כפתור שליטה גלובלי */
+  .controls { text-align: center; margin-bottom: 20px; }
+  .control-btn { 
+    background: #fff; border: 1px solid #000; padding: 5px 15px; 
+    cursor: pointer; font-family: 'Heebo'; font-weight: bold; border-radius: 5px;
+  }
+
   .ticket { 
-    border-radius: 8px; 
-    margin-bottom: 12px; 
-    overflow: hidden; 
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    border-radius: 8px; margin-bottom: 12px; overflow: hidden; 
+    border: 1px solid rgba(0,0,0,0.1);
   }
   
   .ticket-header { 
-    padding: 15px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    display: flex; 
-    align-items: center; 
-    font-size: 1.1rem;
+    padding: 15px; cursor: pointer; font-weight: bold; 
+    display: flex; align-items: center; font-size: 1.1rem;
   }
   
-  .arrow { 
-    margin-left: 12px; 
-    font-family: monospace; 
-    font-size: 1.2rem; 
-    transition: 0.2s; 
-    display: inline-block;
+  .arrow-symbol { 
+    margin-left: 15px; font-size: 1.2rem; transition: transform 0.2s ease; 
+    display: inline-block; font-family: monospace;
   }
   
-  .ticket.open .arrow { transform: rotate(90deg); content: "V"; } /* הופך ל-V */
+  /* סיבוב הקיים ב-90 מעלות */
+  .ticket.open .arrow-symbol { transform: rotate(90deg); }
 
   .ticket-body { 
-    display: none; 
-    background: #ffffff; 
-    padding: 20px; 
-    line-height: 1.6; 
-    border-top: 1px solid rgba(0,0,0,0.1); 
+    display: none; background: #ffffff; padding: 20px; 
+    line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.1); 
   }
   
   .ticket.open .ticket-body { display: block; }
   
-  .separator { 
-    height: 1px; 
-    background: #eee; 
-    margin: 15px 0; 
-  }
-  
+  .separator { height: 1px; background: #eee; margin: 15px 0; }
   .system-note { font-style: italic; color: #444; }
   
-  .back-link { 
-    display: inline-block; 
-    margin-top: 40px; 
-    color: #000; 
-    text-decoration: none; 
-    font-weight: bold; 
-    border-bottom: 2px solid #000;
-  }
+  .back-nav { text-align: center; margin-top: 40px; }
+  .back-btn { text-decoration: none; color: #000; font-weight: bold; border-bottom: 2px solid #000; }
 </style>
 </head>
 <body>
-  <h1>מאגר פתרונות תשבצים</h1>
-  <h2>מעקב פניות וסטטוסים</h2>
+  <div class="main-title">מאגר פתרונות תשבצים</div>
+  <div class="sub-title">מעקב פניות וסטטוסים</div>
+
+  <div class="controls">
+    <button class="control-btn" onclick="toggleAll(true)">פתח הכל</button>
+    <button class="control-btn" onclick="toggleAll(false)">סגור הכל</button>
+  </div>
 
   <div id="tickets-container">
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #FFD1DC">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1011 | NEW | Mon Mar 02 2026 07:28:31 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1011 | 02.03.2026 | מדינה באירופה | נקלט</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">בערוץ הסעודי אל חדת' ובאל ערביה מדווחים היום (שני) כי ראש סיעת חיזבאללה בפרלמנט הלבנוני, מוחמד רעד, חוסל בתקיפת צה"ל בביירות עקב שיגור רקטות לשטחי ישראל מלבנון. הלילה, מספר רב של רקטות שוגרו מדרום לבנון לשטח ישראל וזאת לראשונה מאז הסכם הפסקת האש עם ארגון הטרור חיזבאללה.
+
+הארגון לקח אחריות על ירי הרקטות זמן קצר לאחר שיגורן, שהתמקד באזור הצפון ואף גרם לשריפה שפרצה בשלומי כתוצאה מנפילת שברי יירוט. שתי רקטות נוספות שוגרו לעבר המרכז ויצרו בהלה כשפיצוצים עזים נשמעו באזור גוש דן ללא התרעות. הרקטות נפלו</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #E6E6FA">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1010 | REJECTED | Sun Mar 01 2026 22:46:50 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1010 | 01.03.2026 | שלחופה | נדחה</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">שלחופה</div>
+          <div class="user-content">שלחופה</div>
+          <div class="separator"></div><div class="system-note">סתם נדחה</div>
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #FDFD96">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1009 | DONE | Sun Mar 01 2026 22:43:45 GMT+0200 (Israel Standard Time) | general
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1009 | 01.03.2026 | מדינה באירופה | הושלם ועלה לאתר</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">שיפור מפיירפוקס</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #B2FBA5">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1008 | APPROVED | Sun Mar 01 2026 22:42:50 GMT+0200 (Israel Standard Time) | general
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1008 | 01.03.2026 | מדינה באירופה | אושר ליישום ועבר לביצוע</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">שיפור EDGE</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #AEC6CF">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1007 | REVIEW | Sun Mar 01 2026 20:43:35 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1007 | 01.03.2026 | מדינה באירופה | בבדיקה</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">הערה 3</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #FFD1DC">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1006 | NEW | Sun Mar 01 2026 20:43:07 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1006 | 01.03.2026 | מדינה באירופה | נקלט</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">הערה21</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #E6E6FA">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1005 | REJECTED | Sun Mar 01 2026 20:42:24 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1005 | 01.03.2026 | מדינה באירופה | נדחה</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">הערה 1</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #FDFD96">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1004 | DONE | Sun Mar 01 2026 19:58:44 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1004 | 01.03.2026 | ספיר | הושלם ועלה לאתר</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">ספיר</div>
+          <div class="user-content">7</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #B2FBA5">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1003 | APPROVED | Sun Mar 01 2026 19:54:49 GMT+0200 (Israel Standard Time) | general
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1003 | 01.03.2026 | מדינה באירופה | אושר ליישום ועבר לביצוע</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">יאללה</div>
+          <div class="separator"></div><div class="system-note">סתם 1</div>
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #AEC6CF">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1002 | REVIEW | Sun Mar 01 2026 06:35:39 GMT+0200 (Israel Standard Time) | specific
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1002 | 01.03.2026 | ספיר | בבדיקה</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">ספיר</div>
+          <div class="user-content">מה זה ספיר?</div>
+          
         </div>
       </div>
     
-      <div class="ticket" style="background-color: #F2F2F2">
+      <div class="ticket" style="background-color: #FFD1DC">
         <div class="ticket-header" onclick="toggleTicket(this)">
-          <span class="arrow">&gt;</span>
-          #1001 | NEW | Sat Feb 28 2026 23:45:35 GMT+0200 (Israel Standard Time) | general
+          <span class="arrow-symbol">&gt;</span>
+          <span class="header-text">#1001 | 28.02.2026 | מדינה באירופה | נקלט</span>
         </div>
         <div class="ticket-body">
-          <div class="user-content">Asia/Jerusalem</div>
-          <div class="separator"></div><div class="system-note">מדינה באירופה</div>
+          <div class="user-content">11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333344444444444444444444444444444444444444444444444444444444444444444444444444444455555555555555555555555555555666666666</div>
+          
         </div>
       </div>
     
   </div>
 
-  <a href="00_index.html" class="back-link">חזרה לדף הראשי</a>
+  <div class="back-nav">
+    <a href="00_index.html" class="back-btn">חזרה לדף הראשי</a>
+  </div>
 
   <script>
     function toggleTicket(header) {
-      const ticket = header.parentElement;
-      const arrow = header.querySelector('.arrow');
-      ticket.classList.toggle("open");
-      
-      // החלפת הסימן מ > ל- V
-      if (ticket.classList.contains("open")) {
-        arrow.textContent = "V";
-      } else {
-        arrow.textContent = ">";
-      }
+      header.parentElement.classList.toggle("open");
+    }
+
+    function toggleAll(open) {
+      const tickets = document.querySelectorAll('.ticket');
+      tickets.forEach(t => {
+        if (open) t.classList.add('open');
+        else t.classList.remove('open');
+      });
     }
   </script>
 </body>
