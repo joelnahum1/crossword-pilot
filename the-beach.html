@@ -417,6 +417,7 @@ textarea {
 
 .icon-square { 
   width: 22px; height: 22px; 
+  flex-shrink: 0;  
   background: var(--link-blue); 
   color: #fff; 
   display: flex; align-items: center; justify-content: center; 
@@ -648,23 +649,30 @@ textarea {
       const type = document.getElementById('typeSpecific').checked ? 'specific' : 'general';
       const content = document.getElementById('feedbackContent').value;
 
+      // --- חדש: איסוף נתוני מערכת ---
+      const userAgent = navigator.userAgent;
+      const isMobile = /Mobi|Android|iPhone/i.test(userAgent) ? "Mobile" : "Desktop";
+      // ----------------------------
+
       const data = {
         topic: "שלחופה",
         type: type,
         content: content,
-        location: Intl.DateTimeFormat().resolvedOptions().timeZone
+        location: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        browser: userAgent, // חדש - ייכנס לעמודה I
+        mobile: isMobile    // חדש - ייכנס לעמודה J
       };
 
       btn.disabled = true; 
       btn.innerText = 'שולח...';
 
-      // שליחה באמצעות fetch שעובדת גם מ-GitHub
+      // שליחה באמצעות fetch (לוגיקה מקורית ללא שינוי)
       fetch('https://script.google.com/macros/s/AKfycbypCX2kLbx4ozC8X7gHWyv34IXHRzmvJwieeB58opb86cZkZX5zVoQbRq_UGIPggbWo/exec', {
         method: 'POST',
         mode: 'no-cors', 
         cache: 'no-cache',
-        referrerPolicy: 'no-referrer', // חשוב לפיירפוקס
-        credentials: 'omit',           // מונע חסימות אבטחה מסוימות
+        referrerPolicy: 'no-referrer',
+        credentials: 'omit',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       })
