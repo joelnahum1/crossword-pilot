@@ -49,24 +49,31 @@ html, body {
 }
 
  
+ 
 .alphabet-nav {
   position: sticky;
   top: 0;
-  background: #eee;
+  background: #f8f9fa;
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 5px;
-  border-bottom: 1px solid #ccc;
+  gap: 8px;
+  border-bottom: 2px solid #007bff;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .alphabet-nav a {
   text-decoration: none;
   color: #007bff;
   font-weight: bold;
-  padding: 5px;
-  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 5px 8px;
+}
+.alphabet-nav a:hover {
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
 }
 
  
@@ -424,7 +431,7 @@ textarea {
   font-size: 14px;  
   transition: transform 0.3s ease;
    
-  transform: rotate(90deg); 
+  transform: rotate(-90deg); 
 }
 
  
@@ -463,6 +470,23 @@ textarea {
     </div>
 
     <div id="tickets-container">
+      <div class="ticket" style="background-color: #F2F2F2">
+        <div class="ticket-header" onclick="toggleTicket(this)">
+          <div class="icon-square">▲</div>
+          <span class="header-text">#1012 | NEW | Thu Mar 05 2026 15:31:46 GMT+0200 (Israel Standard Time) | specific</span>
+        </div>
+        <div class="ticket-body">
+          <div class="user-content" style="word-break: break-word; white-space: pre-wrap;">Asia/Jerusalem</div>
+          
+            <div class="separator"></div>
+            <div class="system-response-section" style="color: var(--link-blue);">
+              <div style="font-weight: bold; margin-bottom: 5px;">תשובת המערכת:</div>
+              <div class="system-note" style="word-break: break-word; white-space: pre-wrap;">תו</div>
+            </div>
+          
+        </div>
+      </div>
+    
       <div class="ticket" style="background-color: #FFD1DC">
         <div class="ticket-header" onclick="toggleTicket(this)">
           <div class="icon-square">▲</div>
