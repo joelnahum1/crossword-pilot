@@ -635,7 +635,7 @@ textarea {
       const masterIcon = document.getElementById('master-icon');
       tickets.forEach(t => allOpen ? t.classList.add('open') : t.classList.remove('open'));
       btnText.textContent = allOpen ? "סגור את כל הרשומות" : "פתח את כל הרשומות";
-      masterIcon.style.transform = allOpen ? "rotate(180deg)" : "rotate(90deg)";
+      masterIcon.style.transform = allOpen ? "rotate(-180deg)" : "rotate(-90deg)";
     }
   </script>
 </body>
