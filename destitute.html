@@ -357,6 +357,25 @@ textarea {
 
 
  
+ 
+.feedback-container {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+ 
+@media (max-width: 600px) {
+  .header-text {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .ticket-header {
+    padding: 10px;
+  }
+}
+
 .controls { text-align: right; margin-bottom: 15px; }
 
 .toggle-all { 
@@ -370,16 +389,21 @@ textarea {
 .toggle-all:hover { text-decoration: underline; }
 
 .icon-square { 
-  width: 22px; height: 22px; background: #007bff; color: #fff; 
+  width: 22px; height: 22px; 
+  background: var(--link-blue); 
+  color: #fff; 
   display: flex; align-items: center; justify-content: center; 
   border-radius: 4px; margin-left: 12px; 
   font-size: 14px;  
   transition: transform 0.3s ease;
-  transform: rotate(-90deg);  
+   
+  transform: rotate(-90deg); 
 }
 
  
-.ticket.open .icon-square { transform: rotate(0deg); }
+.ticket.open .icon-square { 
+  transform: rotate(180deg); 
+}
 
 .ticket { border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
 
