@@ -42,6 +42,26 @@ html, body {
 }
 
  
+.alphabet-nav {
+  position: sticky;
+  top: 0;
+  background: #eee;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  border-bottom: 1px solid #ccc;
+  z-index: 1000;
+}
+.alphabet-nav a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
  
  
 .main-title { 
@@ -397,12 +417,12 @@ textarea {
   font-size: 14px;  
   transition: transform 0.3s ease;
    
-  transform: rotate(-90deg); 
+  transform: rotate(90deg); 
 }
 
  
 .ticket.open .icon-square { 
-  transform: rotate(180deg); 
+  transform: rotate(-180deg); 
 }
 
 .ticket { border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
