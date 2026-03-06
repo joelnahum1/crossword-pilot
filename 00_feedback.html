@@ -3,45 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>לוח פניות והצעות - פותר תשבצים</title>
+  <title>מאגר פתרונות תשבצים - מעקב פניות</title>
   <style>
-    body { font-family: "Segoe UI", Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; text-align: right; }
-    .container { max-width: 800px; margin: 0 auto; }
-    h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 2.2rem; }
-    .sub-title { text-align: center; color: #7f8c8d; margin-bottom: 25px; font-size: 1.1rem; }
-    .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
-    /* עיצוב כפתור שליטה מאוחד */
-    .controls { text-align: left; margin-bottom: 15px; }
-    .btn-toggle-all { background: #34495e; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 10px; transition: background 0.3s; }
-    .btn-toggle-all:hover { background: #2c3e50; }
-    .btn-icon { width: 18px; height: 18px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: 10px; transition: transform 0.4s; }
-    .btn-toggle-all.active .btn-icon { transform: rotate(90deg); }
+    :root { --link-blue: #007bff; --max-page-width: 760px; }
+    body { font-family: "Heebo", "Segoe UI", Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; text-align: right; direction: rtl; }
+    
+    /* סעיף 8: התאמה לרוחב המערכת ומניעת שוליים רחבים בנייד */
+    .feedback-container { max-width: var(--max-page-width); margin: 0 auto; padding: 10px; box-sizing: border-box; }
+    
+    /* סעיף 1+2: כותרות */
+    h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 2rem; }
+    .sub-title { text-align: center; color: #7f8c8d; margin-bottom: 25px; font-size: 1.2rem; font-weight: bold; }
+    
+    .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: var(--link-blue); font-weight: bold; }
+    
+    /* סעיף 3: כפתור יישור לימין, כחול, בלי רקע */
+    .controls { text-align: right; margin-bottom: 15px; }
+    .toggle-all { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--link-blue); font-weight: bold; display: flex; align-items: center; padding: 0; font-family: "Heebo"; gap: 8px; }
+    .toggle-all:hover { text-decoration: underline; }
+    
+    /* סעיף 4+5: ריבוע כחול, משולש לבן, פונה שמאלה במקור */
+    .icon-square { width: 22px; height: 22px; flex-shrink: 0; background: var(--link-blue); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-left: 12px; font-size: 14px; transition: transform 0.3s ease; transform: rotate(-90deg); }
+    
+    /* סיבוב למטה בפתיחה */
+    .ticket.open .icon-square { transform: rotate(-180deg); }
+    .btn-toggle-all.active .icon-square { transform: rotate(-180deg); }
+    
     #tickets-container { margin-top: 10px; }
-    .ticket { background: #fff; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.3s ease; border-right: 8px solid #bdc3c7; }
-    .ticket-header { padding: 15px; cursor: pointer; display: flex; align-items: center; border-bottom: 1px solid #eee; }
-    .header-text { font-weight: bold; flex-grow: 1; margin-right: 15px; font-size: 0.95rem; }
-    .icon-square { width: 24px; height: 24px; background: #34495e; color: white; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px; transition: transform 0.4s; }
-    .ticket.open .icon-square { transform: rotate(90deg); }
-    .ticket-body { display: none; padding: 15px; background: #fafafa; line-height: 1.6; overflow-wrap: break-word; }
+    
+    /* סעיף 8: ריבוע הרשומה */
+    .ticket { background: #fff; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid rgba(0,0,0,0.1); border-right: 10px solid #bdc3c7; }
+    
+    /* סעיף 6: כותרת רשומה לימין */
+    .ticket-header { padding: 12px; cursor: pointer; display: flex; align-items: center; text-align: right; font-weight: bold; }
+    .header-text { flex-grow: 1; font-size: 0.95rem; line-height: 1.4; }
+    
+    /* סעיף 7: תוכן לימין, לא איטליק */
+    .ticket-body { display: none; padding: 20px; background: #ffffff; line-height: 1.6; text-align: right; border-top: 1px solid rgba(0,0,0,0.1); overflow-wrap: break-word; }
     .ticket.open .ticket-body { display: block; }
-    .user-content { font-style: italic; color: #444; white-space: pre-wrap; }
-    .separator { border-top: 1px solid #ddd; margin: 15px 0; }
-    .system-response-section { padding: 12px; border-right: 4px solid #3498db; background: #ebf5fb; color: #007bff; border-radius: 4px 0 0 4px; }
-    .loading { text-align: center; padding: 40px; color: #7f8c8d; }
+    .user-content { color: #333; white-space: pre-wrap; font-style: normal; }
+    
+    .separator { height: 1px; background: #eee; margin: 15px 0; }
+    .system-response-section { padding: 12px; border-right: 4px solid var(--link-blue); background: #ebf5fb; color: var(--link-blue); border-radius: 4px 0 0 4px; font-weight: bold; }
+    
+    @media (max-width: 600px) {
+      .feedback-container { padding: 5px; }
+      .ticket { margin-left: 0; margin-right: 0; border-radius: 4px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="feedback-container">
     <a href="index.html" class="back-link">← חזרה לדף הראשי</a>
-    <h1>לוח פניות והצעות</h1>
-    <div class="sub-title">מעקב אחר סטטוס הטיפול בדיווחים ובשיפורים ששלחתם</div>
+    <h1>מאגר פתרונות תשבצים</h1>
+    <div class="sub-title">מעקב פניות וסטטוסים</div>
+    
     <div class="controls">
-      <button id="mainToggleButton" class="btn-toggle-all" onclick="toggleAll()">
-        <span class="btn-icon">▲</span>
+      <button id="mainToggleButton" class="toggle-all" onclick="toggleAll()">
+        <div class="icon-square">▲</div>
         <span id="btnText">פתח את כל הרשומות</span>
       </button>
     </div>
-    <div id="tickets-container" class="loading">טוען נתונים מהשרת...</div>
+    <div id="tickets-container">טוען נתונים...</div>
   </div>
   <script>
     const webAppUrl = "https://script.google.com/macros/s/AKfycbxg4zdc-3RmM5Mpu4pqmYSD-oV91vqPGsVCbS22cyIce9_rdZFhMIdBCjhZaY1alkVF/exec";
@@ -52,7 +75,7 @@
         const response = await fetch(webAppUrl);
         const data = await response.json();
         if (!data || data.length === 0) {
-          container.innerHTML = "<p style='text-align:center;'>אין פניות להצגה כרגע.</p>";
+          container.innerHTML = "<p style='text-align:center;'>אין פניות להצגה.</p>";
           return;
         }
         container.innerHTML = "";
@@ -62,33 +85,22 @@
           if (ticket.status === "NEW") div.style.borderRightColor = "#3498db";
           else if (ticket.status === "APPROVED") div.style.borderRightColor = "#2ecc71";
           else if (ticket.status === "REJECTED") div.style.borderRightColor = "#e74c3c";
-          
           div.innerHTML = '<div class="ticket-header" onclick="toggleTicket(this)"><div class="icon-square">▲</div><span class="header-text">#' + ticket.id + ' | ' + ticket.date + ' | ' + ticket.topic + '</span></div>' +
                           '<div class="ticket-body"><div class="user-content">' + ticket.content + '</div>' +
-                          (ticket.note ? '<div class="separator"></div><div class="system-response-section"><strong>תשובת המערכת:</strong><br><div>' + ticket.note + '</div></div>' : '') +
+                          (ticket.note ? '<div class="separator"></div><div class="system-response-section">תשובת המערכת:<br><div style="font-weight:normal; margin-top:5px; color:#444;">' + ticket.note + '</div></div>' : '') +
                           '</div>';
           container.appendChild(div);
         });
-      } catch (e) { container.innerHTML = "<p style='text-align:center; color:red;'>שגיאה בטעינת נתונים.</p>"; }
+      } catch (e) { container.innerHTML = "שגיאה בטעינה."; }
     }
-    function toggleTicket(header) {
-      header.parentElement.classList.toggle("open");
-    }
+    function toggleTicket(header) { header.parentElement.classList.toggle("open"); }
     function toggleAll() {
       const btn = document.getElementById("mainToggleButton");
       const btnText = document.getElementById("btnText");
       allOpen = !allOpen;
-      
-      document.querySelectorAll(".ticket").forEach(t => {
-        if (allOpen) t.classList.add("open"); else t.classList.remove("open");
-      });
-      if (allOpen) {
-        btnText.innerText = "סגור את כל הרשומות";
-        btn.classList.add("active");
-      } else {
-        btnText.innerText = "פתח את כל הרשומות";
-        btn.classList.remove("active");
-      }
+      document.querySelectorAll(".ticket").forEach(t => { if (allOpen) t.classList.add("open"); else t.classList.remove("open"); });
+      btnText.innerText = allOpen ? "סגור את כל הרשומות" : "פתח את כל הרשומות";
+      if (allOpen) btn.classList.add("active"); else btn.classList.remove("active");
     }
     window.onload = loadTickets;
   </script>
