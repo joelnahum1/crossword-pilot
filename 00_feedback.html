@@ -5,40 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>מאגר פתרונות תשבצים - מעקב פניות</title>
   <style>
-    :root { --link-blue: #007bff; --max-page-width: 760px; }
-    body { font-family: "Heebo", "Segoe UI", Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; text-align: right; direction: rtl; }
+    /*************************************************** הגדרות CSS מקוריות */
+    :root {
+      --font-main-title: 1.8rem;
+      --font-sub-title: 1.5rem;
+      --link-blue: #007bff;
+      --bg-main: #f2f4f7;
+      --bg-white: #fff;
+      --text-dark: #202124;
+      --max-page-width: 760px;
+    }
+    * { font-family: "Heebo", sans-serif !important; box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; width: 100%; background: var(--bg-main); direction: rtl; text-align: right; }
     
-    /* סעיף 8: התאמה לרוחב המערכת ומניעת שוליים רחבים בנייד */
-    .feedback-container { max-width: var(--max-page-width); margin: 0 auto; padding: 10px; box-sizing: border-box; }
+    /* המעטפת של הדף לפי העיצוב שלך */
+    .page { max-width: var(--max-page-width); margin: 0 auto; padding: 1rem 1.2rem; background: var(--bg-white); min-height: 100vh; }
     
-    /* סעיף 1+2: כותרות */
-    h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 2rem; }
-    .sub-title { text-align: center; color: #7f8c8d; margin-bottom: 25px; font-size: 1.2rem; font-weight: bold; }
-    
+    h1 { text-align: center; color: var(--text-dark); margin-bottom: 5px; font-size: var(--font-main-title); }
+    .sub-title { text-align: center; color: var(--text-dark); margin-bottom: 25px; font-size: var(--font-sub-title); font-weight: bold; }
     .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: var(--link-blue); font-weight: bold; }
     
-    /* סעיף 3: כפתור יישור לימין, כחול, בלי רקע */
+    /* כפתור פתח/סגור הכל - סעיף 1+2+3 */
     .controls { text-align: right; margin-bottom: 15px; }
-    .toggle-all { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--link-blue); font-weight: bold; display: flex; align-items: center; padding: 0; font-family: "Heebo"; gap: 8px; }
+    .toggle-all { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--link-blue); font-weight: bold; display: flex; align-items: center; padding: 0; text-decoration: none; }
     .toggle-all:hover { text-decoration: underline; }
     
-    /* סעיף 4+5: ריבוע כחול, משולש לבן, פונה שמאלה במקור */
+    /* עיצוב המשולש בכחול-לבן - סעיף 4+5 */
     .icon-square { width: 22px; height: 22px; flex-shrink: 0; background: var(--link-blue); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-left: 12px; font-size: 14px; transition: transform 0.3s ease; transform: rotate(-90deg); }
     
-    /* סיבוב למטה בפתיחה */
-    .ticket.open .icon-square { transform: rotate(-180deg); }
-    .btn-toggle-all.active .icon-square { transform: rotate(-180deg); }
+    /* סיבוב למטה כשהרשומה (או הכפתור הראשי) במצב פתוח */
+    .ticket.open .icon-square, .toggle-all.active .icon-square { transform: rotate(-180deg); }
     
-    #tickets-container { margin-top: 10px; }
-    
-    /* סעיף 8: ריבוע הרשומה */
-    .ticket { background: #fff; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid rgba(0,0,0,0.1); border-right: 10px solid #bdc3c7; }
-    
-    /* סעיף 6: כותרת רשומה לימין */
+    /* עיצוב הרשומות */
+    .ticket { background: #fff; border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.1); border-right: 10px solid #bdc3c7; overflow: hidden; }
     .ticket-header { padding: 12px; cursor: pointer; display: flex; align-items: center; text-align: right; font-weight: bold; }
     .header-text { flex-grow: 1; font-size: 0.95rem; line-height: 1.4; }
     
-    /* סעיף 7: תוכן לימין, לא איטליק */
     .ticket-body { display: none; padding: 20px; background: #ffffff; line-height: 1.6; text-align: right; border-top: 1px solid rgba(0,0,0,0.1); overflow-wrap: break-word; }
     .ticket.open .ticket-body { display: block; }
     .user-content { color: #333; white-space: pre-wrap; font-style: normal; }
@@ -47,13 +49,13 @@
     .system-response-section { padding: 12px; border-right: 4px solid var(--link-blue); background: #ebf5fb; color: var(--link-blue); border-radius: 4px 0 0 4px; font-weight: bold; }
     
     @media (max-width: 600px) {
-      .feedback-container { padding: 5px; }
-      .ticket { margin-left: 0; margin-right: 0; border-radius: 4px; }
+      .page { padding: 10px 5px; }
+      .header-text { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
-  <div class="feedback-container">
+  <div class="page">
     <a href="index.html" class="back-link">← חזרה לדף הראשי</a>
     <h1>מאגר פתרונות תשבצים</h1>
     <div class="sub-title">מעקב פניות וסטטוסים</div>
