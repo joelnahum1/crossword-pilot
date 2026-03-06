@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>לוח פניות והצעות - פותר תשבצים</title>
+  <style>
+    body { font-family: "Segoe UI", Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { text-align: center; color: #2c3e50; }
+    .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
+    #tickets-container { margin-top: 20px; }
+    .ticket { background: #fff; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; transition: all 0.3s ease; border-right: 5px solid #bdc3c7; }
+    .ticket-header { padding: 15px; cursor: pointer; display: flex; align-items: center; border-bottom: 1px solid #eee; }
+    .header-text { font-weight: bold; flex-grow: 1; margin-right: 10px; font-size: 0.95rem; }
+    .icon-square { width: 24px; height: 24px; background: #34495e; color: white; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px; transition: transform 0.3s ease; }
+    .ticket.open .icon-square { transform: rotate(180deg); }
+    .ticket-body { display: none; padding: 15px; background: #fafafa; line-height: 1.6; }
+    .ticket.open .ticket-body { display: block; }
+    .user-content { font-style: italic; color: #444; white-space: pre-wrap; }
+    .separator { border-top: 1px solid #ddd; margin: 15px 0; }
+    .system-response-section { padding: 10px; border-right: 4px solid #3498db; background: #ebf5fb; border-radius: 0 4px 4px 0; }
+    .loading { text-align: center; padding: 40px; font-size: 1.2rem; color: #7f8c8d; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← חזרה לדף הראשי</a>
+    <h1>לוח פניות והצעות שיפור</h1>
+    <div id="tickets-container" class="loading">טוען נתונים מהשרת...</div>
+  </div>
+  <script>
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbxg4zdc-3RmM5Mpu4pqmYSD-oV91vqPGsVCbS22cyIce9_rdZFhMIdBCjhZaY1alkVF/exec";
+    async function loadTickets() {
+      const container = document.getElementById("tickets-container");
+      try {
+        const response = await fetch(webAppUrl);
+        const data = await response.json();
+        if (!data || data.length === 0) {
+          container.innerHTML = "<p style='text-align:center;'>אין פניות להצגה כרגע.</p>";
+          return;
+        }
+        container.innerHTML = "";
+        data.forEach(ticket => {
+          const div = document.createElement("div");
+          div.className = "ticket";
+          if (ticket.status === "NEW") div.style.borderColor = "#3498db";
+          else if (ticket.status === "APPROVED") div.style.borderColor = "#2ecc71";
+          else if (ticket.status === "REJECTED") div.style.borderColor = "#e74c3c";
+          div.innerHTML = '<div class="ticket-header" onclick="toggleTicket(this)"><div class="icon-square">▲</div><span class="header-text">#' + ticket.id + ' | ' + ticket.date + ' | ' + ticket.topic + '</span></div>' +
+                          '<div class="ticket-body"><div class="user-content">' + ticket.content + '</div>' +
+                          (ticket.note ? '<div class="separator"></div><div class="system-response-section"><strong style="color: #2980b9;">תשובת המערכת:</strong><br><div style="margin-top:5px; color:#2c3e50;">' + ticket.note + '</div></div>' : '') +
+                          '</div>';
+          container.appendChild(div);
+        });
+      } catch (e) { container.innerHTML = "<p style='text-align:center; color:red;'>שגיאה בטעינת הנתונים.</p>"; }
+    }
+    function toggleTicket(header) { header.parentElement.classList.toggle("open"); }
+    window.onload = loadTickets;
+  </script>
+</body>
+</html>
