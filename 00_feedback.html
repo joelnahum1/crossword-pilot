@@ -462,9 +462,12 @@ textarea {
 </style>
   <style>
     .controls { text-align: right; margin-bottom: 15px; }
-    .toggle-all { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--link-blue); font-weight: bold; display: flex; align-items: center; padding: 0; }
+    .toggle-all { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--link-blue); font-weight: bold; display: flex; align-items: center; padding: 0; outline: none; }
     .icon-square { width: 22px; height: 22px; flex-shrink: 0; background: var(--link-blue); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-left: 12px; font-size: 14px; transition: transform 0.3s ease; transform: rotate(-90deg); }
-    .ticket.open .icon-square, .toggle-all.active .icon-square { transform: rotate(-180deg); }
+    
+    /* כאן הסוד: כשהכפתור או הרשומה פעילים, סובב את המשולש */
+    .toggle-all.active .icon-square, .ticket.open .icon-square { transform: rotate(-180deg); }
+    
     .ticket { background: #fff; border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.1); border-right: 10px solid #bdc3c7; overflow: hidden; }
     .ticket-header { padding: 12px; cursor: pointer; display: flex; align-items: center; font-weight: bold; }
     .header-text { flex-grow: 1; font-size: 0.95rem; }
@@ -497,6 +500,7 @@ textarea {
   <script>
     const webAppUrl = "https://script.google.com/macros/s/AKfycbxg4zdc-3RmM5Mpu4pqmYSD-oV91vqPGsVCbS22cyIce9_rdZFhMIdBCjhZaY1alkVF/exec";
     let allOpen = false;
+    
     async function loadTickets() {
       const container = document.getElementById("tickets-container");
       try {
@@ -526,15 +530,28 @@ textarea {
         });
       } catch (e) { container.innerHTML = "שגיאה בטעינת הנתונים."; }
     }
-    function toggleTicket(header) { header.parentElement.classList.toggle("open"); }
+    
+    function toggleTicket(header) { 
+       header.parentElement.classList.toggle("open"); 
+    }
+    
     function toggleAll() {
       const btn = document.getElementById("mainToggleButton");
       const btnText = document.getElementById("btnText");
       allOpen = !allOpen;
-      document.querySelectorAll(".ticket").forEach(t => allOpen ? t.classList.add("open") : t.classList.remove("open"));
-      btnText.innerText = allOpen ? "סגור את כל הרשומות" : "פתח את כל הרשומות";
+      
+      // פתיחה/סגירה של כל הרשומות
+      document.querySelectorAll(".ticket").forEach(t => {
+        if (allOpen) t.classList.add("open"); else t.classList.remove("open");
+      });
+      
+      // עדכון הטקסט לפי הבקשה שלך
+      btnText.innerText = allOpen ? "סגור הכל" : "פתח הכל";
+      
+      // סיבוב המשולש על ידי הוספת/הסרת קלאס active
       if (allOpen) btn.classList.add("active"); else btn.classList.remove("active");
     }
+    
     window.onload = loadTickets;
   </script>
 </body>
