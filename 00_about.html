@@ -79,39 +79,42 @@ html, body {
 
  
  
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
 .main-title { 
   font-size: var(--font-main-title); 
   font-weight: 800; 
-  margin: 20px 0 5px 0; 
+  margin: 15px 0 2px 0;  
   text-align: center; 
-  color: #000;
+  color: var(--text-dark);
   width: 100%;
+  display: block;
 }
 
 .sub-title { 
   font-size: var(--font-sub-title); 
   font-weight: 400; 
-  margin: 0 0 30px 0; 
+  margin: 0 0 25px 0; 
   text-align: center; 
-  color: #000;
+  color: var(--text-gray);  
   width: 100%;
+  display: block;
 }
 
 header {
   background: var(--bg-white);
   border-bottom: 1px solid #e6e6e6;
-}
-
-header .page {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem; 
-}
-
-header h1 {
-  margin: 0;
-  font-size: var(--font-main-title);
-  font-weight: 800;
-  color: var(--text-dark);
+  width: 100%;
 }
 
  
@@ -460,45 +463,53 @@ textarea {
 </style>
 </head>
 <body>
-  <div class="container about-container">
-    <div class="main-title">מאגר פתרונות תשבצים</div>
-    <div class="sub-title">טכנולוגיה חכמה בשירות הפותר</div>
+  <div class="page">
+    <header>
+      <div class="main-title">מאגר פתרונות תשבצים</div>
+      <div class="sub-title">המערכת ואופן פעולתה</div>
+    </header>
     
-    <div class="intro-box">
-      מאגר פתרונות תשבצים הוא מערכת מתקדמת המבוססת על בינה מלאכותית (AI), שנועדה להעניק לפותר חוויית חיפוש מהירה, מדויקת וממוקדת. המערכת מחליפה שיטות חיפוש מסורתיות בכלים טכנולוגיים חכמים המייעלים את תהליך הפתרון ומעמיקים את הידע.
-    </div>
-    
-    <div class="sections">
+    <main>
+      <div class="intro-box" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6; border-right: 5px solid #ddd;">
+        מאגר פתרונות תשבצים הוא מערכת מתקדמת המבוססת על בינה מלאכותית (AI), שנועדה להעניק לפותר חוויית חיפוש מהירה, מדויקת וממוקדת. המערכת מחליפה שיטות חיפוש מסורתיות בכלים טכנולוגיים חכמים המייעלים את תהליך הפתרון ומעמיקים את הידע.
+      </div>
       
-        <div class="section">
-          <h3>מנוע בינה מלאכותית והצלבה חכמה</h3>
-          <p>בלב המערכת פועל מנוע AI הסורק ומנתח אלפי הגדרות ופתרונות. המערכת מבצעת הצלבה אוטומטית בין הגדרות דומות ומשלימות, ובונה רשת קשרים רחבה שמבטיחה הצגת כל האפשרויות הרלוונטיות למילת החיפוש.</p>
+      <div class="sections">
+        
+        <div class="section" style="margin-bottom: 25px;">
+          <h3 style="color: var(--text-dark); border-right: 4px solid var(--link-blue); padding-right: 10px; margin-bottom: 10px;">מנוע בינה מלאכותית והצלבה חכמה</h3>
+          <p style="color: var(--text-gray); line-height: 1.6;">בלב המערכת פועל מנוע AI הסורק ומנתח אלפי הגדרות ופתרונות. המערכת מבצעת הצלבה אוטומטית בין הגדרות דומות ומשלימות, ובונה רשת קשרים רחבה שמבטיחה הצגת כל האפשרויות הרלוונטיות למילת החיפוש.</p>
         </div>
-        <div class="section">
-          <h3>הפתרון תמיד ראשון</h3>
-          <p>בניגוד לאתרים המתמקדים בהארכת זמן שהייה בדף לצורכי קידום במנועי חיפוש, כאן הפתרונות מופיעים בראש הדף באופן מידי. המשתמש מקבל תשובה ברורה וישירה – ללא גלילה מיותרת וללא טקסטים שאינם רלוונטיים.</p>
+        <div class="section" style="margin-bottom: 25px;">
+          <h3 style="color: var(--text-dark); border-right: 4px solid var(--link-blue); padding-right: 10px; margin-bottom: 10px;">הפתרון תמיד ראשון</h3>
+          <p style="color: var(--text-gray); line-height: 1.6;">בניגוד לאתרים המתמקדים בהארכת זמן שהייה בדף לצורכי קידום במנועי חיפוש, כאן הפתרונות מופיעים בראש הדף באופן מידי. המשתמש מקבל תשובה ברורה וישירה – ללא גלילה מיותרת וללא טקסטים שאינם רלוונטיים.</p>
         </div>
-        <div class="section">
-          <h3>מיון חכם ומותאם אישית</h3>
-          <p>המערכת מאפשרת לבחור בין מיון לפי מספר מילים ואותיות, לבין מיון לפי מספר האותיות בלבד (ללא רווחים), בהתאם למבנה התשבץ. העדפת המיון נשמרת אוטומטית לשימוש עתידי.</p>
+        <div class="section" style="margin-bottom: 25px;">
+          <h3 style="color: var(--text-dark); border-right: 4px solid var(--link-blue); padding-right: 10px; margin-bottom: 10px;">מיון חכם ומותאם אישית</h3>
+          <p style="color: var(--text-gray); line-height: 1.6;">המערכת מאפשרת לבחור בין מיון לפי מספר מילים ואותיות, לבין מיון לפי מספר האותיות בלבד (ללא רווחים), בהתאם למבנה התשבץ. העדפת המיון נשמרת אוטומטית לשימוש עתידי.</p>
         </div>
-        <div class="section">
-          <h3>העשרה והרחבת ידע</h3>
-          <p>כל פתרון מוצג יחד עם מידע משלים: ניקוד (כאשר זמין), תרגום לאנגלית וקישורים ל־ויקיפדיה (עברית ואנגלית), ל־Google Images ול־Google Maps. כך המאגר אינו רק כלי למציאת פתרונות, אלא גם פלטפורמה להעמקת ידע.</p>
+        <div class="section" style="margin-bottom: 25px;">
+          <h3 style="color: var(--text-dark); border-right: 4px solid var(--link-blue); padding-right: 10px; margin-bottom: 10px;">העשרה והרחבת ידע</h3>
+          <p style="color: var(--text-gray); line-height: 1.6;">כל פתרון מוצג יחד עם מידע משלים: ניקוד (כאשר זמין), תרגום לאנגלית וקישורים ל־ויקיפדיה (עברית ואנגלית), ל־Google Images ול־Google Maps. כך המאגר אינו רק כלי למציאת פתרונות, אלא גם פלטפורמה להעמקת ידע.</p>
         </div>
-        <div class="section">
-          <h3>שקיפות ובקרה קהילתית</h3>
-          <p>המשתמשים יכולים לשלוח הערות, תיקונים והצעות שיפור. כל פנייה נבדקת מקצועית, ואם נמצאה מתאימה – מיושמת לטובת כלל הקהילה. כך נשמר מאגר עדכני, איכותי ודינמי. לוח ההערות וההצעות פתוח לצפייה ומציג את מצב הטיפול בפניות.</p>
+        <div class="section" style="margin-bottom: 25px;">
+          <h3 style="color: var(--text-dark); border-right: 4px solid var(--link-blue); padding-right: 10px; margin-bottom: 10px;">שקיפות ובקרה קהילתית</h3>
+          <p style="color: var(--text-gray); line-height: 1.6;">המשתמשים יכולים לשלוח הערות, תיקונים והצעות שיפור. כל פנייה נבדקת מקצועית, ואם נמצאה מתאימה – מיושמת לטובת כלל הקהילה. כך נשמר מאגר עדכני, איכותי ודינמי. לוח ההערות וההצעות פתוח לצפייה ומציג את מצב הטיפול בפניות.</p>
         </div>
-        <div class="section">
-          <h3>נתונים סטטיסטיים</h3>
-          <p>המערכת אוספת נתונים כגון מספר פתרונות כולל, כמות כניסות וניתוח חיפושים נפוצים – במטרה לשפר את הדיוק והשירות לאורך זמן.</p>
+        <div class="section" style="margin-bottom: 25px;">
+          <h3 style="color: var(--text-dark); border-right: 4px solid var(--link-blue); padding-right: 10px; margin-bottom: 10px;">נתונים סטטיסטיים</h3>
+          <p style="color: var(--text-gray); line-height: 1.6;">המערכת אוספת נתונים כגון מספר פתרונות כולל, כמות כניסות וניתוח חיפושים נפוצים – במטרה לשפר את הדיוק והשירות לאורך זמן.</p>
         </div>
-    </div>
+      </div>
+      
+      <div class="footer-nav" style="text-align: center; margin: 40px 0;">
+        <a href="javascript:history.back()" class="back-btn" style="background-color: var(--link-blue); color: white; text-decoration: none; padding: 12px 35px; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">חזרה לדף הקודם</a>
+      </div>
+    </main>
     
-    <div class="footer-nav" style="text-align: center; margin-top: 50px;">
-      <a href="javascript:history.back()" class="back-btn" style="background-color: #007bff; color: white; text-decoration: none; padding: 12px 35px; border-radius: 8px; font-weight: bold; display: inline-block;">חזרה לדף הקודם</a>
-    </div>
+    <footer style="text-align:center; margin-top: 40px; padding: 20px 0; border-top: 1px solid #eee; color: var(--text-gray); font-size: 0.9rem;">
+      © כל הזכויות שמורות • לשימוש אישי בלבד
+    </footer>
   </div>
 </body>
 </html>
