@@ -538,7 +538,7 @@ textarea {
   </div>
   <div id="contactModal" class="modal">
     <div class="modal-content" id="modalContainer">
-      <span class="close-modal" onclick="closeContactModal()">×</span>
+      <span class="close-modal" onclick="closeContactModal()" style="cursor:pointer; float:left; font-size:24px; font-weight:bold;">&times;</span>
       
       <div class="modal-header">
         <div class="main-title">מאגר פתרונות תשבצים</div>
@@ -546,40 +546,40 @@ textarea {
       </div>
 
       <div class="feedback-options" id="feedbackOptions">
-        <label class="option-row">
-          <input type="checkbox" id="typeSpecific" onclick="toggleFeedbackType('specific')">
+        <label class="option-row" style="display:block; margin-bottom:8px;">
+          <input type="radio" name="fbType" id="typeSpecific" onclick="toggleFeedbackType('specific')">
           <span>הערה על ההגדרה: <strong>עוצמה</strong></span>
         </label>
-        <label class="option-row">
-          <input type="checkbox" id="typeGeneral" onclick="toggleFeedbackType('general')">
-          <span>הצעה לשיפור</span>
+        <label class="option-row" style="display:block;">
+          <input type="radio" name="fbType" id="typeGeneral" onclick="toggleFeedbackType('general')">
+          <span>הצעה לשיפור כללי</span>
         </label>
       </div>
 
-      <div class="form-group" id="formFields">
-        <label>תוכן ההודעה:</label>
+      <div class="form-group" id="formFields" style="margin-top:20px;">
+        <label style="display:block; margin-bottom:8px; font-weight:bold;">תוכן ההודעה:</label>
         <div class="textarea-wrapper">
-          <textarea id="feedbackContent" rows="4" maxlength="500" oninput="updateCharCount()" placeholder="כתוב כאן..."></textarea>
-          <div id="charCount" class="char-counter">500</div>
+          <textarea id="feedbackContent" rows="4" maxlength="500" oninput="updateCharCount()" placeholder="כתבו כאן את הערותיכם..." style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
+          <div id="charCount" class="char-counter" style="position:absolute; left:10px; bottom:5px; font-size:0.75rem; color:#888;">500</div>
         </div>
       </div>
 
-      <label class="legal-row" id="legalRow">
-        <input type="checkbox" id="legalConsent" onclick="validateForm()">
-        <span style="font-size: 0.8rem; line-height: 1.2;">שליחת הערה או הצעה מהווה הסכמה לשימוש חופשי בתוכן שנשלח באתר, לרבות פרסום, עריכה או שילוב מלא או חלקי, ללא תמורה.</span>
+      <label class="legal-row" id="legalRow" style="display:flex; align-items:flex-start; gap:8px; margin-top:15px; background:#fff9e6; padding:8px; border-radius:4px;">
+        <input type="checkbox" id="legalConsent" onclick="validateForm()" style="margin-top:4px;">
+        <span style="font-size: 0.8rem; line-height: 1.3; color:#666;">שליחת הערה מהווה הסכמה לשימוש חופשי בתוכן שנשלח באתר, לרבות פרסום, עריכה או שילוב מלא או חלקי, ללא תמורה.</span>
       </label>
 
-      <div id="successMessage" style="display:none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
-        <div class="success-text" id="statusText"></div>
-        <div class="serial-text">
-          מספר פנייה למעקב: <span id="resSerial">יעודכן בלוח</span>
+      <div id="successMessage" style="display:none; margin-top: 15px; border-top: 2px solid var(--link-blue); padding-top: 15px; text-align:center;">
+        <div class="success-text" id="statusText" style="color:#2e7d32; font-weight:bold; margin-bottom:5px;"></div>
+        <div class="serial-text" style="color:var(--link-blue); font-weight:bold;">
+          מספר פנייה: <span id="resSerial">יעודכן בלוח</span>
         </div>
       </div>
 
-      <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()">שליחה</button>
+      <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()">שליחת תגובה</button>
 
-      <div class="modal-footer-links" id="modalFooter">
-        <a href="00_feedback.html">לצפייה בלוח ההערות וההצעות</a>
+      <div class="modal-footer-links" id="modalFooter" style="text-align:center; margin-top:15px; font-size:0.9rem;">
+        <a href="00_feedback.html" style="color:var(--link-blue); text-decoration:none; font-weight:bold;">לצפייה בלוח הפניות והסטטוסים &larr;</a>
       </div>
     </div>
   </div>
