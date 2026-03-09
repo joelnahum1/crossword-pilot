@@ -509,6 +509,15 @@ input[type="radio"], input[type="checkbox"] {
   transform: rotate(-180deg); 
 }
 
+ 
+.user-content-wrapper {
+  white-space: pre-wrap;       
+  word-wrap: break-word;      
+  overflow-wrap: break-word;  
+  word-break: break-all;      
+  max-width: 100%;            
+}
+
 .ticket {
   background: #fff;                   
   border-radius: 8px;                 
@@ -611,15 +620,18 @@ input[type="radio"], input[type="checkbox"] {
           const div = document.createElement("div");
           div.className = "ticket";
           
-          // 3. שימוש בסטטוס מהטבלה לצבע הקו הימני
+          // 1. צבע קו ימני לפי סטטוס
           if (ticket.status === "NEW") div.style.borderRightColor = "#3498db";
           else if (ticket.status === "APPROVED") div.style.borderRightColor = "#2ecc71";
           else if (ticket.status === "REJECTED") div.style.borderRightColor = "#e74c3c";
           
-          // 4. חיתוך השעה (מציג רק מה שלפני הפסיק)
-          const dateOnly = ticket.date.split(",")[0];
+          // 2. חיתוך אגרסיבי של התאריך (לפני הפסיק או הרווח הראשון)
+          const dateOnly = ticket.date ? ticket.date.split(/[ ,]/)[0] : "";
           
-          // 5. הבחנה בין "הערה על הגדרה" ל"הצעה לשיפור"
+          // 3. הצגת סטטוס (אם ריק מציג NEW כברירת מחדל)
+          const currentStatus = ticket.status || "NEW";
+          
+          // 4. הבחנה בין "הערה על הגדרה" ל"הצעה לשיפור"
           let displayTopic = "";
           if (ticket.type === "general") {
             displayTopic = '<span class="suggestion-label">הצעה לשיפור</span>';
@@ -627,13 +639,17 @@ input[type="radio"], input[type="checkbox"] {
             displayTopic = ticket.topic;
           }
           
-          let bodyContent = '<div class="user-content" style="white-space: pre-wrap;">' + ticket.content + '</div>';
+          // 5. עטיפה לטיפול בטקסט ארוך ללא רווחים (מחלקה user-content-wrapper)
+          let bodyContent = '<div class="user-content-wrapper">' + ticket.content + '</div>';
           if (ticket.note) {
-            bodyContent += '<div class="system-response-section"><strong>תשובת המערכת:</strong><br><div style="color:#444;">' + ticket.note + '</div></div>';
+            bodyContent += '<div class="system-response-section"><strong>תשובת המערכת:</strong><br><div class="user-content-wrapper">' + ticket.note + '</div></div>';
           }
           
-          div.innerHTML = '<div class="ticket-header" onclick="toggleTicket(this)"><div class="icon-square">▲</div>' + 
-                           '<span class="header-text">#' + ticket.id + ' | ' + dateOnly + ' | ' + displayTopic + '</span></div>' + 
+          // 6. הרכבת ה-HTML כולל שורת הסטטוס הגלויה
+          div.innerHTML = '<div class="ticket-header" onclick="toggleTicket(this)">' +
+                           '<div class="icon-square">▲</div>' + 
+                           '<div class="header-text">#' + ticket.id + ' | ' + dateOnly + ' | ' + displayTopic + '<br>' + 
+                           '<small style="color:#666; font-weight:normal;">סטטוס: <strong>' + currentStatus + '</strong></small></div></div>' + 
                            '<div class="ticket-body">' + bodyContent + '</div>';
           container.appendChild(div);
         });
