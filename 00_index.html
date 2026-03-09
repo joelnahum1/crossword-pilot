@@ -325,18 +325,6 @@ header {
   background-color: rgba(0,0,0,0.5);
 }
 
- 
-.close-modal {
-  position: absolute;
-  left: 15px;
-  top: 10px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #aaa;
-  cursor: pointer;
-}
-.close-modal:hover { color: #000; }
-
 .modal-content {
   background-color: #fff;
   margin: 10% auto;
@@ -346,17 +334,79 @@ header {
   width: 90%;
   position: relative;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-sizing: border-box;  
+}
+
+ 
+.close-modal {
+  position: absolute;
+  left: 18px;  
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+}
+.close-modal:hover { color: #000; }
+
+ 
+.feedback-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8f9fa;  
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #dadce0;
+  margin: 15px 0;
+}
+
+ 
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+textarea#feedbackContent {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  padding-bottom: 30px;  
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  box-sizing: border-box;  
+  display: block;
+  font-size: 1rem;
+  resize: none;
+}
+
+ 
+.char-counter { 
+  position: absolute; 
+  left: 10px; 
+  bottom: 8px; 
+  font-size: 0.75rem; 
+  color: var(--text-gray); 
+}
+
+ 
+input[type="radio"], input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--link-blue);  
 }
 
  
 .submit-btn {
-  background-color: var(--btn-bg-default);
+  background-color: var(--btn-bg-default);  
   color: var(--btn-text-color);
   border: 1px solid var(--btn-border-color);
   padding: 12px 30px;
   border-radius: var(--btn-radius);
   cursor: pointer;
-  width: auto;  
+  width: auto;
   min-width: 160px;
   display: block;
   margin: 25px auto;
@@ -372,11 +422,12 @@ header {
 }
 
 .submit-btn:disabled {
-  background-color: var(--btn-bg-disabled);
+  background-color: var(--btn-bg-disabled);  
   color: var(--btn-text-disabled);
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
-
 
  
 .success-text {
