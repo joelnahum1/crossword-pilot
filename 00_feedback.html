@@ -620,18 +620,13 @@ input[type="radio"], input[type="checkbox"] {
           const div = document.createElement("div");
           div.className = "ticket";
           
-          // 1. צבע קו ימני לפי סטטוס
-          if (ticket.status === "NEW") div.style.borderRightColor = "#3498db";
-          else if (ticket.status === "APPROVED") div.style.borderRightColor = "#2ecc71";
-          else if (ticket.status === "REJECTED") div.style.borderRightColor = "#e74c3c";
+          // 1. צבע קו ימני - נמשך ישירות מהעמודה בגיליון SITE
+          div.style.borderRightColor = ticket.statusColor;
           
-          // 2. חיתוך אגרסיבי של התאריך (לפני הפסיק או הרווח הראשון)
-          const dateOnly = ticket.date ? ticket.date.split(/[ ,]/)[0] : "";
+          // 2. תאריך - כבר מגיע מעובד מהשרת ללא שעה
+          const dateDisplay = ticket.date;
           
-          // 3. הצגת סטטוס (אם ריק מציג NEW כברירת מחדל)
-          const currentStatus = ticket.status || "NEW";
-          
-          // 4. הבחנה בין "הערה על הגדרה" ל"הצעה לשיפור"
+          // 3. הבחנה בין "הערה על הגדרה" ל"הצעה לשיפור"
           let displayTopic = "";
           if (ticket.type === "general") {
             displayTopic = '<span class="suggestion-label">הצעה לשיפור</span>';
@@ -639,17 +634,17 @@ input[type="radio"], input[type="checkbox"] {
             displayTopic = ticket.topic;
           }
           
-          // 5. עטיפה לטיפול בטקסט ארוך ללא רווחים (מחלקה user-content-wrapper)
+          // 4. טיפול בטקסט ארוך ושבירת שורות
           let bodyContent = '<div class="user-content-wrapper">' + ticket.content + '</div>';
           if (ticket.note) {
             bodyContent += '<div class="system-response-section"><strong>תשובת המערכת:</strong><br><div class="user-content-wrapper">' + ticket.note + '</div></div>';
           }
           
-          // 6. הרכבת ה-HTML כולל שורת הסטטוס הגלויה
+          // 5. הרכבת ה-HTML - מציג את statusLabel (למשל "נקלט") בדיוק כפי שמופיע בגיליון
           div.innerHTML = '<div class="ticket-header" onclick="toggleTicket(this)">' +
                            '<div class="icon-square">▲</div>' + 
-                           '<div class="header-text">#' + ticket.id + ' | ' + dateOnly + ' | ' + displayTopic + '<br>' + 
-                           '<small style="color:#666; font-weight:normal;">סטטוס: <strong>' + currentStatus + '</strong></small></div></div>' + 
+                           '<div class="header-text">#' + ticket.id + ' | ' + dateDisplay + ' | ' + displayTopic + '<br>' + 
+                           '<small style="color:#666; font-weight:normal;'><strong>' + ticket.statusLabel + '</strong></small></div></div>' + 
                            '<div class="ticket-body">' + bodyContent + '</div>';
           container.appendChild(div);
         });
