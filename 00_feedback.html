@@ -617,25 +617,24 @@ input[type="radio"], input[type="checkbox"] {
         }
         container.innerHTML = "";
         data.forEach(ticket => {
+          // שורת Debug שתופיע ב-Console (לחיצה על F12 בדפדפן)
+          console.log("Ticket ID:", ticket.id, "Status:", ticket.statusLabel, "Color:", ticket.statusColor);
+          
           const div = document.createElement("div");
           div.className = "ticket";
           
-          // בדיקה שהצבע קיים, אם לא - שים אפור ברירת מחדל
-          const borderColor = ticket.statusColor || "#bdc3c7";
-          div.style.borderRight = "10px solid " + borderColor;
+          // יישום הצבע - שים לב שאנחנו מגדירים את כל ה-border מחדש כדי למנוע דריסה
+          const sColor = ticket.statusColor || "#bdc3c7";
+          div.style.borderRight = "10px solid " + sColor;
           
           const dateDisplay = ticket.date;
           let displayTopic = (ticket.type === "general") ? '<span class="suggestion-label">הצעה לשיפור</span>' : ticket.topic;
           
-          // בניית שורת המידע הנוסף רק אם קיימים נתונים
           let metaParts = [];
           if (ticket.location) metaParts.push(ticket.location);
           if (ticket.browser) metaParts.push(ticket.browser);
           if (ticket.mobile) metaParts.push(ticket.mobile);
-          
-          let metaInfo = metaParts.length > 0 
-            ? '<div style="font-size: 0.75rem; color: #999; margin-top: 10px; border-top: 1px dashed #eee; padding-top: 5px;">' + metaParts.join(" | ") + '</div>' 
-            : "";
+          let metaInfo = metaParts.length > 0 ? '<div style="font-size: 0.75rem; color: #999; margin-top: 8px; border-top: 1px dashed #eee; padding-top: 5px;">' + metaParts.join(" | ") + '</div>' : "";
           
           let bodyContent = '<div class="user-content-wrapper">' + ticket.content + metaInfo + '</div>';
           if (ticket.note) {
