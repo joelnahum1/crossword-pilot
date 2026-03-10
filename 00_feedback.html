@@ -619,17 +619,23 @@ input[type="radio"], input[type="checkbox"] {
         data.forEach(ticket => {
           const div = document.createElement("div");
           div.className = "ticket";
-          div.style.borderRightColor = ticket.statusColor;
+          
+          // בדיקה שהצבע קיים, אם לא - שים אפור ברירת מחדל
+          const borderColor = ticket.statusColor || "#bdc3c7";
+          div.style.borderRight = "10px solid " + borderColor;
           
           const dateDisplay = ticket.date;
           let displayTopic = (ticket.type === "general") ? '<span class="suggestion-label">הצעה לשיפור</span>' : ticket.topic;
           
-          // בניית שורת המידע הנוסף (דפדפן, מיקום ומכשיר)
-          let metaInfo = '<div style="font-size: 0.8rem; color: #888; margin-top: 10px; border-top: 1px dashed #eee; pt: 5px;">';
-          metaInfo += ticket.location ? ticket.location + " | " : "";
-          metaInfo += ticket.browser ? ticket.browser + " | " : "";
-          metaInfo += ticket.mobile ? ticket.mobile : "";
-          metaInfo += "</div>";
+          // בניית שורת המידע הנוסף רק אם קיימים נתונים
+          let metaParts = [];
+          if (ticket.location) metaParts.push(ticket.location);
+          if (ticket.browser) metaParts.push(ticket.browser);
+          if (ticket.mobile) metaParts.push(ticket.mobile);
+          
+          let metaInfo = metaParts.length > 0 
+            ? '<div style="font-size: 0.75rem; color: #999; margin-top: 10px; border-top: 1px dashed #eee; padding-top: 5px;">' + metaParts.join(" | ") + '</div>' 
+            : "";
           
           let bodyContent = '<div class="user-content-wrapper">' + ticket.content + metaInfo + '</div>';
           if (ticket.note) {
