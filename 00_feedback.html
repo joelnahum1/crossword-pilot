@@ -585,7 +585,7 @@ input[type="radio"], input[type="checkbox"] {
 </head>
 <body>
   <div class="page" style="position: relative;">
-    <a href="index.html" class="close-page-x" title=" סגור וחזור">&times;</a>
+    <a href="index.html" class="close-page-x" title="סגור וחזור">&times;</a>
     <header>
       <div class="main-title">מאגר פתרונות תשבצים</div>
       <div class="sub-title">מעקב פניות וסטטוסים</div>
@@ -619,32 +619,27 @@ input[type="radio"], input[type="checkbox"] {
         data.forEach(ticket => {
           const div = document.createElement("div");
           div.className = "ticket";
-          
-          // 1. צבע קו ימני - נמשך ישירות מהעמודה בגיליון SITE
           div.style.borderRightColor = ticket.statusColor;
           
-          // 2. תאריך - כבר מגיע מעובד מהשרת ללא שעה
           const dateDisplay = ticket.date;
+          let displayTopic = (ticket.type === "general") ? '<span class="suggestion-label">הצעה לשיפור</span>' : ticket.topic;
           
-          // 3. הבחנה בין "הערה על הגדרה" ל"הצעה לשיפור"
-          let displayTopic = "";
-          if (ticket.type === "general") {
-            displayTopic = '<span class="suggestion-label">הצעה לשיפור</span>';
-          } else {
-            displayTopic = ticket.topic;
-          }
+          // בניית שורת המידע הנוסף (דפדפן, מיקום ומכשיר)
+          let metaInfo = '<div style="font-size: 0.8rem; color: #888; margin-top: 10px; border-top: 1px dashed #eee; pt: 5px;">';
+          metaInfo += ticket.location ? ticket.location + " | " : "";
+          metaInfo += ticket.browser ? ticket.browser + " | " : "";
+          metaInfo += ticket.mobile ? ticket.mobile : "";
+          metaInfo += "</div>";
           
-          // 4. טיפול בטקסט ארוך ושבירת שורות
-          let bodyContent = '<div class="user-content-wrapper">' + ticket.content + '</div>';
+          let bodyContent = '<div class="user-content-wrapper">' + ticket.content + metaInfo + '</div>';
           if (ticket.note) {
             bodyContent += '<div class="system-response-section"><strong>תשובת המערכת:</strong><br><div class="user-content-wrapper">' + ticket.note + '</div></div>';
           }
           
-          // 5. הרכבת ה-HTML - מציג את statusLabel (למשל "נקלט") בדיוק כפי שמופיע בגיליון
           div.innerHTML = '<div class="ticket-header" onclick="toggleTicket(this)">' +
                            '<div class="icon-square">▲</div>' + 
                            '<div class="header-text">#' + ticket.id + ' | ' + dateDisplay + ' | ' + displayTopic + '<br>' + 
-                           '<small style="color:#666; font-weight:normal;'><strong>' + ticket.statusLabel + '</strong></small></div></div>' + 
+                           '<small style="color:#666; font-weight:normal;"><strong>' + ticket.statusLabel + '</strong></small></div></div>' + 
                            '<div class="ticket-body">' + bodyContent + '</div>';
           container.appendChild(div);
         });
