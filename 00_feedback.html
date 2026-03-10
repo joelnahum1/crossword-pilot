@@ -518,13 +518,13 @@ input[type="radio"], input[type="checkbox"] {
   max-width: 100%;            
 }
 
-.ticket {
-  background: #fff;                   
-  border-radius: 8px;                 
-  margin-bottom: 12px;                
-  overflow: hidden;                   
-  border: 1px solid rgba(0,0,0,0.1);  
-  border-right: 6px solid var(--link-blue) !important;  
+.ticket { 
+  background: #fff; 
+  border-radius: 8px; 
+  margin-bottom: 12px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  border-right: 10px solid;  
+  overflow: hidden; 
 }
 
 .ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
@@ -603,7 +603,7 @@ input[type="radio"], input[type="checkbox"] {
     </footer>
   </div>
   <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxg4zdc-3RmM5Mpu4pqmYSD-oV91vqPGsVCbS22cyIce9_rdZFhMIdBCjhZaY1alkVF/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwUt6chgEHWCSnM-TCaXAoDpBfPf0lp-YbD5G8gPSvR3uHmqTPZgzW_X1H8l58EBkM/exec";
     let allOpen = false;
     
     async function loadTickets() {
@@ -617,15 +617,13 @@ input[type="radio"], input[type="checkbox"] {
         }
         container.innerHTML = "";
         data.forEach(ticket => {
-          // שורת Debug שתופיע ב-Console (לחיצה על F12 בדפדפן)
-          console.log("Ticket ID:", ticket.id, "Status:", ticket.statusLabel, "Color:", ticket.statusColor);
-          
           const div = document.createElement("div");
           div.className = "ticket";
           
-          // יישום הצבע - שים לב שאנחנו מגדירים את כל ה-border מחדש כדי למנוע דריסה
+          // קביעת הצבע - שימוש ב-important כדי לנצח כל CSS אחר
           const sColor = ticket.statusColor || "#bdc3c7";
-          div.style.borderRight = "10px solid " + sColor;
+          div.style.setProperty("border-right-color", sColor, "important");
+          
           
           const dateDisplay = ticket.date;
           let displayTopic = (ticket.type === "general") ? '<span class="suggestion-label">הצעה לשיפור</span>' : ticket.topic;
