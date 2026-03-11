@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>מעקב  פניות - מאגר פתרונות תשבצים</title>
+  <title>מעקב פניות - מאגר פתרונות תשבצים</title>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
  
@@ -599,7 +599,7 @@ input[type="radio"], input[type="checkbox"] {
     </div>
     <div id="tickets-container">טוען נתונים...</div>
     <footer style="text-align:center; margin-top: 40px; padding: 20px 0; border-top: 1px solid #eee; color: var(--text-gray); font-size: 0.9rem;">
-      © כל הזכויות שמורות • לשימוש אישי בלבד
+      ©  כל הזכויות שמורות • לשימוש אישי בלבד
     </footer>
   </div>
   <script>
@@ -629,9 +629,6 @@ input[type="radio"], input[type="checkbox"] {
           let displayTopic = (ticket.type === "general") ? '<span class="suggestion-label">הצעה לשיפור</span>' : ticket.topic;
           
           let metaParts = [];
-          if (ticket.location) metaParts.push(ticket.location);
-          if (ticket.browser) metaParts.push(ticket.browser);
-          if (ticket.mobile) metaParts.push(ticket.mobile);
           let metaInfo = metaParts.length > 0 ? '<div style="font-size: 0.75rem; color: #999; margin-top: 8px; border-top: 1px dashed #eee; padding-top: 5px;">' + metaParts.join(" | ") + '</div>' : "";
           
           let bodyContent = '<div class="user-content-wrapper">' + ticket.content + metaInfo + '</div>';
