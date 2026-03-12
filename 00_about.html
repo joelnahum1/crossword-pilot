@@ -333,6 +333,7 @@ header {
   background-color: #fff;
   margin: 5vh auto;  
   padding: 25px;
+  padding-bottom: 20px;
   border-radius: 12px;
   max-width: 500px;
   width: 90%;
@@ -341,6 +342,21 @@ header {
   position: relative;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   box-sizing: border-box;
+}
+
+ 
+.modal-content::-webkit-scrollbar {
+  width: 8px;  
+  display: block;  
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #bbb;  
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
  
@@ -458,6 +474,24 @@ input[type="radio"], input[type="checkbox"] {
 
 .success-link:hover {
   text-decoration: underline;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;  
+  height: 14px;
+   
+  border: 2px solid rgba(0, 0, 0, 0.1); 
+  border-left-color: currentColor; 
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;  
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 
@@ -654,4 +688,4 @@ input[type="radio"], input[type="checkbox"] {
   </div>
 </body>
 </html>
- // Build: 11.3.2026, 13:19:18 [htxa9p]
+ // Build: 12.3.2026, 21:13:39 [882rfx]
