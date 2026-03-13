@@ -110,6 +110,9 @@ html, body {
   border-radius: 4px;
 }
 
+h2[id^="letter-"] {
+  scroll-margin-top: 80px;  
+}
 
  
 .main-title { 
@@ -351,7 +354,7 @@ header {
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-  background: #bbb;  
+  background: #888;  
   border-radius: 10px;
 }
 
@@ -496,6 +499,16 @@ input[type="radio"], input[type="checkbox"] {
 
 
  
+.error-message-simple {
+  color: #d32f2f;  
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
+
+ 
  
 .feedback-container {
   max-width: var(--max-page-width);
@@ -624,18 +637,6 @@ input[type="radio"], input[type="checkbox"] {
       }
     }
     
-    /* עיצוב ה-Intro Box לאחידות עם לוח הפניות (סעיף 2) */
-    .intro-box-styled {
-      background: #ffffff; 
-      padding: 20px; 
-      border-radius: 4px 8px 8px 4px; 
-      margin-bottom: 30px; 
-      font-size: 1.1rem; 
-      line-height: 1.6; 
-      border: 1px solid #e0e0e0;
-      border-right: 5px solid var(--link-blue); /* קו כחול עבה במקום אפור */
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
   </style>
 </head>
 <body>
@@ -646,9 +647,9 @@ input[type="radio"], input[type="checkbox"] {
       <div class="main-title">מאגר פתרונות תשבצים</div>
       <div class="sub-title">המערכת ואופן פעולתה</div>
     </header>
-    
+
     <main>
-      <div class="intro-box-styled">
+      <div style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 30px; color: var(--text-dark);">
         מאגר פתרונות תשבצים הוא מערכת מתקדמת המבוססת על בינה מלאכותית (AI), שנועדה להעניק לפותר חוויית חיפוש מהירה, מדויקת וממוקדת. המערכת מחליפה שיטות חיפוש מסורתיות בכלים טכנולוגיים חכמים המייעלים את תהליך הפתרון ומעמיקים את הידע.
       </div>
       
@@ -679,13 +680,13 @@ input[type="radio"], input[type="checkbox"] {
           <p style="color: var(--text-gray); line-height: 1.6;">המערכת אוספת נתונים כגון מספר פתרונות כולל, כמות כניסות וניתוח חיפושים נפוצים – במטרה לשפר את הדיוק והשירות לאורך זמן.</p>
         </div>
       </div>
-      
-      </main>
+    </main>
     
     <footer style="text-align:center; margin-top: 40px; padding: 20px 0; border-top: 1px solid #eee; color: var(--text-gray); font-size: 0.9rem;">
       © כל הזכויות שמורות • לשימוש אישי בלבד
     </footer>
   </div>
+
+
 </body>
 </html>
- // Build: 12.3.2026, 21:13:39 [882rfx]
