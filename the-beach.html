@@ -342,7 +342,7 @@ header {
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-  background: #bbb;  
+  background: #888;  
   border-radius: 10px;
 }
 
@@ -485,6 +485,16 @@ input[type="radio"], input[type="checkbox"] {
   to { transform: rotate(360deg); }
 }
 
+
+ 
+.error-message-simple {
+  color: #d32f2f;  
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
 
  
  
@@ -708,25 +718,77 @@ input[type="radio"], input[type="checkbox"] {
       renderList();
     }
 
-    // 4. ניהול המודאל
+    // 4. ניהול המודאל (מעודכן עם בדיקת חסימת ספאם)
     function openContactModal() { 
-      // איפוס מלא של הטופס בכל פתיחה
+      const modal = document.getElementById('contactModal');
+      const formContent = document.getElementById('feedbackFormContent');
+      const successMsg = document.getElementById('successMessage');
+      const container = document.getElementById('modalContainer');
+      const btn = document.getElementById('submitBtn');
+
+      // א. איפוס מלא של הטופס בכל פתיחה
       document.getElementById('feedbackContent').value = "";
       document.getElementById('typeSpecific').checked = false;
       document.getElementById('typeGeneral').checked = false;
       document.getElementById('legalConsent').checked = false;
       document.getElementById('charCount').innerText = "500";
       
-      document.getElementById('feedbackFormContent').style.display = "block";
-      document.getElementById('successMessage').style.display = "none";
-      
-      const btn = document.getElementById('submitBtn');
       btn.disabled = true;
       btn.innerHTML = "שליחת תגובה";
       btn.style.background = ""; // החזרת צבע מקורי
       
-      document.getElementById('contactModal').style.display = 'block'; 
+      // ב. בדיקת מכסה יומית (הגנה מפני ספאם)
+      const now = new Date().toLocaleDateString();
+      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
+
+      // ג. הצגת המודאל וקביעת התוכן (טופס או הודעת חסימה)
+      modal.style.display = 'block'; 
+      successMsg.style.display = "none";
+
+      if (reportsToday.count >= MAX_DAILY_REPORTS) {
+        // אם המשתמש חסום - מסתירים את הטופס ומציגים הודעה מעורפלת
+        formContent.style.display = "none";
+        
+        // יצירת הודעת החסימה אם היא עדיין לא קיימת
+        let blockedMsg = document.getElementById('blockedMessage');
+        if (!blockedMsg) {
+          blockedMsg = document.createElement('div');
+          blockedMsg.id = 'blockedMessage';
+          blockedMsg.className = 'error-message-simple'; // העיצוב מה-CSS שהוספנו
+          blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
+          container.appendChild(blockedMsg);
+        } else {
+          blockedMsg.style.display = 'block';
+        }
+      } else {
+        // אם המשתמש לא חסום - מציגים את הטופס כרגיל
+        formContent.style.display = "block";
+        const blockedMsg = document.getElementById('blockedMessage');
+        if (blockedMsg) blockedMsg.style.display = 'none';
+      }
     }
+
+
+    // // 4. ניהול המודאל
+    // function openContactModal() { 
+    //   // איפוס מלא של הטופס בכל פתיחה
+    //   document.getElementById('feedbackContent').value = "";
+    //   document.getElementById('typeSpecific').checked = false;
+    //   document.getElementById('typeGeneral').checked = false;
+    //   document.getElementById('legalConsent').checked = false;
+    //   document.getElementById('charCount').innerText = "500";
+      
+    //   document.getElementById('feedbackFormContent').style.display = "block";
+    //   document.getElementById('successMessage').style.display = "none";
+      
+    //   const btn = document.getElementById('submitBtn');
+    //   btn.disabled = true;
+    //   btn.innerHTML = "שליחת תגובה";
+    //   btn.style.background = ""; // החזרת צבע מקורי
+      
+    //   document.getElementById('contactModal').style.display = 'block'; 
+    // }
 
     function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
 
@@ -743,21 +805,6 @@ input[type="radio"], input[type="checkbox"] {
       document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
     }
 
-// פונקציית עזר לזיהוי מכשיר מפורט (Samsung, Windows 11 וכו')
-    async function getDetailedDevice() {
-      let info = /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop";
-      try {
-        if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
-          const uaData = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
-          if (uaData.model) {
-            info = uaData.model + ' (OS: ' + uaData.platformVersion + ')';
-          }
-        }
-      } catch (e) { console.log("Device info failed"); }
-      return info;
-    }
-
-
 // 5. פונקציית שליחת המשוב המלאה
     async function sendFeedback() {
       // א. בדיקת מכסה יומית (הגנה מפני ספאם)
@@ -765,14 +812,6 @@ input[type="radio"], input[type="checkbox"] {
       let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
       if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
       
-      if (reportsToday.count >= MAX_DAILY_REPORTS) { 
-        // במקום alert, פשוט נשנה את הכפתור ונטרל אותו
-        btn.disabled = true;
-        btn.innerHTML = 'לא ניתן לשלוח משוב כעת';
-        btn.style.backgroundColor = '#ccc';
-        return; 
-      }
-
       const btn = document.getElementById('submitBtn');
       if (!btn) return;
 
@@ -792,12 +831,8 @@ input[type="radio"], input[type="checkbox"] {
       } catch (e) { console.log("Location fetch bypassed or failed"); }
 
       const ua = navigator.userAgent;
+      const isMobile = /Mobi|Android/i.test(ua);
       const res = window.screen.width + "x" + window.screen.height + " (VP: " + window.innerWidth + "x" + window.innerHeight + ")";
-      
-      // קריאה לזיהוי המכשיר המפורט
-      const detailedDevice = await getDetailedDevice();
-      
-      console.log("DEBUG - המכשיר שזוהה:", detailedDevice);
       
       const data = {
         topic: "שלחופה",
@@ -805,8 +840,7 @@ input[type="radio"], input[type="checkbox"] {
         type: document.getElementById('typeSpecific').checked ? 'specific' : 'general',
         location: cityLocation,
         browser: ua,
-        // כאן השדרוג: במקום הלוגיקה הישנה, משתמשים במידע המפורט
-        mobile: detailedDevice, 
+        mobile: isMobile ? "Mobile" : "Desktop", // פשוט וקל
         resolution: res
       };
 
