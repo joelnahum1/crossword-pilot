@@ -1,0 +1,711 @@
+<!-- Build ver ${BUILD_VERSION} -->
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מעקב פניות - מאגר פתרונות תשבצים</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+ 
+:root {
+  --font-main-title: 1.8rem;
+  --font-sub-title: 1.5rem;      
+  --font-def-title: 1.8rem;
+  --font-group-title: 1.4rem;
+  --font-letters-title: 1.1rem;
+  --font-heb-word: 1.2rem;
+  --font-niqqud: 1.2rem;
+  --font-en-word: 1.1rem;
+  --icon-size: 20px;
+  --bg-main: #f2f4f7;
+  --bg-white: #fff;
+  --text-dark: #202124;
+  --text-gray: #5f6368;
+  --max-page-width: 760px;
+  --link-blue: #1a73e8;
+
+   
+  --btn-bg-default: #d1fae5;     
+  --btn-bg-hover: #a7f3d0;       
+  --btn-bg-toggle: #fecaca;      
+  --btn-bg-disabled: #f1f3f4;    
+  --btn-text-color: #000000;
+  --btn-text-disabled: #5f6368;
+  --btn-border-color: #dadce0;
+  --btn-radius: 24px;            
+  --btn-transition: 0.2s ease;
+}
+
+ 
+.btn-generic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--btn-bg-default);
+  color: var(--btn-text-color);
+  padding: 8px 20px;
+  border-radius: var(--btn-radius);
+  border: 1px solid var(--btn-border-color);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all var(--btn-transition);
+  cursor: pointer;
+}
+
+.btn-generic:hover {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-2px);
+}
+
+ 
+* {
+  font-family: 'Heebo', sans-serif !important;
+}
+
+html, body {
+  margin: 0; padding: 0; width: 100%;
+  background: var(--bg-main);
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.page {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 1rem 1.2rem;
+  background: var(--bg-white);
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+
+ 
+ 
+.alphabet-nav {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 2px solid #007bff;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.alphabet-nav a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 5px 8px;
+  display: inline-block;
+  padding: 5px 8px;  
+  margin: 2px;
+}
+.alphabet-nav a:hover {
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+ 
+h2[id^="letter-"] {
+  scroll-margin-top: 80px; 
+}
+
+ 
+@media (max-width: 600px) {
+  h2[id^="letter-"] {
+    scroll-margin-top: 130px;  
+  }
+}
+ 
+.main-title { 
+  font-size: var(--font-main-title); 
+  font-weight: 800; 
+  margin: 15px 0 2px 0; 
+  text-align: center; 
+  color: var(--text-dark);
+  width: 100%;
+  display: block;
+}
+
+.sub-title { 
+  font-size: var(--font-sub-title); 
+  font-weight: 400; 
+  margin: 0 0 25px 0; 
+  text-align: center; 
+  color: var(--text-gray); 
+  width: 100%;
+  display: block;
+}
+
+header {
+  background: var(--bg-white);
+  border-bottom: 1px solid #e6e6e6;
+  width: 100%;
+}
+
+
+ 
+.intro-text {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin-bottom: 1rem;  
+  margin-top: 0.5rem;
+}
+
+
+ 
+.definition-header-box {
+  background-color: #f1f3f4;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dadce0;
+}
+
+.definition-title {
+  color: var(--link-blue);
+  font-size: var(--font-def-title);
+  font-weight: 800;
+  margin: 0;
+}
+
+.enrichment-row {
+  margin: 0 !important; 
+  padding: 2px 0 !important;
+  border-bottom: none !important;
+}
+
+.solution-count {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-top: none;
+  border-top: none;
+  padding-top: 4px;
+  margin-bottom: 10px;
+}
+
+ 
+.sort-container {
+  text-align: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.sort-toggle-btn {
+  background-color: var(--btn-bg-default);  
+  color: var(--btn-text-color) !important;
+  border: 1px solid var(--btn-border-color);
+  padding: 10px 25px;
+  border-radius: var(--btn-radius);
+  font-weight: 700;
+  cursor: pointer;
+  display: block;
+  margin: 15px auto;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+ 
+.sort-toggle-btn:hover {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-2px);
+}
+
+ 
+.sort-toggle-btn.active {
+  background-color: var(--btn-bg-toggle) !important;
+}
+
+ 
+.sort-toggle-btn.active:hover {
+  background-color: #fca5a5 !important; 
+}
+
+ 
+.group-title {
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-group-title);
+  background: #f1f6fc;
+  border-right: 6px solid var(--btn-bg-toggle); 
+  border-radius: 4px 8px 8px 4px;
+}
+
+.letters-title {
+  margin: 1rem 0 0.2rem;
+  padding: 0.2rem 0.8rem;
+  font-size: var(--font-letters-title);
+  background: #fff4cc;
+  border-right: 4px solid #f0c94a;
+  border-radius: 4px 8px 8px 4px;   
+  display: inline-block;
+}
+
+
+ 
+.solution-item {
+  display: flex;
+  align-items: center;
+  padding: 0.15rem 0;  
+  border-bottom: 1px solid #f1f3f4;
+  gap: 6px;  
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+
+.heb {
+  font-size: var(--font-heb-word);
+  font-weight: 800;
+  color: var(--link-blue);
+  text-decoration: underline;
+  margin-left: 0.8rem !important;
+  display: inline-block;
+}
+
+.niqqud {
+  font-size: var(--font-niqqud);
+  font-weight: 650;
+  color: #333;
+}
+
+.en {
+  font-size: var(--font-en-word);
+  color: var(--link-blue);
+  text-decoration: underline;
+}
+
+.icon-group {
+  display: inline-flex !important;
+  gap: 4px !important;
+  align-items: center;
+  margin-right: 8px !important;
+}
+
+.icon {
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  vertical-align: middle;
+}
+
+
+ 
+.site-footer {
+  border-top: 1px solid #e5e5e5;
+  padding: 25px 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 50px;
+  font-family: 'Heebo', sans-serif !important;
+}
+
+.footer-copy {
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #1a73e8;  
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+
+ 
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0; width: 100%; height: 100%; 
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5vh auto;  
+  padding: 25px;
+  padding-bottom: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;  
+  overflow-y: auto;  
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+}
+
+ 
+.modal-content::-webkit-scrollbar {
+  width: 8px;  
+  display: block;  
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #888;  
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+ 
+.close-modal {
+  position: absolute;
+  left: 18px; 
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+}
+.close-modal:hover { color: #000; }
+
+ 
+.feedback-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;              
+  padding: 15px;                    
+  border: 1px solid #e0e0e0;        
+  border-right: 6px solid var(--link-blue);  
+  border-radius: 4px 8px 8px 4px;   
+  margin: 15px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);  
+}
+
+ 
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+textarea#feedbackContent {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  padding-bottom: 30px; 
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1rem;
+  resize: none;
+}
+
+.char-counter { 
+  position: absolute; 
+  left: 10px; 
+  bottom: 8px; 
+  font-size: 0.75rem; 
+  color: var(--text-gray); 
+}
+
+ 
+input[type="radio"], input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--link-blue);
+}
+
+ 
+.submit-btn {
+  background-color: var(--btn-bg-default); 
+  color: var(--btn-text-color);
+  border: 1px solid var(--btn-border-color);
+  padding: 12px 30px;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  width: auto;
+  min-width: 160px;
+  display: block;
+  margin: 25px auto;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all var(--btn-transition);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+}
+
+.submit-btn:disabled {
+  background-color: var(--btn-bg-disabled);
+  color: var(--btn-text-disabled);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+ 
+.success-text {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
+
+ 
+.success-link {
+  display: block;
+  text-align: center;
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.95rem;
+  color: var(--link-blue);
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.success-link:hover {
+  text-decoration: underline;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;  
+  height: 14px;
+   
+  border: 2px solid rgba(0, 0, 0, 0.1); 
+  border-left-color: currentColor; 
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;  
+  margin-left: 8px;
+  margin-right: 8px;  
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+ 
+.error-message-simple {
+  color: #d32f2f;  
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
+
+ 
+ 
+.feedback-container {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+ 
+@media (max-width: 600px) {
+  .header-text {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .ticket-header {
+    padding: 10px;
+  }
+}
+
+.controls { text-align: right; margin-bottom: 15px; }
+
+.toggle-all { 
+  background: none; border: none; 
+  font-size: 16px; cursor: pointer; 
+  color: #007bff;  
+  font-weight: bold;  
+  display: flex; align-items: center; padding: 0; font-family: 'Heebo';
+}
+
+.toggle-all:hover { text-decoration: underline; }
+
+.icon-square { 
+  width: 22px; height: 22px; 
+  flex-shrink: 0;  
+  background: var(--link-blue); 
+  color: #fff; 
+  display: flex; align-items: center; justify-content: center; 
+  border-radius: 4px; margin-left: 12px; 
+  font-size: 14px;  
+  transition: transform 0.3s ease;
+   
+  transform: rotate(-90deg); 
+}
+
+ 
+.ticket.open .icon-square { 
+  transform: rotate(-180deg); 
+}
+
+ 
+.user-content-wrapper {
+  white-space: pre-wrap;       
+  word-wrap: break-word;      
+  overflow-wrap: break-word;  
+  word-break: break-all;      
+  max-width: 100%;            
+}
+
+.ticket { 
+  background: #fff; 
+  border-radius: 8px; 
+  margin-bottom: 12px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  border-right: 10px solid;  
+  overflow: hidden; 
+}
+
+.ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
+
+.ticket-body { display: none; background: #ffffff; padding: 20px; line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.1); }
+
+.ticket.open .ticket-body { display: block; }
+
+.separator { height: 1px; background: #eee; margin: 15px 0; }
+
+.system-note { font-style: italic; color: #444; }
+
+ 
+
+.close-page-x {
+  position: absolute;
+  left: 18px; top: 15px;
+  font-size: 32px; font-weight: bold;
+  color: #aaa; cursor: pointer; line-height: 1;
+  transition: color 0.2s; z-index: 1000; text-decoration: none;
+}
+.close-page-x:hover { color: #000; }
+
+ 
+.suggestion-label {
+  color: #673ab7;  
+  font-weight: 800;
+}
+
+
+
+ 
+.about-container { max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem; }
+.about-section { margin-bottom: 25px; }
+
+</style>
+
+  <style>
+    .controls { text-align: right; margin-bottom: 15px; }
+    .toggle-all { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--link-blue); font-weight: bold; display: flex; align-items: center; padding: 0; outline: none; }
+    .icon-square { width: 22px; height: 22px; flex-shrink: 0; background: var(--link-blue); color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-left: 12px; font-size: 14px; transition: transform 0.3s ease; transform: rotate(-90deg); }
+    .toggle-all.active .icon-square, .ticket.open .icon-square { transform: rotate(-180deg); }
+    .close-page-x { position: absolute; left: 18px; top: 15px; font-size: 32px; font-weight: bold; color: #aaa; cursor: pointer; line-height: 1; text-decoration: none; }
+    .suggestion-label { color: #673ab7; font-weight: 800; }
+    .ticket { background: #fff; border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.1); border-right: 10px solid #bdc3c7; overflow: hidden; }
+    .ticket-header { padding: 12px; cursor: pointer; display: flex; align-items: center; font-weight: bold; }
+    .header-text { flex-grow: 1; font-size: 0.95rem; }
+    .ticket-body { display: none; padding: 20px; border-top: 1px solid rgba(0,0,0,0.1); line-height: 1.6; background: #fff; }
+    .ticket.open .ticket-body { display: block; }
+    .ticket.highlight { border: 2px solid #1a73e8 !important; box-shadow: 0 0 10px rgba(26,115,232,0.3); }
+    .system-response-section { padding: 12px; border-right: 4px solid var(--link-blue); background: #ebf5fb; color: var(--link-blue); margin-top: 15px; }
+  </style>
+</head>
+<body>
+  <div class="page" style="position: relative;">
+    <a href="index.html" class="close-page-x" title="סגור וחזור">&times;</a>
+    <header>
+      <div class="main-title">מאגר פתרונות תשבצים</div>
+      <div class="sub-title">מעקב פניות וסטטוסים</div>
+    </header>
+    <div class="controls">
+      <button id="mainToggleButton" class="toggle-all" onclick="toggleAll()">
+        <div class="icon-square">▲</div>
+        <span id="btnText">פתח הכל</span>
+      </button>
+    </div>
+    <div id="tickets-container">טוען נתונים... <span class="spinner"></span></div>
+    <footer style="text-align:center; margin-top: 40px; padding: 20px 0; border-top: 1px solid #eee; color: var(--text-gray); font-size: 0.9rem;">
+      © כל הזכויות שמורות • לשימוש אישי בלבד
+    </footer>
+  </div>
+  <script>
+    var webAppUrl = "https://script.google.com/macros/s/AKfycbysEkWEzWpC8H1SD1EJ-XRAdjy8W0QD-fQFozz71wgeBXgFsPI103QxkspvQCCFAsFS/exec";
+    var allOpen = false;
+    var urlParams = new URLSearchParams(window.location.search);
+    var targetId = urlParams.get("id");
+
+    async function loadTickets() {
+      var container = document.getElementById("tickets-container");
+      try {
+        var response = await fetch(webAppUrl);
+        var data = await response.json();
+        if (!data || data.length === 0) {
+          container.innerHTML = "<p>אין פניות להצגה.</p>";
+          return;
+        }
+        container.innerHTML = "";
+        data.forEach(function(ticket) {
+          var div = document.createElement("div");
+          div.className = "ticket";
+          div.id = "t-" + ticket.id;
+          div.style.borderRightColor = ticket.statusColor || "#bdc3c7";
+          
+          var displayTopic = (ticket.type === "general") ? "<span class='suggestion-label'>הצעה לשיפור</span>" : ticket.topic;
+          var bodyContent = "<div class='user-content-wrapper'>" + ticket.content + "</div>";
+          if (ticket.note) {
+            bodyContent += "<div class='system-response-section'><strong>תשובת המערכת:</strong><br>" + ticket.note + "</div>";
+          }
+          
+          div.innerHTML = "<div class='ticket-header' onclick='toggleTicket(this)'>" +
+                          "<div class='icon-square'>▲</div>" +
+                          "<div class='header-text'>#" + ticket.id + " | " + ticket.date + " | " + displayTopic + "<br>" +
+                          "<small style='color:#666; font-weight:normal;'><strong>" + ticket.statusLabel + "</strong></small></div></div>" +
+                          "<div class='ticket-body'>" + bodyContent + "</div>";
+          
+          container.appendChild(div);
+          if (targetId && ticket.id.toString() === targetId) {
+            div.classList.add("open");
+            div.classList.add("highlight");
+            setTimeout(function() { div.scrollIntoView({ behavior: "smooth", block: "center" }); }, 500);
+          }
+        });
+      } catch (e) { container.innerHTML = "שגיאה בטעינת הנתונים."; }
+    }
+
+    function toggleTicket(header) { header.parentElement.classList.toggle("open"); }
+    function toggleAll() {
+      allOpen = !allOpen;
+      document.querySelectorAll(".ticket").forEach(function(t) {
+        if (allOpen) t.classList.add("open"); else t.classList.remove("open");
+      });
+      document.getElementById("btnText").innerText = allOpen ? "סגור הכל" : "פתח הכל";
+    }
+    window.onload = loadTickets;
+  </script>
+</body>
+</html>
