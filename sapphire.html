@@ -644,14 +644,22 @@ input[type="radio"], input[type="checkbox"] {
             <span style="line-height: 1.4;">הצעה לשיפור כללי</span>
           </label>
         </div>
+
+        <div class="form-group">
+          <div class="textarea-wrapper">
+            <textarea id="feedbackContent" rows="4" maxlength="500" oninput="updateCharCount()" placeholder="כתבו כאן..."></textarea>
+            <div id="charCount" class="char-counter">500</div>
+          </div>
+        </div>
         
         <label class="legal-row" style="display:flex; align-items:flex-start; gap:10px; margin-top:16px; cursor:pointer;">
           <input type="checkbox" id="legalConsent" onclick="validateForm()" style="margin-top: 3px; flex-shrink: 0;">
           <span style="font-size: 0.8rem; color:#666; line-height:1.4;">שליחת תגובה מהווה הסכמה לאתר להשתמש בתוכן שנשלח ללא תמורה.</span>
         </label>
+
+        <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()">שליחת תגובה</button>
       </div>
     </div>
-  </div>
   </div>
   <script>
     // 1. הגדרות ומשתנים גלובליים
