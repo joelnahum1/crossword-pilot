@@ -1,0 +1,894 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="data:,"><title>צנתר - מאגר פתרונות תשבצים</title><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet"><style>
+ 
+:root {
+  --font-main-title: 1.8rem;
+  --font-sub-title: 1.5rem;      
+  --font-def-title: 1.8rem;
+  --font-group-title: 1.4rem;
+  --font-letters-title: 1.1rem;
+  --font-heb-word: 1.2rem;
+  --font-niqqud: 1.2rem;
+  --font-en-word: 1.1rem;
+  --icon-size: 20px;
+  --bg-main: #f2f4f7;
+  --bg-white: #fff;
+  --text-dark: #202124;
+  --text-gray: #5f6368;
+  --max-page-width: 760px;
+  --link-blue: #1a73e8;
+
+   
+  --btn-bg-default: #d1fae5;     
+  --btn-bg-hover: #a7f3d0;       
+  --btn-bg-toggle: #fecaca;      
+  --btn-bg-disabled: #f1f3f4;    
+  --btn-text-color: #000000;
+  --btn-text-disabled: #5f6368;
+  --btn-border-color: #dadce0;
+  --btn-radius: 24px;            
+  --btn-transition: 0.2s ease;
+}
+
+ 
+.btn-generic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--btn-bg-default);
+  color: var(--btn-text-color);
+  padding: 8px 20px;
+  border-radius: var(--btn-radius);
+  border: 1px solid var(--btn-border-color);
+  text-decoration: none;
+  font-weight: 700;
+  transition: all var(--btn-transition);
+  cursor: pointer;
+}
+
+.btn-generic:hover {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-2px);
+}
+
+ 
+* {
+  font-family: 'Heebo', sans-serif !important;
+}
+
+html, body {
+  margin: 0; padding: 0; width: 100%;
+  background: var(--bg-main);
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.page {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 1rem 1.2rem;
+  background: var(--bg-white);
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+
+ 
+ 
+.alphabet-nav {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 2px solid #007bff;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.alphabet-nav a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 5px 8px;
+  display: inline-block;
+  padding: 5px 8px;  
+  margin: 2px;
+}
+.alphabet-nav a:hover {
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+ 
+h2[id^="letter-"] {
+  scroll-margin-top: 80px; 
+}
+
+ 
+@media (max-width: 600px) {
+  h2[id^="letter-"] {
+    scroll-margin-top: 130px;  
+  }
+}
+ 
+.main-title { 
+  font-size: var(--font-main-title); 
+  font-weight: 800; 
+  margin: 15px 0 2px 0; 
+  text-align: center; 
+  color: var(--text-dark);
+  width: 100%;
+  display: block;
+}
+
+.sub-title { 
+  font-size: var(--font-sub-title); 
+  font-weight: 400; 
+  margin: 0 0 25px 0; 
+  text-align: center; 
+  color: var(--text-gray); 
+  width: 100%;
+  display: block;
+}
+
+header {
+  background: var(--bg-white);
+  border-bottom: 1px solid #e6e6e6;
+  width: 100%;
+}
+
+
+ 
+.intro-text {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin-bottom: 1rem;  
+  margin-top: 0.5rem;
+}
+
+
+ 
+.definition-header-box {
+  background-color: #f1f3f4;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dadce0;
+}
+
+.definition-title {
+  color: var(--link-blue);
+  font-size: var(--font-def-title);
+  font-weight: 800;
+  margin: 0;
+}
+
+.enrichment-row {
+  margin: 0 !important; 
+  padding: 2px 0 !important;
+  border-bottom: none !important;
+}
+
+.solution-count {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-top: none;
+  border-top: none;
+  padding-top: 4px;
+  margin-bottom: 10px;
+}
+
+ 
+.sort-container {
+  text-align: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.sort-toggle-btn {
+  background-color: var(--btn-bg-default);  
+  color: var(--btn-text-color) !important;
+  border: 1px solid var(--btn-border-color);
+  padding: 10px 25px;
+  border-radius: var(--btn-radius);
+  font-weight: 700;
+  cursor: pointer;
+  display: block;
+  margin: 15px auto;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+ 
+.sort-toggle-btn:hover {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-2px);
+}
+
+ 
+.sort-toggle-btn.active {
+  background-color: var(--btn-bg-toggle) !important;
+}
+
+ 
+.sort-toggle-btn.active:hover {
+  background-color: #fca5a5 !important; 
+}
+
+ 
+.group-title {
+  margin: 1.5rem 0 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-group-title);
+  background: #f1f6fc;
+  border-right: 6px solid var(--btn-bg-toggle); 
+  border-radius: 4px 8px 8px 4px;
+}
+
+.letters-title {
+  margin: 1rem 0 0.2rem;
+  padding: 0.2rem 0.8rem;
+  font-size: var(--font-letters-title);
+  background: #fff4cc;
+  border-right: 4px solid #f0c94a;
+  border-radius: 4px 8px 8px 4px;   
+  display: inline-block;
+}
+
+
+ 
+.solution-item {
+  display: flex;
+  align-items: center;
+  padding: 0.15rem 0;  
+  border-bottom: 1px solid #f1f3f4;
+  gap: 6px;  
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+
+.heb {
+  font-size: var(--font-heb-word);
+  font-weight: 800;
+  color: var(--link-blue);
+  text-decoration: underline;
+  margin-left: 0.8rem !important;
+  display: inline-block;
+}
+
+.niqqud {
+  font-size: var(--font-niqqud);
+  font-weight: 650;
+  color: #333;
+}
+
+.en {
+  font-size: var(--font-en-word);
+  color: var(--link-blue);
+  text-decoration: underline;
+}
+
+.icon-group {
+  display: inline-flex !important;
+  gap: 4px !important;
+  align-items: center;
+  margin-right: 8px !important;
+}
+
+.icon {
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  vertical-align: middle;
+}
+
+
+ 
+.site-footer {
+  border-top: 1px solid #e5e5e5;
+  padding: 25px 10px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 50px;
+  font-family: 'Heebo', sans-serif !important;
+}
+
+.footer-copy {
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #1a73e8;  
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+
+ 
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0; width: 100%; height: 100%; 
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5vh auto;  
+  padding: 25px;
+  padding-bottom: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;  
+  overflow-y: auto;  
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-sizing: border-box;
+}
+
+ 
+.modal-content::-webkit-scrollbar {
+  width: 8px;  
+  display: block;  
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #888;  
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+ 
+.close-modal {
+  position: absolute;
+  left: 18px; 
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+}
+.close-modal:hover { color: #000; }
+
+ 
+.feedback-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;              
+  padding: 15px;                    
+  border: 1px solid #e0e0e0;        
+  border-right: 6px solid var(--link-blue);  
+  border-radius: 4px 8px 8px 4px;   
+  margin: 15px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);  
+}
+
+ 
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+textarea#feedbackContent {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  padding-bottom: 30px; 
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1rem;
+  resize: none;
+}
+
+.char-counter { 
+  position: absolute; 
+  left: 10px; 
+  bottom: 8px; 
+  font-size: 0.75rem; 
+  color: var(--text-gray); 
+}
+
+ 
+input[type="radio"], input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--link-blue);
+}
+
+ 
+.submit-btn {
+  background-color: var(--btn-bg-default); 
+  color: var(--btn-text-color);
+  border: 1px solid var(--btn-border-color);
+  padding: 12px 30px;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  width: auto;
+  min-width: 160px;
+  display: block;
+  margin: 25px auto;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all var(--btn-transition);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--btn-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+}
+
+.submit-btn:disabled {
+  background-color: var(--btn-bg-disabled);
+  color: var(--btn-text-disabled);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+ 
+.success-text {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
+
+ 
+.success-link {
+  display: block;
+  text-align: center;
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.95rem;
+  color: var(--link-blue);
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.success-link:hover {
+  text-decoration: underline;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;  
+  height: 14px;
+   
+  border: 2px solid rgba(0, 0, 0, 0.1); 
+  border-left-color: currentColor; 
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;  
+  margin-left: 8px;
+  margin-right: 8px;  
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+ 
+.error-message-simple {
+  color: #d32f2f;  
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
+
+ 
+ 
+.feedback-container {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+ 
+@media (max-width: 600px) {
+  .header-text {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .ticket-header {
+    padding: 10px;
+  }
+}
+
+.controls { text-align: right; margin-bottom: 15px; }
+
+.toggle-all { 
+  background: none; border: none; 
+  font-size: 16px; cursor: pointer; 
+  color: #007bff;  
+  font-weight: bold;  
+  display: flex; align-items: center; padding: 0; font-family: 'Heebo';
+}
+
+.toggle-all:hover { text-decoration: underline; }
+
+.icon-square { 
+  width: 22px; height: 22px; 
+  flex-shrink: 0;  
+  background: var(--link-blue); 
+  color: #fff; 
+  display: flex; align-items: center; justify-content: center; 
+  border-radius: 4px; margin-left: 12px; 
+  font-size: 14px;  
+  transition: transform 0.3s ease;
+   
+  transform: rotate(-90deg); 
+}
+
+ 
+.ticket.open .icon-square { 
+  transform: rotate(-180deg); 
+}
+
+ 
+.user-content-wrapper {
+  white-space: pre-wrap;       
+  word-wrap: break-word;      
+  overflow-wrap: break-word;  
+  word-break: break-all;      
+  max-width: 100%;            
+}
+
+.ticket { 
+  background: #fff; 
+  border-radius: 8px; 
+  margin-bottom: 12px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  border-right: 10px solid;  
+  overflow: hidden; 
+}
+
+.ticket-header { padding: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
+
+.ticket-body { display: none; background: #ffffff; padding: 20px; line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.1); }
+
+.ticket.open .ticket-body { display: block; }
+
+.separator { height: 1px; background: #eee; margin: 15px 0; }
+
+.system-note { font-style: italic; color: #444; }
+
+ 
+
+.close-page-x {
+  position: absolute;
+  left: 18px; top: 15px;
+  font-size: 32px; font-weight: bold;
+  color: #aaa; cursor: pointer; line-height: 1;
+  transition: color 0.2s; z-index: 1000; text-decoration: none;
+}
+.close-page-x:hover { color: #000; }
+
+ 
+.suggestion-label {
+  color: #673ab7;  
+  font-weight: 800;
+}
+
+
+
+ 
+.about-container { max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem; }
+.about-section { margin-bottom: 25px; }
+
+</style>
+</head><body><div class="page" id="mainContainer" dir="rtl"><header id="siteHeader">  <div class="main-title">מאגר פתרונות תשבצים</div>  <div class="sub-title">צנתר</div></header><div class="intro-text" id="introSection">דף זה נוצר באופן אוטומטי באמצעות מערכת בינה מלאכותית (AI). הדף מספק פתרונות לתשבצים ומידע משלים להעשרת הידע כמו ניקוד, תרגום לאנגלית וקישורים למקורות רלוונטיים, אם נמצאו. בתחתית הדף ניתן לשלוח הערות והצעות לשיפור.</div><div class="definition-header-box" id="definitionBox">  <div style="font-size: 0.9rem; color: var(--text-gray); margin-bottom: 8px; font-weight: bold;">על ההגדרה:</div><div class="solution-item enrichment-row" id="enrichmentRow" style="border-bottom:none; padding:0; background:transparent;">  <a href="https://he.wikipedia.org/wiki/%D7%A6%D7%A0%D7%AA%D7%A8" target="_blank" class="heb">צנתר</a><span class="niqqud">צַנְתָּר</span>  <a href="https://en.wikipedia.org/wiki/Catheter" target="_blank" class="en">Catheter</a>  <div class="icon-group">    <a href="https://www.google.com/search?tbm=isch&q=%D7%A6%D7%A0%D7%AA%D7%A8" target="_blank">      <img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png" alt="תמונות" title="חפש תמונות">    </a>      </div></div></div><div class="solution-count">נמצאה תוצאה אחת</div><div class="sort-container" id="sortContainer">  <button id="sortToggle" class="sort-toggle-btn" onclick="this.blur(); toggleSortMode()">    מיין לפי מספר מילים ואותיות  </button></div><ul id="solutionList" class="solutions" style="list-style:none; padding:0; margin:0;"><li class="solution-item" data-words="1" data-letters="4">  <a href="https://he.wikipedia.org/wiki/%D7%A7%D7%AA%D7%98%D7%A8" target="_blank" class="heb">קתטר</a>  <a href="https://en.wikipedia.org/wiki/Catheter" target="_blank" class="en">Catheter</a>  <div class="icon-group">    <a href="https://www.google.com/search?tbm=isch&q=%D7%A7%D7%AA%D7%98%D7%A8" target="_blank">      <img class="icon" src="https://www.gstatic.com/images/branding/product/2x/photos_96dp.png" alt="תמונות" title="חפש תמונות">    </a>  </div></li></ul>
+  <footer class="site-footer">
+    <div class="footer-copy">© כל הזכויות שמורות • לשימוש אישי בלבד</div>
+    <nav class="footer-links">
+      <a href="javascript:void(0)" onclick="openContactModal()">שליחת הערות והצעות</a>
+      <a href="00_feedback.html">מעקב פניות וסטטוסים</a>
+      <a href="00_about.html">המערכת ואופן פעולתה</a>
+    </nav>
+  </footer>
+  <div id="contactModal" class="modal">
+    <div class="modal-content" id="modalContainer">
+      <span class="close-modal" onclick="closeContactModal()">&times;</span>
+      <div class="modal-header">
+        <div class="main-title">מאגר פתרונות תשבצים</div>
+        <div class="sub-title">הערות והצעות</div>
+      </div>
+      <div id="successMessage" style="display:none; text-align:center; margin-top:20px;">
+        <div class="success-text" style="font-weight:bold; color:#2e7d32; font-size:1.2em;">ההודעה נשלחה בהצלחה!</div>
+        <div id="ticketContainer" style="margin: 10px 0; font-size:1em; color:#555;">
+          מספר הפנייה שלך: <span id="ticketNumber" style="font-weight:bold; color:#1a73e8;">----</span>
+        </div>
+        <a href="00_feedback.html" id="trackingLink" class="success-link" style="display:inline-block; margin-top:10px; color:#1a73e8; text-decoration:underline;">למעקב פניות וסטטוסים</a>
+      </div>
+      <div id="feedbackFormContent">
+        <div class="feedback-options">
+          <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
+            <input type="radio" name="fbType" id="typeSpecific" onclick="validateForm()" style="margin-top: 4px; flex-shrink: 0;"> 
+            <span style="line-height: 1.4;">הערה על ההגדרה: <strong>צנתר</strong></span>
+          </label>
+          <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
+            <input type="radio" name="fbType" id="typeGeneral" onclick="validateForm()" style="margin-top: 4px; flex-shrink: 0;"> 
+            <span style="line-height: 1.4;">הצעה לשיפור כללי</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <div class="textarea-wrapper">
+            <textarea id="feedbackContent" rows="4" maxlength="500" oninput="updateCharCount()" placeholder="כתבו כאן..."></textarea>
+            <div id="charCount" class="char-counter">500</div>
+          </div>
+        </div>
+        
+        <label class="legal-row" style="display:flex; align-items:flex-start; gap:10px; margin-top:16px; cursor:pointer;">
+          <input type="checkbox" id="legalConsent" onclick="validateForm()" style="margin-top: 3px; flex-shrink: 0;">
+          <span style="font-size: 0.8rem; color:#666; line-height:1.4;">שליחת תגובה מהווה הסכמה לאתר להשתמש בתוכן שנשלח ללא תמורה.</span>
+        </label>
+
+        <button id="submitBtn" class="submit-btn" disabled onclick="sendFeedback()">שליחת תגובה</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 1. הגדרות ומשתנים גלובליים
+    var currentMode = 'letters';
+    var MAX_DAILY_REPORTS = 5;
+
+    // 2. טעינת העדפות מהזיכרון (מצב מיון)
+    try {
+      var saved = localStorage.getItem('sortMode');
+      if (saved) currentMode = saved;
+    } catch (e) { console.warn('LocalStorage access denied'); }
+
+    // 3. פונקציית רנדור ומיון הרשימה
+    function renderList() {
+      var list = document.getElementById('solutionList');
+      if (!list) return;
+      
+      var items = Array.from(list.getElementsByClassName('solution-item'));
+      var btn = document.getElementById('sortToggle');
+      if (!btn) return;
+
+      Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
+      Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
+
+      if (currentMode === 'letters') {
+        items.sort((a, b) => a.dataset.letters - b.dataset.letters);
+        btn.innerText = "מיין לפי מספר מילים ואותיות";
+        btn.classList.remove("active");
+        let lastL = 0;
+        items.forEach(item => {
+          let l = item.dataset.letters;
+          if (l !== lastL) {
+            const title = document.createElement('div');
+            title.className = 'letters-title';
+            title.innerText = l + " אותיות";
+            list.appendChild(title);
+            lastL = l;
+          }
+          list.appendChild(item);
+        });
+      } else {
+        items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
+        btn.innerText = "מיין לפי מספר אותיות בלבד";
+        btn.classList.add("active");
+        let lastW = 0, lastL = 0;
+        items.forEach(item => {
+          let w = item.dataset.words; let l = item.dataset.letters;
+          if (w !== lastW) {
+            const wTitle = document.createElement('div');
+            wTitle.className = 'group-title';
+            wTitle.innerText = w == 1 ? "מילה אחת" : w + " מילים";
+            list.appendChild(wTitle);
+            lastW = w; lastL = 0;
+          }
+          if (l !== lastL) {
+            const lTitle = document.createElement('div');
+            lTitle.className = 'letters-title';
+            lTitle.innerText = l + " אותיות";
+            list.appendChild(lTitle);
+            lastL = l;
+          }
+          list.appendChild(item);
+        });
+      }
+    }
+
+    function toggleSortMode() {
+      currentMode = (currentMode === 'letters') ? 'words' : 'letters';
+      localStorage.setItem('sortMode', currentMode);
+      renderList();
+    }
+
+    // 4. ניהול המודאל (מעודכן עם בדיקת חסימת ספאם)
+    function openContactModal() { 
+      const modal = document.getElementById('contactModal');
+      const formContent = document.getElementById('feedbackFormContent');
+      const successMsg = document.getElementById('successMessage');
+      const container = document.getElementById('modalContainer');
+      const btn = document.getElementById('submitBtn');
+
+      // א. איפוס מלא של הטופס בכל פתיחה
+      document.getElementById('feedbackContent').value = "";
+      document.getElementById('typeSpecific').checked = false;
+      document.getElementById('typeGeneral').checked = false;
+      document.getElementById('legalConsent').checked = false;
+      document.getElementById('charCount').innerText = "500";
+      
+      btn.disabled = true;
+      btn.innerHTML = "שליחת תגובה";
+      btn.style.background = ""; // החזרת צבע מקורי
+      
+      // ב. בדיקת מכסה יומית (הגנה מפני ספאם)
+      const now = new Date().toLocaleDateString();
+      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
+
+      // ג. הצגת המודאל וקביעת התוכן (טופס או הודעת חסימה)
+      modal.style.display = 'block'; 
+      successMsg.style.display = "none";
+
+      if (reportsToday.count >= MAX_DAILY_REPORTS) {
+        // אם המשתמש חסום - מסתירים את הטופס ומציגים הודעה מעורפלת
+        formContent.style.display = "none";
+        
+        // יצירת הודעת החסימה אם היא עדיין לא קיימת
+        let blockedMsg = document.getElementById('blockedMessage');
+        if (!blockedMsg) {
+          blockedMsg = document.createElement('div');
+          blockedMsg.id = 'blockedMessage';
+          blockedMsg.className = 'error-message-simple'; // העיצוב מה-CSS שהוספנו
+          blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
+          container.appendChild(blockedMsg);
+        } else {
+          blockedMsg.style.display = 'block';
+        }
+      } else {
+        // אם המשתמש לא חסום - מציגים את הטופס כרגיל
+        formContent.style.display = "block";
+        const blockedMsg = document.getElementById('blockedMessage');
+        if (blockedMsg) blockedMsg.style.display = 'none';
+      }
+    }
+
+
+    // // 4. ניהול המודאל
+    // function openContactModal() { 
+    //   // איפוס מלא של הטופס בכל פתיחה
+    //   document.getElementById('feedbackContent').value = "";
+    //   document.getElementById('typeSpecific').checked = false;
+    //   document.getElementById('typeGeneral').checked = false;
+    //   document.getElementById('legalConsent').checked = false;
+    //   document.getElementById('charCount').innerText = "500";
+      
+    //   document.getElementById('feedbackFormContent').style.display = "block";
+    //   document.getElementById('successMessage').style.display = "none";
+      
+    //   const btn = document.getElementById('submitBtn');
+    //   btn.disabled = true;
+    //   btn.innerHTML = "שליחת תגובה";
+    //   btn.style.background = ""; // החזרת צבע מקורי
+      
+    //   document.getElementById('contactModal').style.display = 'block'; 
+    // }
+
+    function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
+
+    function updateCharCount() {
+      const textarea = document.getElementById('feedbackContent');
+      document.getElementById('charCount').innerText = 500 - textarea.value.length;
+      validateForm();
+    }
+
+    function validateForm() {
+      const isTypeSelected = document.getElementById('typeSpecific').checked || document.getElementById('typeGeneral').checked;
+      const isLegalChecked = document.getElementById('legalConsent').checked;
+      const hasContent = document.getElementById('feedbackContent').value.trim().length > 0;
+      document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
+    }
+
+// 5. פונקציית שליחת המשוב המלאה
+    async function sendFeedback() {
+      // א. בדיקת מכסה יומית (הגנה מפני ספאם)
+      const now = new Date().toLocaleDateString();
+      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
+      
+      const btn = document.getElementById('submitBtn');
+      if (!btn) return;
+
+      // ב. הפעלת ספינר ונעילת כפתור מידית
+      btn.disabled = true;
+      btn.innerHTML = 'שולח... <span class="spinner"></span>';
+
+      // ג. איסוף מטא-דאטה (מיקום, דפדפן, רזולוציה, ומכשיר מפורט)
+      let cityLocation = "Unknown";
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const locRes = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+        const locData = await locRes.json();
+        cityLocation = locData.city + ", " + locData.country_name;
+        clearTimeout(timeoutId);
+      } catch (e) { console.log("Location fetch bypassed or failed"); }
+
+      const ua = navigator.userAgent;
+      const isMobile = /Mobi|Android/i.test(ua);
+      const res = window.screen.width + "x" + window.screen.height + " (VP: " + window.innerWidth + "x" + window.innerHeight + ")";
+      
+      const data = {
+        topic: "צנתר",
+        content: document.getElementById('feedbackContent').value,
+        type: document.getElementById('typeSpecific').checked ? 'specific' : 'general',
+        location: cityLocation,
+        browser: ua,
+        mobile: isMobile ? "Mobile" : "Desktop", // פשוט וקל
+        resolution: res
+      };
+
+      // ד. שליחה לשרת (CORS Mode)
+      try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbzJALi1q6xP3pEMmyEU94w8r-6ENKR0jePl_ZGONKANHWIwcptsCxMUX5yZw-7H5XZ5/exec', {
+          method: 'POST',
+          mode: 'cors',
+          body: JSON.stringify(data)
+        });
+        
+        const resData = await response.json();
+
+        // ה. עדכון הצלחה בזיכרון ובממשק
+        reportsToday.count++;
+        localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+
+        document.getElementById('feedbackFormContent').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+
+        if (resData.serial) {
+          document.getElementById('ticketNumber').innerText = resData.serial;
+          const link = document.querySelector(".success-link");
+          // עדכון הקישור עם ה-ID כדי שיפתח אוטומטית בלוח
+          if (link) link.href = "00_feedback.html?id=" + resData.serial;
+        }
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        document.getElementById('feedbackFormContent').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('ticketNumber').innerText = "נשלח";
+      }
+    }
+
+    window.onload = renderList;
+  </script></body></html>
