@@ -764,12 +764,29 @@ input[type="radio"], input[type="checkbox"] {
         // אם המשתמש חסום - מסתירים את הטופס ומציגים הודעה מעורפלת
         formContent.style.display = "none";
         
+        // --- שליחת מייל התראה על חסימה ---
+        if (!reportsToday.blockedReported) {
+          const userData = {
+            mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+            browser: navigator.userAgent,
+            resolution: window.screen.width + "x" + window.screen.height
+          };
+          
+          // דיווח לשרת על החסימה
+          google.script.run.reportBlockedUser(userData);
+          
+          // עדכון ה-localStorage כדי לא לשלוח מייל שוב באותו יום
+          reportsToday.blockedReported = true;
+          localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+        }
+        // ------------------------------------------------
+
         // יצירת הודעת החסימה אם היא עדיין לא קיימת
         let blockedMsg = document.getElementById('blockedMessage');
         if (!blockedMsg) {
           blockedMsg = document.createElement('div');
           blockedMsg.id = 'blockedMessage';
-          blockedMsg.className = 'error-message-simple'; // העיצוב מה-CSS שהוספנו
+          blockedMsg.className = 'error-message-simple'; 
           blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
           container.appendChild(blockedMsg);
         } else {
