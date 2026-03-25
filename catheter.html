@@ -187,25 +187,27 @@ header {
 
  
 .sort-options-box {
-  display: flex;
+  display: inline-flex;     
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;                 
   background: #ffffff;
-  padding: 12px 15px;
+  padding: 8px 12px;        
   border: 1px solid #e0e0e0;
-  border-right: 6px solid var(--link-blue);  
+  border-right: 6px solid var(--link-blue);
   border-radius: 4px 8px 8px 4px;
-  margin: 5px auto 20px;  
-  max-width: 500px;
+  margin: 10px 0 20px 0;    
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   text-align: right;
+  float: right;             
+  clear: both;              
 }
 
 .sort-option-item {
   display: flex;
-  align-items: center;
+  align-items: top;
   cursor: pointer;
   padding: 5px;
+  padding: 2px 0;           
   border-radius: 4px;
   transition: background 0.2s;
 }
@@ -236,6 +238,8 @@ header {
   background: #f1f6fc;
   border-right: 6px solid var(--btn-bg-toggle); 
   border-radius: 4px 8px 8px 4px;
+  display: block !important;  
+  clear: both;
 }
 
 .letters-title {
@@ -246,6 +250,8 @@ header {
   border-right: 4px solid #f0c94a;
   border-radius: 4px 8px 8px 4px;   
   display: inline-block;
+  display: block !important;  
+  clear: both;
 }
 
 
@@ -688,6 +694,10 @@ input[type="radio"], input[type="checkbox"] {
       var list = document.getElementById('solutionList');
       if (!list) return;
       
+      // מוודא שהכפתור ב-UI תואם למשתנה currentMode בכל רינדור
+      var radio = document.getElementById('sort-' + currentMode);
+      if (radio) radio.checked = true;
+
       var items = Array.from(list.getElementsByClassName('solution-item'));
 
       // הסרת כותרות קיימות
