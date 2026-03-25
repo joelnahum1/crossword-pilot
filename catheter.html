@@ -231,6 +231,7 @@ header {
 }
 
  
+ 
 .group-title {
   margin: 1.5rem 0 0.5rem;
   padding: 0.5rem 1rem;
@@ -238,20 +239,27 @@ header {
   background: #f1f6fc;
   border-right: 6px solid var(--btn-bg-toggle); 
   border-radius: 4px 8px 8px 4px;
-  display: block !important;  
+  display: block !important;     
+  width: auto;                   
   clear: both;
 }
 
+ 
 .letters-title {
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 0.2rem auto;    
   padding: 0.2rem 0.8rem;
   font-size: var(--font-letters-title);
   background: #fff4cc;
   border-right: 4px solid #f0c94a;
-  border-radius: 4px 8px 8px 4px;   
-  display: inline-block;
-  display: block !important;  
+  border-radius: 4px 8px 8px 4px;
+  display: table !important;     
   clear: both;
+}
+
+ 
+#solutionList {
+  clear: both;
+  padding-top: 5px;
 }
 
  
@@ -688,14 +696,20 @@ input[type="radio"], input[type="checkbox"] {
       if (saved) currentMode = saved;
     } catch (e) { console.warn('LocalStorage access denied'); }
 
+    
     // 3. פונקציית רנדור ומיון הרשימה (מעודכנת ללא כפתור)
     function renderList() {
       var list = document.getElementById('solutionList');
       if (!list) return;
       
-      // מוודא שהכפתור ב-UI תואם למשתנה currentMode בכל רינדור
-      var radio = document.getElementById('sort-' + currentMode);
-      if (radio) radio.checked = true;
+      // בדיקה אחרונה מהזיכרון לפני שמתחילים לרנדר
+      var savedMode = localStorage.getItem('sortMode');
+      if (savedMode) {
+          currentMode = savedMode;
+          // עדכון ויזואלי של הרדיו-בטון שיהיה תואם
+          var radio = document.getElementById('sort-' + savedMode);
+          if (radio) radio.checked = true;
+      }
 
       var items = Array.from(list.getElementsByClassName('solution-item'));
 
