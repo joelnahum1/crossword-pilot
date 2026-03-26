@@ -790,9 +790,43 @@ input[type="radio"], input[type="checkbox"] {
     function openContactModal() { 
       const modal = document.getElementById('contactModal');
       const formContent = document.getElementById('feedbackFormContent');
-      const successMsg = document.getElementById('successMessage');
       const container = document.getElementById('modalContainer');
+
+      // --- שלב חדש: בדיקה מול שומר הסף בשרת ---
+      // אנחנו קוראים לפונקציה שתבדוק אם המערכת נעולה (PING)
+      google.script.run.withSuccessHandler(function(response) {
+        if (response.success === false && response.errorType === "SYSTEM_LOCKED") {
+          // אם המערכת כולה נעולה - נציג הודעת שגיאה במקום הטופס
+          showSystemLockedMessage(container, formContent);
+          modal.style.display = 'block';
+          return; 
+        }
+        
+        // אם הכל תקין - נמשיך ללוגיקה המקורית של פתיחת הטופס
+        continueOpeningModal();
+        
+      }).apiGatekeeper('PING'); 
+    }
+
+    function showGenericBlockedMessage(container, formContent) {
+      formContent.style.display = "none";
+      let blockedMsg = document.getElementById('blockedMessage');
+      if (!blockedMsg) {
+        blockedMsg = document.createElement('div');
+        blockedMsg.id = 'blockedMessage';
+        blockedMsg.className = 'error-message-simple';
+        container.appendChild(blockedMsg);
+      }
+      // ההודעה המקורית והמעורפלת שלך:
+      blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
+      blockedMsg.style.display = 'block';
+    }
+
+    // מעבירים את כל שאר הקוד המקורי שלך לפונקציה הזו
+    function continueOpeningModal() {
+      const successMsg = document.getElementById('successMessage');
       const btn = document.getElementById('submitBtn');
+      const formContent = document.getElementById('feedbackFormContent');
 
       // א. איפוס מלא של הטופס בכל פתיחה
       document.getElementById('feedbackContent').value = "";
@@ -853,7 +887,6 @@ input[type="radio"], input[type="checkbox"] {
         if (blockedMsg) blockedMsg.style.display = 'none';
       }
     }
-
 
     // // 4. ניהול המודאל
     // function openContactModal() { 
