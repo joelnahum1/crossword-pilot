@@ -785,31 +785,58 @@ input[type="radio"], input[type="checkbox"] {
       renderList();
     }
 
-
-    // 4. ניהול המודאל (מעודכן עם בדיקת חסימת ספאם)
-    function openContactModal() { 
+    // ************** MODAL *******************/
+    // ************** MODAL *******************/
+    // ************** MODAL *******************/
+    // 1. הפונקציה הראשית שמופעלת בלחיצה
+    function openContactModal() {
       const modal = document.getElementById('contactModal');
       const formContent = document.getElementById('feedbackFormContent');
       const container = document.getElementById('modalContainer');
 
-      // --- שלב חדש: בדיקה מול שומר הסף בשרת ---
-      // אנחנו קוראים לפונקציה שתבדוק אם המערכת נעולה (PING)
-      google.script.run.withSuccessHandler(function(response) {
-        if (response.success === false && response.errorType === "SYSTEM_LOCKED") {
-          // אם המערכת כולה נעולה - נציג הודעת שגיאה במקום הטופס
-          showSystemLockedMessage(container, formContent);
-          modal.style.display = 'block';
-          return; 
+      // הצגת הודעת "טוען..." קטנה או שינוי הסמן (אופציונלי)
+      document.body.style.cursor = 'wait';
+
+      checkIfBlocked(function(isBlocked) {
+        document.body.style.cursor = 'default';
+        
+        if (isBlocked) {
+          showBlockedUI(container, formContent);
+        } else {
+          setupAndShowRegularModal(formContent);
         }
-        
-        // אם הכל תקין - נמשיך ללוגיקה המקורית של פתיחת הטופס
-        continueOpeningModal();
-        
-      }).apiGatekeeper('PING'); 
+        modal.style.display = 'block';
+      });
+    }
+    
+    // 2. לוגיקת הבדיקה המשולבת
+    function checkIfBlocked(callback) {
+      // א. בדיקה מקומית (LocalStorage) - מהירה מאוד
+      const now = new Date().toLocaleDateString();
+      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
+
+      if (reportsToday.count >= 5) { // סף מקומי
+        return callback(true);
+      }
+
+      // ב. בדיקת שרת (Gatekeeper)
+      google.script.run
+        .withSuccessHandler(function(response) {
+          // אם התקבלה תשובה שהמערכת נעולה
+          const isSystemLocked = (response && response.success === false && response.errorType === "SYSTEM_LOCKED");
+          callback(isSystemLocked);
+        })
+        .withFailureHandler(function(err) {
+          console.error("Gatekeeper failed:", err);
+          callback(false); // במקרה של תקלת תקשורת - נאפשר כניסה (ליברלי)
+        })
+        .apiGatekeeper('PING');
     }
 
-    function showGenericBlockedMessage(container, formContent) {
-      formContent.style.display = "none";
+    // 3. תצוגת חסימה
+    function showBlockedUI(container, formContent) {
+      if (formContent) formContent.style.display = "none";
       let blockedMsg = document.getElementById('blockedMessage');
       if (!blockedMsg) {
         blockedMsg = document.createElement('div');
@@ -817,16 +844,20 @@ input[type="radio"], input[type="checkbox"] {
         blockedMsg.className = 'error-message-simple';
         container.appendChild(blockedMsg);
       }
-      // ההודעה המקורית והמעורפלת שלך:
       blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
       blockedMsg.style.display = 'block';
     }
 
-    // מעבירים את כל שאר הקוד המקורי שלך לפונקציה הזו
-    function continueOpeningModal() {
+    // 4. תצוגת טופס רגיל
+    function setupAndShowRegularModal(formContent) {
+      if (!formContent) return;
       const successMsg = document.getElementById('successMessage');
+      const blockedMsg = document.getElementById('blockedMessage');
       const btn = document.getElementById('submitBtn');
-      const formContent = document.getElementById('feedbackFormContent');
+      
+      if (blockedMsg) blockedMsg.style.display = 'none';
+      if (successMsg) successMsg.style.display = "none";
+      formContent.style.display = "block";
 
       // א. איפוס מלא של הטופס בכל פתיחה
       document.getElementById('feedbackContent').value = "";
@@ -887,26 +918,6 @@ input[type="radio"], input[type="checkbox"] {
         if (blockedMsg) blockedMsg.style.display = 'none';
       }
     }
-
-    // // 4. ניהול המודאל
-    // function openContactModal() { 
-    //   // איפוס מלא של הטופס בכל פתיחה
-    //   document.getElementById('feedbackContent').value = "";
-    //   document.getElementById('typeSpecific').checked = false;
-    //   document.getElementById('typeGeneral').checked = false;
-    //   document.getElementById('legalConsent').checked = false;
-    //   document.getElementById('charCount').innerText = "500";
-      
-    //   document.getElementById('feedbackFormContent').style.display = "block";
-    //   document.getElementById('successMessage').style.display = "none";
-      
-    //   const btn = document.getElementById('submitBtn');
-    //   btn.disabled = true;
-    //   btn.innerHTML = "שליחת תגובה";
-    //   btn.style.background = ""; // החזרת צבע מקורי
-      
-    //   document.getElementById('contactModal').style.display = 'block'; 
-    // }
 
     function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
 
