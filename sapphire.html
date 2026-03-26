@@ -788,7 +788,7 @@ input[type="radio"], input[type="checkbox"] {
     // ************** MODAL *******************/
     // ************** MODAL *******************/
     // ************** MODAL *******************/
-    // 1. הפונקציה הראשית שמופעלת בלחיצה
+    // 1. בלחיצה על - שליחת הערות והצעות
     function openContactModal() {
       const modal = document.getElementById('contactModal');
       const formContent = document.getElementById('feedbackFormContent');
@@ -809,32 +809,38 @@ input[type="radio"], input[type="checkbox"] {
       });
     }
     
-    // 2. לוגיקת הבדיקה המשולבת
+    // 2. בדיקה אם המשתמש חסום או המערכת נחסמה
     function checkIfBlocked(callback) {
-      // א. בדיקה מקומית (LocalStorage) - מהירה מאוד
+      // 1. בדיקה מקומית (LocalStorage) - תמיד רצה
       const now = new Date().toLocaleDateString();
       let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
       if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
 
-      if (reportsToday.count >= 5) { // סף מקומי
+      if (reportsToday.count >= 5) {
         return callback(true);
       }
 
-      // ב. בדיקת שרת (Gatekeeper)
-      google.script.run
-        .withSuccessHandler(function(response) {
-          // אם התקבלה תשובה שהמערכת נעולה
-          const isSystemLocked = (response && response.success === false && response.errorType === "SYSTEM_LOCKED");
-          callback(isSystemLocked);
-        })
-        .withFailureHandler(function(err) {
-          console.error("Gatekeeper failed:", err);
-          callback(false); // במקרה של תקלת תקשורת - נאפשר כניסה (ליברלי)
-        })
-        .apiGatekeeper('PING');
+      // 2. בדיקה אם אנחנו בסביבת Google Apps Script
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        // אנחנו בתוך גוגל - מריצים בדיקת שרת
+        google.script.run
+          .withSuccessHandler(function(response) {
+            const isSystemLocked = (response && response.success === false && response.errorType === "SYSTEM_LOCKED");
+            callback(isSystemLocked);
+          })
+          .withFailureHandler(function(err) {
+            console.warn("Gatekeeper communication error:", err);
+            callback(false); 
+          })
+          .apiGatekeeper('PING');
+      } else {
+        // אנחנו ב-GitHub או בסביבה חיצונית - אי אפשר לבדוק שרת
+        console.log("Not in Google environment. Skipping server-side check.");
+        callback(false); // מאפשרים כניסה כי אי אפשר לאמת חסימה
+      }
     }
 
-    // 3. תצוגת חסימה
+    // 3. מציגים למשתמש שהמערכת בתחזוקה כרגע
     function showBlockedUI(container, formContent) {
       if (formContent) formContent.style.display = "none";
       let blockedMsg = document.getElementById('blockedMessage');
@@ -848,7 +854,7 @@ input[type="radio"], input[type="checkbox"] {
       blockedMsg.style.display = 'block';
     }
 
-    // 4. תצוגת טופס רגיל
+    // 4. הכל תקין, פותחים טופס למשתמש
     function setupAndShowRegularModal(formContent) {
       if (!formContent) return;
       const successMsg = document.getElementById('successMessage');
