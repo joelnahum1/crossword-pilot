@@ -696,338 +696,234 @@ input[type="radio"], input[type="checkbox"] {
       </div>
     </div>
   </div>
-  <script>
+<script>
     // 1. הגדרות ומשתנים גלובליים
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz_APr8Xwd90BAIchrjsGbEC50jT27n1_iIIgLf52UkhPx2PrbRdQmGgaqjOetE6Um5/exec";  // Deployment URL 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwbQH9dfBh5iF23GWfpEvtKOOkmSvbDXDCTkxOP8VZ6-SBylzrLHFW5tpogJGoy0Abt/exec"; // Deployment URL
+    const GH_ISSUES_URL = "https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open"; // Where to check the issue in GitHub
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
 
     // 2. טעינת העדפות מהזיכרון
     try {
-      var saved = localStorage.getItem('sortMode');
-      if (saved) currentMode = saved;
+        var saved = localStorage.getItem('sortMode');
+        if (saved) currentMode = saved;
     } catch (e) { console.warn('LocalStorage access denied'); }
 
-    
-    // 3. פונקציית רנדור ומיון הרשימה (מעודכנת ללא כפתור)
+    // --- פונקציות רנדור ומיון (נשארו ללא שינוי לוגי) ---
     function renderList() {
-      var list = document.getElementById('solutionList');
-      if (!list) return;
-      
-      // בדיקה אחרונה מהזיכרון לפני שמתחילים לרנדר
-      var savedMode = localStorage.getItem('sortMode');
-      if (savedMode) {
-          currentMode = savedMode;
-          // עדכון ויזואלי של הרדיו-בטון שיהיה תואם
-          var radio = document.getElementById('sort-' + savedMode);
-          if (radio) radio.checked = true;
-      }
+        var list = document.getElementById('solutionList');
+        if (!list) return;
+        var savedMode = localStorage.getItem('sortMode');
+        if (savedMode) {
+            currentMode = savedMode;
+            var radio = document.getElementById('sort-' + savedMode);
+            if (radio) radio.checked = true;
+        }
+        var items = Array.from(list.getElementsByClassName('solution-item'));
+        Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
+        Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
 
-      var items = Array.from(list.getElementsByClassName('solution-item'));
-
-      // הסרת כותרות קיימות
-      Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
-      Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
-
-      if (currentMode === 'letters') {
-        items.sort((a, b) => a.dataset.letters - b.dataset.letters);
-        
-        let lastL = 0;
-        items.forEach(item => {
-          let l = item.dataset.letters;
-          if (l !== lastL) {
-            const title = document.createElement('div');
-            title.className = 'letters-title';
-            title.innerText = l + " אותיות";
-            list.appendChild(title);
-            lastL = l;
-          }
-          list.appendChild(item);
-        });
-      } else {
-        // מיון לפי מילים ואז אותיות
-        items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
-        
-        let lastW = 0, lastL = 0;
-        items.forEach(item => {
-          let w = item.dataset.words; 
-          let l = item.dataset.letters;
-          
-          if (w !== lastW) {
-            const wTitle = document.createElement('div');
-            wTitle.className = 'group-title';
-            wTitle.innerText = (w == 1) ? "מילה אחת" : w + " מילים";
-            list.appendChild(wTitle);
-            lastW = w; 
-            lastL = 0; // איפוס מונה אותיות כשמתחלפת קבוצת מילים
-          }
-          
-          if (l !== lastL) {
-            const lTitle = document.createElement('div');
-            lTitle.className = 'letters-title';
-            lTitle.innerText = l + " אותיות";
-            list.appendChild(lTitle);
-            lastL = l;
-          }
-          list.appendChild(item);
-        });
-      }
-      // נסתיר את רשימת הפתרונות ב
-      // CSS
-      // כברירת מחדל, ונגלה אותה רק אחרי שהפונקציה סיימה לעבוד
-      // זה יבטיח שהמשתמש רואה רק את התוצאה המוגמרת והמסודרת
-      list.style.visibility = 'visible';
+        if (currentMode === 'letters') {
+            items.sort((a, b) => a.dataset.letters - b.dataset.letters);
+            let lastL = 0;
+            items.forEach(item => {
+                let l = item.dataset.letters;
+                if (l !== lastL) {
+                    const title = document.createElement('div');
+                    title.className = 'letters-title';
+                    title.innerText = l + " אותיות";
+                    list.appendChild(title);
+                    lastL = l;
+                }
+                list.appendChild(item);
+            });
+        } else {
+            items.sort((a, b) => a.dataset.words - b.dataset.words || a.dataset.letters - b.dataset.letters);
+            let lastW = 0, lastL = 0;
+            items.forEach(item => {
+                let w = item.dataset.words; 
+                let l = item.dataset.letters;
+                if (w !== lastW) {
+                    const wTitle = document.createElement('div');
+                    wTitle.className = 'group-title';
+                    wTitle.innerText = (w == 1) ? "מילה אחת" : w + " מילים";
+                    list.appendChild(wTitle);
+                    lastW = w; lastL = 0;
+                }
+                if (l !== lastL) {
+                    const lTitle = document.createElement('div');
+                    lTitle.className = 'letters-title';
+                    lTitle.innerText = l + " אותיות";
+                    list.appendChild(lTitle);
+                    lastL = l;
+                }
+                list.appendChild(item);
+            });
+        }
+        list.style.visibility = 'visible';
     }
 
-    // פונקציית בחירת מצב מיון חדשה
     function setSortMode(newMode) {
-      currentMode = newMode;
-      localStorage.setItem('sortMode', currentMode);
-      renderList();
+        currentMode = newMode;
+        localStorage.setItem('sortMode', currentMode);
+        renderList();
     }
 
-    // ************** MODAL *******************/
-    // ************** MODAL *******************/
-    // ************** MODAL *******************/
-    // 1. בלחיצה על - שליחת הערות והצעות
+    // ************** MODAL LOGIC *******************/
+
+    // 1. פתיחת מודאל - שלב הבדיקה המהירה
     function openContactModal() {
-      const modal = document.getElementById('contactModal');
-      const formContent = document.getElementById('feedbackFormContent');
-      const container = document.getElementById('modalContainer');
+        const modal = document.getElementById('contactModal');
+        const formContent = document.getElementById('feedbackFormContent');
+        const container = document.getElementById('modalContainer');
 
-      // כאן אנחנו מפעילים את הבדיקה המהירה
-      checkIfBlocked(function(isBlocked) {
-        if (isBlocked) {
-          showBlockedUI(container, formContent);
-          if (modal) modal.style.display = 'block';
-        } else {
-          setupAndShowRegularModal(formContent, modal, container);
-        }
-      });
-    }
-
-    // 2. בדיקה אם המשתמש חסום (מקומי) או המערכת נחסמה (GitHub)
-    function checkIfBlocked(callback) {
-      // א. בדיקה מקומית (LocalStorage) - חסימת 5 הודעות ביום
-      const now = new Date().toLocaleDateString();
-      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
-      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
-
-      if (reportsToday.count >= MAX_DAILY_REPORTS) {
-        console.log("Blocked: Daily limit reached localy.");
-        return callback(true);
-      }
-
-      // ב. פנייה מהירה ל-GitHub Issues (במקום לגוגל סקריפט)
-      // החלף את 'USER/REPO' בשם המשתמש והמאגר שלך בגיטהאב
-      const githubIssuesUrl = "https://api.github.com/repos/USER/REPO/issues?state=open";
-
-      fetch(githubIssuesUrl)
-        .then(response => response.json())
-        .then(data => {
-          // אנחנו מחפשים האם קיים Issue פתוח שנקרא "SYSTEM_LOCKED"
-          const isLockedGlobal = data.some(issue => issue.title === "SYSTEM_LOCKED");
-          
-          if (isLockedGlobal) {
-            console.warn("המערכת נעולה גלובלית דרך GitHub Issues.");
-          }
-          
-          callback(isLockedGlobal);
-        })
-        .catch(err => {
-          // במקרה של תקלה בתקשורת מול גיטהאב (נדיר), נאפשר כניסה כדי לא לתקוע משתמשים
-          console.warn("GitHub API unreachable, allowing access:", err);
-          callback(false);
+        checkIfBlocked(function(isBlocked) {
+            if (isBlocked) {
+                showBlockedUI(container, formContent);
+                if (modal) modal.style.display = 'block';
+            } else {
+                setupAndShowRegularModal(formContent, modal, container);
+            }
         });
     }
 
+    // 2. בדיקת חסימה (GitHub + Local)
+    function checkIfBlocked(callback) {
+        const now = new Date().toLocaleDateString();
+        let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+        if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
 
+        if (reportsToday.count >= MAX_DAILY_REPORTS) {
+            return callback(true);
+        }
 
-    // 3. מציגים למשתמש שהמערכת בתחזוקה כרגע
+        // Check GitHub Issues (מהיר מאוד)
+        fetch(GH_ISSUES_URL)
+            .then(response => response.json())
+            .then(data => {
+                const isLockedGlobal = Array.isArray(data) && data.some(issue => issue.title === "SYSTEM_LOCKED");
+                callback(isLockedGlobal);
+            })
+            .catch(err => {
+                console.warn("GitHub unreachable, allowing access");
+                callback(false);
+            });
+    }
+
+    // 3. הצגת הודעת חסימה
     function showBlockedUI(container, formContent) {
-      if (formContent) formContent.style.display = "none";
-      let blockedMsg = document.getElementById('blockedMessage');
-      if (!blockedMsg) {
-        blockedMsg = document.createElement('div');
-        blockedMsg.id = 'blockedMessage';
-        blockedMsg.className = 'error-message-simple';
-        if (container) container.appendChild(blockedMsg);
-      }
-      blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
-      blockedMsg.style.display = 'block';
+        if (formContent) formContent.style.display = "none";
+        let blockedMsg = document.getElementById('blockedMessage');
+        if (!blockedMsg) {
+            blockedMsg = document.createElement('div');
+            blockedMsg.id = 'blockedMessage';
+            blockedMsg.className = 'error-message-simple';
+            if (container) container.appendChild(blockedMsg);
+        }
+        blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
+        blockedMsg.style.display = 'block';
     }
 
-    // 4. הכל תקין, פותחים טופס למשתמש
+    // 4. הכנת הטופס הרגיל
     function setupAndShowRegularModal(formContent, modal, container) {
-      if (!formContent) return;
-      const successMsg = document.getElementById('successMessage');
-      const blockedMsg = document.getElementById('blockedMessage');
-      const btn = document.getElementById('submitBtn');
-      
-      if (blockedMsg) blockedMsg.style.display = 'none';
-      if (successMsg) successMsg.style.display = "none";
-      formContent.style.display = "block";
-
-      // א. איפוס מלא של הטופס בכל פתיחה
-      document.getElementById('feedbackContent').value = "";
-      document.getElementById('typeSpecific').checked = false;
-      document.getElementById('typeGeneral').checked = false;
-      document.getElementById('legalConsent').checked = false;
-      document.getElementById('charCount').innerText = "500";
-      
-      btn.disabled = true;
-      btn.innerHTML = "שליחת תגובה";
-      btn.style.background = ""; // החזרת צבע מקורי
-      
-      // ב. בדיקת מכסה יומית (הגנה מפני ספאם)
-      const now = new Date().toLocaleDateString();
-      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
-      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
-
-      // ג. הצגת המודאל וקביעת התוכן (טופס או הודעת חסימה)
-      if (modal) modal.style.display = 'block'; 
-      if (successMsg) successMsg.style.display = "none";
-
-      if (reportsToday.count >= 5) { // החלפתי את המשתנה במספר 5 לביטחון
-        // אם המשתמש חסום - מסתירים את הטופס ומציגים הודעה מעורפלת
-        formContent.style.display = "none";
+        if (!formContent) return;
+        const successMsg = document.getElementById('successMessage');
+        const blockedMsg = document.getElementById('blockedMessage');
+        const btn = document.getElementById('submitBtn');
         
-        // --- שליחת מייל התראה על חסימה ---
-        if (!reportsToday.blockedReported) {
-          const userData = {
-            mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-            browser: navigator.userAgent,
-            resolution: window.screen.width + "x" + window.screen.height
-          };
-          
-          // דיווח לשרת על החסימה דרך שומר הסף (רק אם גוגל זמין)
-          if (typeof google !== 'undefined') {
-            google.script.run.apiGatekeeper('REPORT_BLOCKED', userData);
-          }
-          
-          reportsToday.blockedReported = true;
-          localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
-        }
-
-        let blockedMsgElement = document.getElementById('blockedMessage');
-        if (!blockedMsgElement) {
-          blockedMsgElement = document.createElement('div');
-          blockedMsgElement.id = 'blockedMessage';
-          blockedMsgElement.className = 'error-message-simple'; 
-          blockedMsgElement.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
-          if (container) container.appendChild(blockedMsgElement);
-        } else {
-          blockedMsgElement.style.display = 'block';
-        }
-      } else {
+        if (blockedMsg) blockedMsg.style.display = 'none';
+        if (successMsg) successMsg.style.display = "none";
         formContent.style.display = "block";
-        const blockedMsgElement = document.getElementById('blockedMessage');
-        if (blockedMsgElement) blockedMsgElement.style.display = 'none';
-      }
-    }
 
+        document.getElementById('feedbackContent').value = "";
+        document.getElementById('typeSpecific').checked = false;
+        document.getElementById('typeGeneral').checked = false;
+        document.getElementById('legalConsent').checked = false;
+        document.getElementById('charCount').innerText = "500";
+        
+        btn.disabled = true;
+        btn.innerHTML = "שליחת תגובה";
+        btn.style.background = ""; 
+        
+        if (modal) modal.style.display = 'block'; 
+    }
 
     function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
-
     function updateCharCount() {
-      const textarea = document.getElementById('feedbackContent');
-      document.getElementById('charCount').innerText = 500 - textarea.value.length;
-      validateForm();
+        const textarea = document.getElementById('feedbackContent');
+        document.getElementById('charCount').innerText = 500 - textarea.value.length;
+        validateForm();
     }
-
     function validateForm() {
-      const isTypeSelected = document.getElementById('typeSpecific').checked || document.getElementById('typeGeneral').checked;
-      const isLegalChecked = document.getElementById('legalConsent').checked;
-      const hasContent = document.getElementById('feedbackContent').value.trim().length > 0;
-      document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
+        const isTypeSelected = document.getElementById('typeSpecific').checked || document.getElementById('typeGeneral').checked;
+        const isLegalChecked = document.getElementById('legalConsent').checked;
+        const hasContent = document.getElementById('feedbackContent').value.trim().length > 0;
+        document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
     }
 
-    // 5. פונקציית שליחת המשוב המלאה
+    // 5. פונקציית השליחה המעודכנת
     async function sendFeedback() {
-      // א. בדיקת מכסה יומית (הגנה מפני ספאם)
-      const now = new Date().toLocaleDateString();
-      let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
-      if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
-      
-      const btn = document.getElementById('submitBtn');
-      if (!btn) return;
-
-      // ב. הפעלת ספינר ונעילת כפתור מידית
-      btn.disabled = true;
-      btn.innerHTML = 'שולח... <span class="spinner"></span>';
-
-      // ג. איסוף מטא-דאטה (מיקום, דפדפן, רזולוציה, ומכשיר מפורט)
-      let cityLocation = "Unknown";
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
-        const locRes = await fetch("https://ipapi.co/json/", { signal: controller.signal });
-        const locData = await locRes.json();
-        cityLocation = locData.city + ", " + locData.country_name;
-        clearTimeout(timeoutId);
-      } catch (e) { console.log("Location fetch bypassed or failed"); }
-
-      const ua = navigator.userAgent;
-      const isMobile = /Mobi|Android/i.test(ua);
-      const res = window.screen.width + "x" + window.screen.height + " (VP: " + window.innerWidth + "x" + window.innerHeight + ")";
-      
-      const data = {
-        topic: "אביון",
-        content: document.getElementById('feedbackContent').value,
-        type: document.getElementById('typeSpecific').checked ? 'specific' : 'general',
-        location: cityLocation,
-        browser: ua,
-        mobile: isMobile ? "Mobile" : "Desktop", // פשוט וקל
-        resolution: res
-      };
-
-      // ד. שליחה לשרת (CORS Mode)
-      try {
-        const response = await fetch('See below in buildEntryHtml() inside <script>', {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify(data)
-        });
+        const now = new Date().toLocaleDateString();
+        let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+        if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
         
-        const resData = await response.json();
+        const btn = document.getElementById('submitBtn');
+        const formContent = document.getElementById('feedbackFormContent');
+        
+        btn.disabled = true;
+        btn.innerHTML = 'שולח... <span class="spinner"></span>';
 
-        // ה. עדכון הצלחה בזיכרון ובממשק
-        reportsToday.count++;
-        localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+        let cityLocation = "Unknown";
+        try {
+            const locRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(2000) });
+            const locData = await locRes.json();
+            cityLocation = locData.city + ", " + locData.country_name;
+        } catch (e) { console.log("Location failed"); }
 
-        document.getElementById('feedbackFormContent').style.display = 'none';
-        document.getElementById('successMessage').style.display = 'block';
+        const data = {
+            topic: "אביון",
+            content: document.getElementById('feedbackContent').value,
+            type: document.getElementById('typeSpecific').checked ? 'specific' : 'general',
+            location: cityLocation,
+            browser: navigator.userAgent,
+            mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+            resolution: window.screen.width + "x" + window.screen.height
+        };
 
-        if (resData.serial) {
-          document.getElementById('ticketNumber').innerText = resData.serial;
-          const link = document.querySelector(".success-link");
-          // עדכון הקישור עם ה-ID כדי שיפתח אוטומטית בלוח
-          if (link) link.href = "00_feedback.html?id=" + resData.serial;
+        try {
+            const response = await fetch(WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
+            
+            const resData = await response.json();
+
+            // בדיקה אם השרת חסם את הבקשה (הגנה אחרונה)
+            if (resData.success === false && resData.errorType === "SYSTEM_LOCKED") {
+                showBlockedUI(document.getElementById('modalContainer'), formContent);
+                return;
+            }
+
+            // הצלחה
+            reportsToday.count++;
+            localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+            formContent.style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+
+            if (resData.serial) {
+                document.getElementById('ticketNumber').innerText = resData.serial;
+                const link = document.querySelector(".success-link");
+                if (link) link.href = "00_feedback.html?id=" + resData.serial;
+            }
+
+        } catch (err) {
+            console.error('Submission error:', err);
+            // במקרה של שגיאה טכנית, נציג הודעת הצלחה גנרית כדי לא להלחיץ את המשתמש
+            formContent.style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('ticketNumber').innerText = "נשלח";
         }
-
-      } catch (err) {
-        console.error('Submission error:', err);
-        document.getElementById('feedbackFormContent').style.display = 'none';
-        document.getElementById('successMessage').style.display = 'block';
-        document.getElementById('ticketNumber').innerText = "נשלח";
-      }
     }
 
-    // הפעלה ראשונית בטעינת הדף
-    window.onload = function() {
-      // 1. טעינת ההעדפה מהזיכרון של המשתמש (LocalStorage)
-      try {
-        var saved = localStorage.getItem('sortMode');
-        if (saved) {
-          currentMode = saved;
-          // 2. עדכון ויזואלי של כפתור הרדיו הנכון
-          var radio = document.getElementById('sort-' + saved);
-          if (radio) radio.checked = true;
-        }
-      } catch(e) { console.warn('LocalStorage error:', e); }
-
-      // 3. הרצת המיון והצגת הרשימה
-      renderList();
-    };
-
-  </script></body></html>
+    window.onload = renderList;
+</script></body></html>
