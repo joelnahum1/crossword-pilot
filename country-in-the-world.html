@@ -795,46 +795,51 @@ input[type="radio"], input[type="checkbox"] {
       const formContent = document.getElementById('feedbackFormContent');
       const container = document.getElementById('modalContainer');
 
+      // כאן אנחנו מפעילים את הבדיקה המהירה
       checkIfBlocked(function(isBlocked) {
         if (isBlocked) {
           showBlockedUI(container, formContent);
           if (modal) modal.style.display = 'block';
         } else {
-          // כאן אנחנו שולחים לפונקציה 4 את ה-modal וה-container
           setupAndShowRegularModal(formContent, modal, container);
         }
       });
     }
 
-      
-    // 2. בדיקה אם המשתמש חסום או המערכת נחסמה
+    // 2. בדיקה אם המשתמש חסום (מקומי) או המערכת נחסמה (GitHub)
     function checkIfBlocked(callback) {
-      // א. בדיקה מקומית (LocalStorage)
+      // א. בדיקה מקומית (LocalStorage) - חסימת 5 הודעות ביום
       const now = new Date().toLocaleDateString();
       let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
       if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
 
       if (reportsToday.count >= MAX_DAILY_REPORTS) {
+        console.log("Blocked: Daily limit reached localy.");
         return callback(true);
       }
 
-      // ב. פנייה לשרת גוגל באמצעות ה-URL הקיים שלך
-      // אנחנו מוסיפים לכתובת את הפרמטר ?checkLock=true
-      const checkUrl = WEB_APP_URL + "?checkLock=true";
+      // ב. פנייה מהירה ל-GitHub Issues (במקום לגוגל סקריפט)
+      // החלף את 'USER/REPO' בשם המשתמש והמאגר שלך בגיטהאב
+      const githubIssuesUrl = "https://api.github.com/repos/USER/REPO/issues?state=open";
 
-      fetch(checkUrl)
+      fetch(githubIssuesUrl)
         .then(response => response.json())
         .then(data => {
-          // אם התקבלה תשובה שהמערכת נעולה (B14=TRUE)
-          const isLocked = (data && data.success === false && data.errorType === "SYSTEM_LOCKED");
-          callback(isLocked);
+          // אנחנו מחפשים האם קיים Issue פתוח שנקרא "SYSTEM_LOCKED"
+          const isLockedGlobal = data.some(issue => issue.title === "SYSTEM_LOCKED");
+          
+          if (isLockedGlobal) {
+            console.warn("המערכת נעולה גלובלית דרך GitHub Issues.");
+          }
+          
+          callback(isLockedGlobal);
         })
         .catch(err => {
-          console.warn("Gatekeeper unreachable, allowing access:", err);
-          callback(false); // במקרה של תקלת תקשורת - מאפשרים כניסה ליתר ביטחון
+          // במקרה של תקלה בתקשורת מול גיטהאב (נדיר), נאפשר כניסה כדי לא לתקוע משתמשים
+          console.warn("GitHub API unreachable, allowing access:", err);
+          callback(false);
         });
     }
-
 
 
 
