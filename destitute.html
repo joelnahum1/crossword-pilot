@@ -697,13 +697,13 @@ input[type="radio"], input[type="checkbox"] {
     </div>
   </div>
 <script>
-    // 1. הגדרות ומשתנים גלובליים
+    // S1. הגדרות ומשתנים גלובליים
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwbQH9dfBh5iF23GWfpEvtKOOkmSvbDXDCTkxOP8VZ6-SBylzrLHFW5tpogJGoy0Abt/exec"; // Deployment URL
     const GH_ISSUES_URL = "https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open"; // Where to check the issue in GitHub
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
 
-    // 2. טעינת העדפות מהזיכרון
+    // S2. טעינת העדפות מהזיכרון
     try {
         var saved = localStorage.getItem('sortMode');
         if (saved) currentMode = saved;
@@ -771,7 +771,7 @@ input[type="radio"], input[type="checkbox"] {
 
     // ************** MODAL LOGIC *******************/
 
-    // 1. פתיחת מודאל - שלב הבדיקה המהירה
+    // M1. פתיחת מודאל ובדיקה עם יש חסימה
     function openContactModal() {
         const modal = document.getElementById('contactModal');
         const formContent = document.getElementById('feedbackFormContent');
@@ -787,7 +787,7 @@ input[type="radio"], input[type="checkbox"] {
         });
     }
 
-    // 2. בדיקת חסימה (GitHub + Local)
+    // M2. בדיקת חסימה (GitHub + Local)
     function checkIfBlocked(callback) {
         const now = new Date().toLocaleDateString();
         let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
@@ -810,7 +810,7 @@ input[type="radio"], input[type="checkbox"] {
             });
     }
 
-    // 3. הצגת הודעת חסימה
+    // M3. הצגת הודעת חסימה
     function showBlockedUI(container, formContent) {
         if (formContent) formContent.style.display = "none";
         let blockedMsg = document.getElementById('blockedMessage');
@@ -824,7 +824,7 @@ input[type="radio"], input[type="checkbox"] {
         blockedMsg.style.display = 'block';
     }
 
-    // 4. הכנת הטופס הרגיל
+    // M4. אין חסימה - כניסה לטופס שליחת הערות
     function setupAndShowRegularModal(formContent, modal, container) {
         if (!formContent) return;
         const successMsg = document.getElementById('successMessage');
@@ -861,7 +861,7 @@ input[type="radio"], input[type="checkbox"] {
         document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
     }
 
-    // 5. פונקציית השליחה המעודכנת
+    // M5. שליחה התגובה 
     async function sendFeedback() {
         const now = new Date().toLocaleDateString();
         let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
