@@ -698,7 +698,7 @@ input[type="radio"], input[type="checkbox"] {
   </div>
 <script>
     // S1. הגדרות ומשתנים גלובליים
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwbQH9dfBh5iF23GWfpEvtKOOkmSvbDXDCTkxOP8VZ6-SBylzrLHFW5tpogJGoy0Abt/exec"; // Deployment URL
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwEG1gbIix5bfTHLqOjx1BWfPh90sWxK8gQSZOuzFZrmR0bGUxIKMLSprTa05S1ujnv/exec"; // Deployment URL
     const GH_ISSUES_URL = "https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open"; // Where to check the issue in GitHub
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
@@ -787,28 +787,54 @@ input[type="radio"], input[type="checkbox"] {
         });
     }
 
-    // M2. בדיקת חסימה (GitHub + Local)
+    // M2. בדיקת חסימה (GitHub + Local + Lazy Unlock)
     function checkIfBlocked(callback) {
-        const now = new Date().toLocaleDateString();
+        const nowStr = new Date().toLocaleDateString();
         let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
-        if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
-
+        
+        // בדיקת חסימה מקומית (Local Storage)
+        if (reportsToday.date !== nowStr) reportsToday = { date: nowStr, count: 0 };
         if (reportsToday.count >= MAX_DAILY_REPORTS) {
             return callback(true);
         }
 
-        // Check GitHub Issues (מהיר מאוד)
+        // בדיקת חסימה גלובלית מול GitHub
         fetch(GH_ISSUES_URL)
             .then(response => response.json())
             .then(data => {
-                const isLockedGlobal = Array.isArray(data) && data.some(issue => issue.title === "SYSTEM_LOCKED");
-                callback(isLockedGlobal);
+                if (!Array.isArray(data)) return callback(false);
+
+                // חיפוש ה-Issue הספציפי
+                const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
+
+                if (!lockIssue) {
+                    return callback(false); // אין חסימה בגיטהאב
+                }
+
+                // אלגוריתם T+S: בדיקה אם זמן השחרור כבר עבר
+                try {
+                    const lockData = JSON.parse(lockIssue.body);
+                    const t_unlock = parseInt(lockData.t_unlock); // זמן היעד לשחרור
+                    const currentTime = new Date().getTime();
+
+                    if (currentTime > t_unlock) {
+                        console.log("Lazy Unlock active: Time expired.");
+                        return callback(false); // שחרור עצלן - הזמן עבר
+                    }
+                    
+                    return callback(true); // עדיין בתוך זמן החסימה
+                } catch (e) {
+                    // אם ה-Body לא בפורמט JSON, נחמיר ונחסום ליתר ביטחון
+                    console.warn("Issue body format invalid, assuming locked.");
+                    return callback(true);
+                }
             })
             .catch(err => {
-                console.warn("GitHub unreachable, allowing access");
+                console.warn("GitHub unreachable, allowing access:", err);
                 callback(false);
             });
     }
+
 
     // M3. הצגת הודעת חסימה
     function showBlockedUI(container, formContent) {
@@ -881,13 +907,14 @@ input[type="radio"], input[type="checkbox"] {
         } catch (e) { console.log("Location failed"); }
 
         const data = {
-            topic: "עני",
+            topic: "עני", // שים לב לתיקון הקטן בסינטקס כאן
             content: document.getElementById('feedbackContent').value,
             type: document.getElementById('typeSpecific').checked ? 'specific' : 'general',
             location: cityLocation,
             browser: navigator.userAgent,
             mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-            resolution: window.screen.width + "x" + window.screen.height
+            resolution: window.screen.width + "x" + window.screen.height,
+            userReportCount: reportsToday.count + 1 // הוספת המונה האישי לשרת
         };
 
         try {
