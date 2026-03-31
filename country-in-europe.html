@@ -962,35 +962,51 @@ input[type="radio"], input[type="checkbox"] {
             }
 
 
-            // הצלחה - ניסיון עדכון מונה מקומי עם הגנה מקריסה
+
+            // --- טיפול בסיום השליחה (הצלחה) ---
+            
+            // 1. ניסיון עדכון מונה מקומי - מוגן בבלוק נפרד שלא יעצור את התצוגה
             try {
-                reportsToday.count++;
                 if (typeof localStorage !== 'undefined') {
+                    reportsToday.count++;
                     localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
                 }
-            } catch (storageError) {
-                console.warn("Could not save report count, but message was sent.");
+            } catch (storageErr) {
+                console.warn("Storage update blocked by browser, but message was sent.");
             }
 
-            // הצגת הודעת ההצלחה (תתבצע עכשיו בכל מקרה!)
+            // 2. הסתרת הטופס והצגת הודעת ההצלחה
             if (formContent) formContent.style.display = 'none';
-            const successMsg = document.getElementById('successMessage');
-            if (successMsg) successMsg.style.display = 'block';
+            const successDiv = document.getElementById('successMessage');
+            if (successDiv) successDiv.style.display = 'block';
 
-            if (resData.serial) {
-                document.getElementById('ticketNumber').innerText = resData.serial;
+            // 3. עדכון מספר הפנייה אם התקבל מהשרת
+            if (resData && resData.serial) {
+                const ticketElem = document.getElementById('ticketNumber');
+                if (ticketElem) ticketElem.innerText = resData.serial;
+                
                 const link = document.querySelector(".success-link");
                 if (link) link.href = "00_feedback.html?id=" + resData.serial;
             }
 
         } catch (err) {
-            console.error('Submission error:', err);
-            // במקרה של שגיאה טכנית, נציג הודעת הצלחה גנרית כדי לא להלחיץ את המשתמש
-            formContent.style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('ticketNumber').innerText = "נשלח";
+            console.error('Submission or UI error:', err);
+            
+            // הגנה אחרונה: גם אם הכל קרס (כולל פיירפוקס), ננסה להראות הודעת הצלחה למשתמש
+            try {
+                if (formContent) formContent.style.display = 'none';
+                const successDiv = document.getElementById('successMessage');
+                if (successDiv) {
+                    successDiv.style.display = 'block';
+                    const ticketElem = document.getElementById('ticketNumber');
+                    if (ticketElem) ticketElem.innerText = "נשלח";
+                }
+            } catch (uiErr) {
+                console.error('Critical UI failure', uiErr);
+            }
         }
     }
 
+    // הפעלה ראשונית של הדף
     window.onload = renderList;
 </script></body></html>
