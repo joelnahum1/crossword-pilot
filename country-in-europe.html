@@ -800,50 +800,61 @@ input[type="radio"], input[type="checkbox"] {
         });
     }
 
-    // M2. בדיקת חסימה (GitHub + Local + Lazy Unlock)
+    // M2. בדיקת חסימה (GitHub + Local + הגנה מקריסה)
+    // M2. בדיקת חסימה - גרסה חסינה ל-NS_ERROR_FAILURE
     function checkIfBlocked(callback) {
         const nowStr = new Date().toLocaleDateString();
-        let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
-        
-        // בדיקת חסימה מקומית (Local Storage)
-        if (reportsToday.date !== nowStr) reportsToday = { date: nowStr, count: 0 };
+        let reportsToday = { date: nowStr, count: 0 };
+
+        // שלב 1: ניסיון זהיר מאוד לקרוא מהזיכרון
+        try {
+            // בפיירפוקס, לפעמים אפילו בדיקת ה-if על localStorage קורסת
+            if (typeof localStorage !== 'undefined') {
+                const stored = localStorage.getItem('reportsCount');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.date === nowStr) {
+                        reportsToday = parsed;
+                    }
+                }
+            }
+        } catch (storageError) {
+            // אם הגענו לכאן, ה-Storage חסום הרמטית - נמשיך עם המונה הריק בזיכרון
+            console.warn("Manual override: Storage blocked, ignoring local limits.");
+        }
+
+        // בדיקת חסימה מקומית (אם הצלחנו לקרוא מהזיכרון)
         if (reportsToday.count >= MAX_DAILY_REPORTS) {
             return callback(true);
         }
 
-        // בדיקת חסימה גלובלית מול GitHub
-        fetch(GH_ISSUES_URL)
+        // שלב 2: בדיקת GitHub (זו הבדיקה הקריטית והיא לא תלויה ב-Storage)
+        const cacheBuster = "?t=" + Date.now();
+        fetch(GH_ISSUES_URL + cacheBuster)
             .then(response => response.json())
             .then(data => {
                 if (!Array.isArray(data)) return callback(false);
 
-                // חיפוש ה-Issue הספציפי
                 const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
+                if (!lockIssue) return callback(false);
 
-                if (!lockIssue) {
-                    return callback(false); // אין חסימה בגיטהאב
-                }
-
-                // אלגוריתם T+S: בדיקה אם זמן השחרור כבר עבר
                 try {
                     const lockData = JSON.parse(lockIssue.body);
-                    const t_unlock = parseInt(lockData.t_unlock); // זמן היעד לשחרור
-                    const currentTime = new Date().getTime();
+                    const t_unlock = parseInt(lockData.t_unlock);
+                    const currentTime = Date.now();
 
                     if (currentTime > t_unlock) {
-                        console.log("Lazy Unlock active: Time expired.");
-                        return callback(false); // שחרור עצלן - הזמן עבר
+                        console.log("Lazy Unlock triggered via GitHub data.");
+                        return callback(false);
                     }
-                    
-                    return callback(true); // עדיין בתוך זמן החסימה
-                } catch (e) {
-                    // אם ה-Body לא בפורמט JSON, נחמיר ונחסום ליתר ביטחון
-                    console.warn("Issue body format invalid, assuming locked.");
+                    return callback(true);
+                } catch (parseError) {
+                    console.warn("Invalid GitHub body, assuming locked.");
                     return callback(true);
                 }
             })
             .catch(err => {
-                console.warn("GitHub unreachable, allowing access:", err);
+                console.warn("GitHub check failed, allowing access.");
                 callback(false);
             });
     }
