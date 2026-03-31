@@ -868,17 +868,37 @@ input[type="radio"], input[type="checkbox"] {
 
     // M3. הצגת הודעת חסימה
     function showBlockedUI(container, formContent) {
-        if (formContent) formContent.style.display = "none";
-        let blockedMsg = document.getElementById('blockedMessage');
+        // 1. הסתרת הטופס והודעות הצלחה קודמות
+        if (formContent) formContent.style.display = 'none';
+        
+        var successMsg = document.getElementById('successMessage');
+        if (successMsg) successMsg.style.display = 'none';
+        
+        // 2. איפוס מספר פנייה (כדי שלא יישאר מספר ישן על המסך)
+        var ticketNum = document.getElementById('ticketNumber');
+        if (ticketNum) ticketNum.innerText = '----';
+
+        // 3. טיפול בהודעת החסימה
+        var blockedMsg = document.getElementById('blockedMessage');
         if (!blockedMsg) {
             blockedMsg = document.createElement('div');
             blockedMsg.id = 'blockedMessage';
-            blockedMsg.className = 'error-message-simple';
             if (container) container.appendChild(blockedMsg);
         }
-        blockedMsg.innerHTML = 'לא ניתן לשלוח תגובה כעת<br><span style="font-size:0.9rem; font-weight:normal; color:#666;">אנא נסו מאוחר יותר</span>';
+        
+        // שימוש בגרשיים רגילים למניעת בעיות קינון ב-GAS
+        // שימוש ב-Classes המקוריים שלך לאחידות מלאה
+        blockedMsg.innerHTML = 
+            '<div class="main-title">מאגר פתרונות תשבצים</div>' +
+            '<div class="sub-title">הערות והצעות</div>' +
+            '<div style="text-align:center; padding: 20px; line-height: 1.6;">' +
+                '<p style="color:red; font-weight:bold; font-size:1.1rem; margin-bottom:10px;">לא ניתן לשלוח תגובה כעת</p>' +
+                '<p style="color:var(--text-gray);">אנא נסו מאוחר יותר</p>' +
+            '</div>';
+            
         blockedMsg.style.display = 'block';
-    }
+      }
+
 
     // M4. אין חסימה - כניסה לטופס שליחת הערות
     function setupAndShowRegularModal(formContent, modal, container) {
@@ -904,12 +924,42 @@ input[type="radio"], input[type="checkbox"] {
         if (modal) modal.style.display = 'block'; 
     }
 
-    function closeContactModal() { document.getElementById('contactModal').style.display = 'none'; }
+    function closeContactModal() {
+        // 1. הסתרת המודאל הראשי
+        const modal = document.getElementById('contactModal');
+        if (modal) modal.style.display = 'none';
+
+        // 2. איפוס הטופס (ניקוי טקסט שהוקלד)
+        const form = document.getElementById('feedbackForm');
+        if (form) form.reset();
+
+        // 3. החזרת התצוגה למצב התחלתי (הצגת הטופס והסתרת הודעות)
+        const formContent = document.getElementById('formContent');
+        if (formContent) formContent.style.display = 'block';
+
+        const successMsg = document.getElementById('successMessage');
+        if (successMsg) successMsg.style.display = 'none';
+
+        const blockedMsg = document.getElementById('blockedMessage');
+        if (blockedMsg) {
+            blockedMsg.style.display = 'none';
+            blockedMsg.innerHTML = ''; // ניקוי תוכן ישן
+        }
+
+        // 4. איפוס מספר פנייה
+        const ticketNum = document.getElementById('ticketNumber');
+        if (ticketNum) ticketNum.innerText = '----';
+        
+        console.log('Modal closed and state reset.');
+    }
+
+
     function updateCharCount() {
         const textarea = document.getElementById('feedbackContent');
         document.getElementById('charCount').innerText = 500 - textarea.value.length;
         validateForm();
     }
+
     function validateForm() {
         const isTypeSelected = document.getElementById('typeSpecific').checked || document.getElementById('typeGeneral').checked;
         const isLegalChecked = document.getElementById('legalConsent').checked;
