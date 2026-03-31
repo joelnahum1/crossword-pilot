@@ -714,20 +714,28 @@ input[type="radio"], input[type="checkbox"] {
         if (saved) currentMode = saved;
     } catch (e) { console.warn('LocalStorage access denied'); }
 
-    // --- פונקציות רנדור ומיון (נשארו ללא שינוי לוגי) ---
+
+    // --- פונקציות רנדור ומיון  ---
     function renderList() {
         var list = document.getElementById('solutionList');
         if (!list) return;
-        var savedMode = localStorage.getItem('sortMode');
-        if (savedMode) {
-            currentMode = savedMode;
-            var radio = document.getElementById('sort-' + savedMode);
-            if (radio) radio.checked = true;
+
+        // הגנה על הזיכרון - אם חסום, נשתמש בברירת המחדל
+        try {
+            var savedMode = localStorage.getItem('sortMode');
+            if (savedMode) {
+                currentMode = savedMode;
+                var radio = document.getElementById('sort-' + savedMode);
+                if (radio) radio.checked = true;
+            }
+        } catch (e) {
+            console.warn("LocalStorage access denied, using default sort.");
         }
+
         var items = Array.from(list.getElementsByClassName('solution-item'));
         Array.from(list.getElementsByClassName('group-title')).forEach(el => el.remove());
         Array.from(list.getElementsByClassName('letters-title')).forEach(el => el.remove());
-
+        
         if (currentMode === 'letters') {
             items.sort((a, b) => a.dataset.letters - b.dataset.letters);
             let lastL = 0;
