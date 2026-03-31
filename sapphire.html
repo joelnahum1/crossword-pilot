@@ -776,9 +776,15 @@ input[type="radio"], input[type="checkbox"] {
         list.style.visibility = 'visible';
     }
 
-    function setSortMode(newMode) {
-        currentMode = newMode;
-        localStorage.setItem('sortMode', currentMode);
+    function setSortMode(mode) {
+        currentMode = mode;
+        try {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('sortMode', mode);
+            }
+        } catch (e) {
+            console.warn("Could not save sort preference to Storage.");
+        }
         renderList();
     }
 
@@ -955,11 +961,21 @@ input[type="radio"], input[type="checkbox"] {
                 return;
             }
 
-            // הצלחה
-            reportsToday.count++;
-            localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
-            formContent.style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
+
+            // הצלחה - ניסיון עדכון מונה מקומי עם הגנה מקריסה
+            try {
+                reportsToday.count++;
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+                }
+            } catch (storageError) {
+                console.warn("Could not save report count, but message was sent.");
+            }
+
+            // הצגת הודעת ההצלחה (תתבצע עכשיו בכל מקרה!)
+            if (formContent) formContent.style.display = 'none';
+            const successMsg = document.getElementById('successMessage');
+            if (successMsg) successMsg.style.display = 'block';
 
             if (resData.serial) {
                 document.getElementById('ticketNumber').innerText = resData.serial;
