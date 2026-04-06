@@ -673,46 +673,36 @@ input[type="radio"], input[type="checkbox"] {
       <div id="adminStatus" style="font-size: 0.9em; margin-top: 12px; color: #666; min-height: 1.2em;"></div>
     </div>
     
-    <script>
-      function runAdminAction(action) {
-        const status = document.getElementById('adminStatus');
-        const btnText = (action === 'lock' ? "לנעול" : "לשחרר");
-        
-        if (!confirm("האם אתה בטוח שברצונך " + btnText + " את המערכת?")) return;
-        
-        status.innerText = "מעבד בקשה, נא להמתין...";
-        status.style.color = "#333";
-        
-        const handleSuccess = (msg, color) => {
-          status.innerText = msg;
-          status.style.color = color;
-          // העלמת הטקסט אחרי 3 שניות
-          setTimeout(() => {
-            status.innerText = "";
-          }, 3000);
-        };
+<script>
+  function runAdminAction(action) {
+    const status = document.getElementById('adminStatus');
+    const GAS_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // החלף ב-URL שלך
 
-        if (action === 'lock') {
-          google.script.run
-            .withSuccessHandler(() => {
-              handleSuccess("✅ המערכת ננעלה בהצלחה", "#d9534f");
-            })
-            .withFailureHandler((err) => {
-              status.innerText = "❌ שגיאה: " + err;
-            })
-            .manualLock();
-        } else {
-          google.script.run
-            .withSuccessHandler(() => {
-              handleSuccess("✅ המערכת שוחררה בהצלחה", "#5cb85c");
-            })
-            .withFailureHandler((err) => {
-              status.innerText = "❌ שגיאה: " + err;
-            })
-            .manualUnlock();
-        }
-      }
-    </script>
+    if (!confirm("האם לבצע " + (action === 'lock' ? "נעילה" : "שחרור") + "?")) return;
+
+    status.innerText = "מעבד בקשה מול השרת...";
+    status.style.color = "#333";
+
+    // שליחת בקשה ל-GAS באמצעות POST
+    fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors", // חשוב כדי למנוע בעיות CORS
+      body: JSON.stringify({
+        action: action === 'lock' ? "ADMIN_LOCK" : "ADMIN_UNLOCK"
+      })
+    })
+    .then(() => {
+      // בגלל no-cors לא ניתן לקרוא את התשובה, אז נניח הצלחה אחרי שניה
+      status.innerText = "✅ הבקשה נשלחה לביצוע";
+      status.style.color = action === 'lock' ? "#d9534f" : "#5cb85c";
+      setTimeout(() => { status.innerText = ""; }, 4000);
+    })
+    .catch(err => {
+      status.innerText = "❌ שגיאת תקשורת";
+      console.error(err);
+    });
+  }
+</script>
   
 
     <nav class="alphabet-nav">
