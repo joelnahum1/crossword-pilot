@@ -683,11 +683,19 @@ input[type="radio"], input[type="checkbox"] {
         status.innerText = "מעבד בקשה, נא להמתין...";
         status.style.color = "#333";
         
+        const handleSuccess = (msg, color) => {
+          status.innerText = msg;
+          status.style.color = color;
+          // העלמת הטקסט אחרי 3 שניות
+          setTimeout(() => {
+            status.innerText = "";
+          }, 3000);
+        };
+
         if (action === 'lock') {
           google.script.run
             .withSuccessHandler(() => {
-              status.innerText = "✅ המערכת ננעלה בהצלחה";
-              status.style.color = "#d9534f";
+              handleSuccess("✅ המערכת ננעלה בהצלחה", "#d9534f");
             })
             .withFailureHandler((err) => {
               status.innerText = "❌ שגיאה: " + err;
@@ -696,8 +704,7 @@ input[type="radio"], input[type="checkbox"] {
         } else {
           google.script.run
             .withSuccessHandler(() => {
-              status.innerText = "✅ המערכת שוחררה בהצלחה";
-              status.style.color = "#5cb85c";
+              handleSuccess("✅ המערכת שוחררה בהצלחה", "#5cb85c");
             })
             .withFailureHandler((err) => {
               status.innerText = "❌ שגיאה: " + err;
