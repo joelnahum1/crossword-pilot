@@ -808,7 +808,7 @@ input[type="radio"], input[type="checkbox"] {
     }
 
     // M2. בדיקת חסימה (GitHub + Local + הגנה מקריסה)
-    // M2. בדיקת חסימה - גרסה חסינה ל-NS_ERROR_FAILURE
+    // גרסה חסינה ל-NS_ERROR_FAILURE
     function checkIfBlocked(callback) {
         const nowStr = new Date().toLocaleDateString();
         let reportsToday = { date: nowStr, count: 0 };
@@ -867,7 +867,7 @@ input[type="radio"], input[type="checkbox"] {
     }
 
 
-    // M3. הצגת הודעת חסימה
+    // M3. הצגת הודעת חסימה 
     function showBlockedUI(container, formContent) {
         // 1. הסתרת הטופס והודעות הצלחה קודמות
         if (formContent) formContent.style.display = 'none';
@@ -875,7 +875,7 @@ input[type="radio"], input[type="checkbox"] {
         var successMsg = document.getElementById('successMessage');
         if (successMsg) successMsg.style.display = 'none';
         
-        // 2. איפוס מספר פנייה (כדי שלא יישאר מספר ישן על המסך)
+        // 2. איפוס מספר פנייה
         var ticketNum = document.getElementById('ticketNumber');
         if (ticketNum) ticketNum.innerText = '----';
 
@@ -887,18 +887,14 @@ input[type="radio"], input[type="checkbox"] {
             if (container) container.appendChild(blockedMsg);
         }
         
-        // שימוש בגרשיים רגילים למניעת בעיות קינון ב-GAS
-        // שימוש ב-Classes המקוריים שלך לאחידות מלאה
         blockedMsg.innerHTML = 
-            '<div class="main-title">מאגר פתרונות תשבצים</div>' +
-            '<div class="sub-title">הערות והצעות</div>' +
             '<div style="text-align:center; padding: 20px; line-height: 1.6;">' +
                 '<p style="color:red; font-weight:bold; font-size:1.1rem; margin-bottom:10px;">לא ניתן לשלוח תגובה כעת</p>' +
                 '<p style="color:var(--text-gray);">אנא נסו מאוחר יותר</p>' +
             '</div>';
             
         blockedMsg.style.display = 'block';
-      }
+    }
 
 
     // M4. אין חסימה - כניסה לטופס שליחת הערות
