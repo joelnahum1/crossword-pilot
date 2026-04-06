@@ -663,6 +663,51 @@ input[type="radio"], input[type="checkbox"] {
       <div class="sub-title">אינדקס ראשי</div>
     </header>
 
+    
+    <div id="adminPanel" style="margin: 15px 0 25px 0; padding: 15px; background: #fdf2f2; border: 1px solid #f5c6cb; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      <div style="font-weight: 800; color: #d9534f; margin-bottom: 12px; font-size: 1.1rem;">שליטה במערכת</div>
+      <div style="display: flex; gap: 15px; justify-content: center;">
+        <button onclick="runAdminAction('lock')" style="flex: 1; max-width: 140px; padding: 12px; background: #d9534f; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 0 #b52b27;">🔒 נעל</button>
+        <button onclick="runAdminAction('unlock')" style="flex: 1; max-width: 140px; padding: 12px; background: #5cb85c; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 0 #449d44;">🔓 שחרר</button>
+      </div>
+      <div id="adminStatus" style="font-size: 0.9em; margin-top: 12px; color: #666; min-height: 1.2em;"></div>
+    </div>
+    
+    <script>
+      function runAdminAction(action) {
+        const status = document.getElementById('adminStatus');
+        const btnText = (action === 'lock' ? "לנעול" : "לשחרר");
+        
+        if (!confirm("האם אתה בטוח שברצונך " + btnText + " את המערכת?")) return;
+        
+        status.innerText = "מעבד בקשה, נא להמתין...";
+        status.style.color = "#333";
+        
+        if (action === 'lock') {
+          google.script.run
+            .withSuccessHandler(() => {
+              status.innerText = "✅ המערכת ננעלה בהצלחה";
+              status.style.color = "#d9534f";
+            })
+            .withFailureHandler((err) => {
+              status.innerText = "❌ שגיאה: " + err;
+            })
+            .manualLock();
+        } else {
+          google.script.run
+            .withSuccessHandler(() => {
+              status.innerText = "✅ המערכת שוחררה בהצלחה";
+              status.style.color = "#5cb85c";
+            })
+            .withFailureHandler((err) => {
+              status.innerText = "❌ שגיאה: " + err;
+            })
+            .manualUnlock();
+        }
+      }
+    </script>
+  
+
     <nav class="alphabet-nav">
       <a href="#letter-א">א</a><a href="#letter-ח">ח</a><a href="#letter-מ">מ</a><a href="#letter-ס">ס</a><a href="#letter-ע">ע</a><a href="#letter-ק">ק</a><a href="#letter-ש">ש</a>
     </nav>
