@@ -807,15 +807,14 @@ input[type="radio"], input[type="checkbox"] {
         });
     }
 
+
     // M2. בדיקת חסימה (GitHub + Local + הגנה מקריסה)
-    // גרסה חסינה ל-NS_ERROR_FAILURE
     function checkIfBlocked(callback) {
         const nowStr = new Date().toLocaleDateString();
         let reportsToday = { date: nowStr, count: 0 };
 
-        // שלב 1: ניסיון זהיר מאוד לקרוא מהזיכרון
+        // שלב 1: ניסיון זהיר לקרוא מהזיכרון 
         try {
-            // בפיירפוקס, לפעמים אפילו בדיקת ה-if על localStorage קורסת
             if (typeof localStorage !== 'undefined') {
                 const stored = localStorage.getItem('reportsCount');
                 if (stored) {
@@ -826,16 +825,14 @@ input[type="radio"], input[type="checkbox"] {
                 }
             }
         } catch (storageError) {
-            // אם הגענו לכאן, ה-Storage חסום הרמטית - נמשיך עם המונה הריק בזיכרון
-            console.warn("Manual override: Storage blocked, ignoring local limits.");
+            console.warn("Manual override: Storage blocked.");
         }
 
-        // בדיקת חסימה מקומית (אם הצלחנו לקרוא מהזיכרון)
         if (reportsToday.count >= MAX_DAILY_REPORTS) {
             return callback(true);
         }
 
-        // שלב 2: בדיקת GitHub (זו הבדיקה הקריטית והיא לא תלויה ב-Storage)
+        // שלב 2: בדיקת GitHub
         const cacheBuster = "?t=" + Date.now();
         fetch(GH_ISSUES_URL + cacheBuster)
             .then(response => response.json())
@@ -843,6 +840,8 @@ input[type="radio"], input[type="checkbox"] {
                 if (!Array.isArray(data)) return callback(false);
 
                 const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
+                
+                // אם אין Issue של נעילה - המערכת פתוחה
                 if (!lockIssue) return callback(false);
 
                 try {
@@ -850,12 +849,19 @@ input[type="radio"], input[type="checkbox"] {
                     const t_unlock = parseInt(lockData.t_unlock);
                     const currentTime = Date.now();
 
-                    if (currentTime > t_unlock) {
-                        console.log("Lazy Unlock triggered via GitHub data.");
-                        return callback(false);
+                    // --- התיקון כאן ---
+                    // 1. אם t_unlock הוא 0 או לא קיים -> זו נעילה ידנית קבועה -> חסום!
+                    // 2. אם t_unlock קיים והזמן הנוכחי קטן ממנו -> נעילה אוטומטית בתוקף -> חסום!
+                    if (!t_unlock || currentTime < t_unlock) {
+                        return callback(true); 
                     }
-                    return callback(true);
+
+                    // רק אם עבר הזמן של t_unlock (שחרור עצלן)
+                    console.log("Lazy Unlock triggered via GitHub data.");
+                    return callback(false);
+
                 } catch (parseError) {
+                    // אם ה-body לא תקין אבל הכותרת היא SYSTEM_LOCKED - מחמירים וחוסמים
                     console.warn("Invalid GitHub body, assuming locked.");
                     return callback(true);
                 }
