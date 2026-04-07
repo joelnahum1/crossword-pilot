@@ -187,8 +187,8 @@ header {
 .solution-count {
   color: var(--text-gray);
   font-size: 0.9rem;
-  margin-top: none;
-  border-top: none;
+  margin-top: 0;          
+  border-top: none;       
   padding-top: 4px;
   margin-bottom: 4px;
 }
@@ -212,9 +212,8 @@ header {
 
 .sort-option-item {
   display: flex;
-  align-items: top;
+  align-items: flex-start;  
   cursor: pointer;
-  padding: 5px;
   padding: 2px 0;           
   border-radius: 4px;
   transition: background 0.2s;
@@ -239,41 +238,46 @@ header {
 }
 
  
-
  
 .group-title {
   margin: 1.5rem 0 0.5rem;
   padding: 0.5rem 1rem;
   font-size: var(--font-group-title);
-  background: #f1f6fc;
-  border-right: 6px solid var(--btn-bg-toggle); 
+  background: #F1F5F9;                   
+  border-top: 1px solid #CBD5E1;         
+  border-bottom: 1px solid #CBD5E1;      
+  border-right: 3px solid #94A3B8;       
   border-radius: 4px 8px 8px 4px;
-  display: block !important;     
-  clear: both;                   
+  display: block !important;    
+  clear: both;                  
   width: auto;
   position: relative;
   z-index: 10;
+  font-weight: 600;                      
+  color: #334155;                       
 }
 
  
 .letters-title {
-  margin: 1rem 0 0.2rem auto;    
+  margin: 1rem 0 0.2rem auto;   
   padding: 0.2rem 0.8rem;
   font-size: var(--font-letters-title);
-  background: #fff4cc;
-  border-right: 4px solid #f0c94a;
-  border-radius: 4px 8px 8px 4px;
-  display: table !important;     
-  clear: both !important;        
+  background: #DCFCE7;                   
+  border: 1px solid #BBF7D0;             
+  border-right: 5px solid #16A34A;       
+  border-radius: 8px;                   
+  display: table !important;    
+  clear: both !important;       
   min-width: fit-content;
   position: relative;
   z-index: 10;
+  font-weight: 600;
 }
 
  
 #solutionList {
   display: block;
-  clear: both;                   
+  clear: both;                  
   padding-top: 10px;
   width: 100%;
   visibility: hidden;  
@@ -686,7 +690,7 @@ input[type="radio"], input[type="checkbox"] {
     </footer>
   </div>
   <script>
-    var webAppUrl = "https://script.google.com/macros/s/AKfycbzJALi1q6xP3pEMmyEU94w8r-6ENKR0jePl_ZGONKANHWIwcptsCxMUX5yZw-7H5XZ5/exec";
+    var webAppUrl = "https://script.google.com/macros/s/AKfycbyPJWprqJ6GmanGyJ-93jR4Dy7rFcnxG6npy8Y3m-Q/dev";
     var allOpen = false;
     var urlParams = new URLSearchParams(window.location.search);
     var targetId = urlParams.get("id");
@@ -731,6 +735,8 @@ input[type="radio"], input[type="checkbox"] {
     function toggleTicket(header) { header.parentElement.classList.toggle("open"); }
     function toggleAll() {
       allOpen = !allOpen;
+      var btn = document.getElementById("mainToggleButton");
+      if (allOpen) btn.classList.add("active"); else btn.classList.remove("active");
       document.querySelectorAll(".ticket").forEach(function(t) {
         if (allOpen) t.classList.add("open"); else t.classList.remove("open");
       });
