@@ -702,8 +702,6 @@ input[type="radio"], input[type="checkbox"] {
   </div>
 <script>
     // S1. הגדרות ומשתנים גלובליים
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxHb10xmjAVxCy5p-QvY5RiA7zriVqidpoCCox1t0meb89gZ8hKsM38CwwBnz2CH4xx/exec"; // Deployment URL
-    
     const GH_ISSUES_URL = "https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open"; // Where to check the issue in GitHub
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
@@ -1000,11 +998,12 @@ input[type="radio"], input[type="checkbox"] {
         };
 
         try {
-            const response = await fetch(WEB_APP_URL, {
+            const response = await fetch(""+WEB_APP_URL+"", {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
-            
+
+
             const resData = await response.json();
 
             // בדיקה אם השרת חסם את הבקשה (הגנה אחרונה)
