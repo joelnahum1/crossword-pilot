@@ -702,7 +702,6 @@ input[type="radio"], input[type="checkbox"] {
   </div>
 <script>
     // S1. הגדרות ומשתנים גלובליים
-    const GH_ISSUES_URL = "https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open"; // Where to check the issue in GitHub
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
 
@@ -831,7 +830,7 @@ input[type="radio"], input[type="checkbox"] {
 
         // שלב 2: בדיקת GitHub
         const cacheBuster = "?t=" + Date.now();
-        fetch(GH_ISSUES_URL + cacheBuster)
+        fetch("" + GH_ISSUES_URL + "" + cacheBuster)
             .then(response => response.json())
             .then(data => {
                 if (!Array.isArray(data)) return callback(false);
