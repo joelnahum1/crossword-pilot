@@ -830,7 +830,7 @@ input[type="radio"], input[type="checkbox"] {
 
         // שלב 2: בדיקת GitHub
         const cacheBuster = "?t=" + Date.now();
-        fetch("" + GH_ISSUES_URL + "" + cacheBuster)
+        fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open" + cacheBuster)
             .then(response => response.json())
             .then(data => {
                 if (!Array.isArray(data)) return callback(false);
@@ -997,7 +997,7 @@ input[type="radio"], input[type="checkbox"] {
         };
 
         try {
-            const response = await fetch(""+WEB_APP_URL+"", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbwdMbVJilztNGKc49GWKqvtJsckgVd8NmmgNLA6Ry8ym4xq6cNCNZaxRVPbQ6UivkIW/exec", {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
