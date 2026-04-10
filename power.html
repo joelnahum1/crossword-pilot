@@ -527,6 +527,7 @@ input[type="radio"], input[type="checkbox"] {
   margin-left: 8px;
   margin-right: 8px;  
   vertical-align: middle;
+  animation: spin-ccw 1s linear infinite;
 }
 
 @keyframes spin {
@@ -997,7 +998,7 @@ input[type="radio"], input[type="checkbox"] {
         };
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbwdMbVJilztNGKc49GWKqvtJsckgVd8NmmgNLA6Ry8ym4xq6cNCNZaxRVPbQ6UivkIW/exec", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbwr6KorPXtw-LwA8cq_IqDeIx2WZrqhWD4JNMjE88xuDxgUTRYa6Mm5Lupja6HeKBJi/exec", {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
