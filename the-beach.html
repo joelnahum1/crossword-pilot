@@ -987,7 +987,7 @@ input[type="radio"], input[type="checkbox"] {
         } catch (e) { console.log("Location failed"); }
 
         const data = {
-            topic: "שלחופה", // שים לב לתיקון הקטן בסינטקס כאן
+            topic: typeof definition === 'string' ? definition : (definition.title || 'כללי'),
             content: document.getElementById('feedbackContent').value,
             type: document.getElementById('typeSpecific').checked ? 'specific' : 'general',
             location: cityLocation,
