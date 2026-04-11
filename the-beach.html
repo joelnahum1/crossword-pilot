@@ -704,7 +704,7 @@ input[type="radio"], input[type="checkbox"] {
     // S1. הגדרות ומשתנים גלובליים
     const definition = "שלחופה"; // <-- הוסף את השורה הזו
     var currentMode = 'letters';
-    var MAX_DAILY_REPORTS = 5;
+    var MAX_DAILY_REPORTS = 10;
 
     // S2. טעינת העדפות מהזיכרון
     try {
@@ -998,7 +998,7 @@ input[type="radio"], input[type="checkbox"] {
         };
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbwr6KorPXtw-LwA8cq_IqDeIx2WZrqhWD4JNMjE88xuDxgUTRYa6Mm5Lupja6HeKBJi/exec", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbxG_ctBzJ8yx4dvvaqCHfDvON93Lklbih1zLJCg4-K73wXbZboYYX1Z6pWo3P5tDfd0/exec", {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
