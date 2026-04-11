@@ -527,12 +527,11 @@ input[type="radio"], input[type="checkbox"] {
   margin-left: 8px;
   margin-right: 8px;  
   vertical-align: middle;
-  animation: spin-ccw 1s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
  
@@ -703,6 +702,7 @@ input[type="radio"], input[type="checkbox"] {
   </div>
 <script>
     // S1. הגדרות ומשתנים גלובליים
+    const definition = "קתטר"; // <-- הוסף את השורה הזו
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
 
