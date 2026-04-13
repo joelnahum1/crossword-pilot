@@ -788,7 +788,7 @@ input[type="radio"], input[type="checkbox"] {
 
     // ************** MODAL LOGIC *******************/
 
-    // M1. פתיחת מודאל ובדיקה עם יש חסימה
+    // M1. פתיחת מודאל ובדיקה אם יש חסימה
     function openContactModal() {
         const modal = document.getElementById('contactModal');
         const formContent = document.getElementById('feedbackFormContent');
@@ -796,14 +796,27 @@ input[type="radio"], input[type="checkbox"] {
 
         checkIfBlocked(function(isBlocked) {
             if (isBlocked) {
+                // 1. הצגת הממשק החסום למשתמש מיד (חוויית משתמש)
                 showBlockedUI(container, formContent);
                 if (modal) modal.style.display = 'block';
+
+                // 2. דיווח שקט לשרת על ניסיון החריגה
+                // אנחנו שולחים את זה כ-Signal ולא מחכים לתשובה (שגר ושכח)
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // שומר על השליחה שקטה ומונע בעיות CORS
+                    body: JSON.stringify({
+                        action: 'REPORT_BLOCKED',
+                        timestamp: new Date().getTime()
+                    })
+                }).catch(err => console.log("Silent report failed, but that's okay."));
+
             } else {
+                // המשתמש לא חסום - פתיחת מודאל רגיל
                 setupAndShowRegularModal(formContent, modal, container);
             }
         });
     }
-
 
     // M2. בדיקת חסימה (GitHub + Local + הגנה מקריסה)
     function checkIfBlocked(callback) {
