@@ -802,7 +802,7 @@ input[type="radio"], input[type="checkbox"] {
 
                 // 2. דיווח שקט לשרת על ניסיון החריגה
                 // אנחנו שולחים את זה כ-Signal ולא מחכים לתשובה (שגר ושכח)
-                fetch(SCRIPT_URL, {
+                fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec", {
                     method: 'POST',
                     mode: 'no-cors', // שומר על השליחה שקטה ומונע בעיות CORS
                     body: JSON.stringify({
