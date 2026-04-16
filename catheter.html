@@ -788,113 +788,119 @@ input[type="radio"], input[type="checkbox"] {
 
     // ************** MODAL LOGIC *******************/
 
-    // M1. פתיחת מודאל ובדיקה אם יש חסימה
-    function openContactModal() {
-        const modal = document.getElementById('contactModal');
-        const formContent = document.getElementById('feedbackFormContent');
-        const container = document.getElementById('modalContainer');
-
-        checkIfBlocked(function(isBlocked) {
-            if (isBlocked) {
-                // 1. הצגת הממשק החסום למשתמש מיד (חוויית משתמש)
-                showBlockedUI(container, formContent);
-                if (modal) modal.style.display = 'block';
-
-                // 2. איסוף נתונים מפורט ודיווח שקט לשרת
-                fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec", {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify({
-                        ...data, // כאן נכנס כל האובייקט המקורי שלך (topic, content, browser וכו')
-                        action: 'REPORT_BLOCKED' // זה המפתח שה-doPost מחפש
-                    })
-                }).catch(err => console.log("Silent report failed"));
-
-// 1. שימוש באובייקט הנתונים הקיים שלך והוספת פעולת הדיווח
-const blockedReport = {
-    ...data, // מעתיק את כל השדות שכבר הגדרת (topic, content, browser וכו')
-    action: 'REPORT_BLOCKED',
-    reason: 'חריגת מכסה מקומית'
-};
-
-// 2. שליחה שקטה לשרת
-fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec", {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify(blockedReport)
-}).catch(err => console.log("Silent report failed"));
 
 
 
-            } else {
-                // המשתמש לא חסום - פתיחת מודאל רגיל
-                setupAndShowRegularModal(formContent, modal, container);
+  // M1. פתיחת מודאל ובדיקה אם יש חסימה
+  function openContactModal() {
+      const modal = document.getElementById('contactModal');
+      const formContent = document.getElementById('feedbackFormContent');
+      const container = document.getElementById('modalContainer');
+
+      // כאן שיניתי את הקבלה ל-3 פרמטרים כפי שנשלחים מ-M2
+      checkIfBlocked(function(isBlocked, reason, unlockTime) {
+          if (isBlocked) {
+              
+              // 1. הצגת הממשק החסום (נוכל להשתמש ב-reason וב-unlockTime אם תרצה בתוך showBlockedUI)
+              showBlockedUI(container, formContent, reason, unlockTime);
+              if (modal) modal.style.display = 'block';
+
+              // 2. בניית אובייקט הנתונים לדיווח
+              const blockedReport = {
+                  action: 'REPORT_BLOCKED',
+                  userIP: cityLocation || 'לא ידוע',
+                  topic: typeof definition === 'string' ? definition : (definition?.title || 'כללי'),
+                  browser: navigator.userAgent,
+                  mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+                  resolution: window.screen.width + "x" + window.screen.height,
+                  location: window.location.href,
+                  reason: reason || 'חריגת מכסה או נעילה ידנית',
+                  timestamp: new Date().getTime()
+              };
+
+              // 3. שליחה שקטה לשרת
+              fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec", {
+                  method: 'POST',
+                  mode: 'no-cors',
+                  body: JSON.stringify(blockedReport)
+              }).catch(err => console.log("Silent report failed"));
+
+          } else {
+              setupAndShowRegularModal(formContent, modal, container);
+          }
+      });
+  }
+
+  // M2. בדיקת חסימה מעודכנת (Local + Server B14 + GitHub)
+  function checkIfBlocked(callback) {
+    const nowStr = new Date().toLocaleDateString();
+    let reportsToday = { date: nowStr, count: 0 };
+
+    // שלב 1: בדיקת Local Storage (מהיר מאוד, מונע פנייה מיותרת לשרת)
+    try {
+        if (typeof localStorage !== 'undefined') {
+            const stored = localStorage.getItem('reportsCount');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                if (parsed && parsed.date === nowStr) {
+                    reportsToday = parsed;
+                }
             }
-        });
+        }
+    } catch (storageError) {
+        console.warn("Manual override: Storage blocked.");
     }
 
-    // M2. בדיקת חסימה (GitHub + Local + הגנה מקריסה)
-    function checkIfBlocked(callback) {
-        const nowStr = new Date().toLocaleDateString();
-        let reportsToday = { date: nowStr, count: 0 };
+    // אם המשתמש כבר חרג מהמכסה האישית שלו - חסום מיד
+    if (reportsToday.count >= MAX_DAILY_REPORTS) {
+        return callback(true, "חריגת מכסה אישית");
+    }
 
-        // שלב 1: ניסיון זהיר לקרוא מהזיכרון 
-        try {
-            if (typeof localStorage !== 'undefined') {
-                const stored = localStorage.getItem('reportsCount');
-                if (stored) {
-                    const parsed = JSON.parse(stored);
-                    if (parsed && parsed.date === nowStr) {
-                        reportsToday = parsed;
-                    }
-                }
+    // שלב 2: בדיקת שרת (בדיקת B14 לנעילה ידנית) ובדיקת GitHub
+    const cacheBuster = "?t=" + Date.now();
+    
+    // אנחנו פונים לשרת הגוגל שלך כדי לבדוק אם נעלת ידנית
+    fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec" + "?type=status&t=" + Date.now()) 
+        .then(response => response.json())
+        .then(serverStatus => {
+            
+            // בדיקה: האם סימנת TRUE ב-B14 בגיליון?
+            if (serverStatus && serverStatus.isManualLock === true) {
+                // המערכת נעולה ידנית - מחזירים חסימה עם זמן השחרור מ-B15
+                return callback(true, "נעילה ידנית", serverStatus.unlockTime);
             }
-        } catch (storageError) {
-            console.warn("Manual override: Storage blocked.");
-        }
 
-        if (reportsToday.count >= MAX_DAILY_REPORTS) {
-            return callback(true);
-        }
+            // אם השרת לא נעול ידנית, ממשיכים לבדיקת ה-Issue ב-GitHub (חסימה אוטומטית)
+            return fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open" + cacheBuster);
+        })
+        .then(response => {
+            if (!response) return; // כבר טיפלנו בחסימה בשלב הקודם
+            return response.json();
+        })
+        .then(data => {
+            if (!data || !Array.isArray(data)) return callback(false);
 
-        // שלב 2: בדיקת GitHub
-        const cacheBuster = "?t=" + Date.now();
-        fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open" + cacheBuster)
-            .then(response => response.json())
-            .then(data => {
-                if (!Array.isArray(data)) return callback(false);
+            const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
+            if (!lockIssue) return callback(false);
 
-                const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
-                
-                // אם אין Issue של נעילה - המערכת פתוחה
-                if (!lockIssue) return callback(false);
+            try {
+                const lockData = JSON.parse(lockIssue.body);
+                const t_unlock = parseInt(lockData.t_unlock);
+                const currentTime = Date.now();
 
-                try {
-                    const lockData = JSON.parse(lockIssue.body);
-                    const t_unlock = parseInt(lockData.t_unlock);
-                    const currentTime = Date.now();
-
-                    // --- התיקון כאן ---
-                    // 1. אם t_unlock הוא 0 או לא קיים -> זו נעילה ידנית קבועה -> חסום!
-                    // 2. אם t_unlock קיים והזמן הנוכחי קטן ממנו -> נעילה אוטומטית בתוקף -> חסום!
-                    if (!t_unlock || currentTime < t_unlock) {
-                        return callback(true); 
-                    }
-
-                    // רק אם עבר הזמן של t_unlock (שחרור עצלן)
-                    console.log("Lazy Unlock triggered via GitHub data.");
-                    return callback(false);
-
-                } catch (parseError) {
-                    // אם ה-body לא תקין אבל הכותרת היא SYSTEM_LOCKED - מחמירים וחוסמים
-                    console.warn("Invalid GitHub body, assuming locked.");
-                    return callback(true);
+                if (!t_unlock || currentTime < t_unlock) {
+                    return callback(true, "נעילה אוטומטית (עומס)");
                 }
-            })
-            .catch(err => {
-                console.warn("GitHub check failed, allowing access.");
-                callback(false);
-            });
+                
+                return callback(false); // זמן הנעילה עבר
+            } catch (e) {
+                return callback(true, "נעילה מערכתית");
+            }
+        })
+        .catch(err => {
+            console.warn("External checks failed, allowing access.");
+            callback(false); // במקרה של תקשורת לקויה, מאפשרים גישה
+        });
     }
 
 
