@@ -797,7 +797,6 @@ input[type="radio"], input[type="checkbox"] {
       const formContent = document.getElementById('feedbackFormContent');
       const container = document.getElementById('modalContainer');
 
-      // כאן שיניתי את הקבלה ל-3 פרמטרים כפי שנשלחים מ-M2
       checkIfBlocked(function(isBlocked, reason, unlockTime) {
           if (isBlocked) {
               
@@ -819,7 +818,7 @@ input[type="radio"], input[type="checkbox"] {
               };
 
               // 3. שליחה שקטה לשרת
-              fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec", {
+              fetch("https://script.google.com/macros/s/AKfycby9mChjAHVijFMbmWOqS74NvkDDsfyfUh8co9-F-InfAxZWfVs7gAA-mZlykwd3Ij7s/exec", {
                   method: 'POST',
                   mode: 'no-cors',
                   body: JSON.stringify(blockedReport)
@@ -856,50 +855,31 @@ input[type="radio"], input[type="checkbox"] {
         return callback(true, "חריגת מכסה אישית");
     }
 
-    // שלב 2: בדיקת שרת (בדיקת B14 לנעילה ידנית) ובדיקת GitHub
+    // שלב 2: בדיקת שרת (דרך GitHub בלבד - מהיר מאוד)
     const cacheBuster = "?t=" + Date.now();
-    
-    // אנחנו פונים לשרת הגוגל שלך כדי לבדוק אם נעלת ידנית
-    fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec" + "?type=status&t=" + Date.now()) 
-        .then(response => response.json())
-        .then(serverStatus => {
-            
-            // בדיקה: האם סימנת TRUE ב-B14 בגיליון?
-            if (serverStatus && serverStatus.isManualLock === true) {
-                // המערכת נעולה ידנית - מחזירים חסימה עם זמן השחרור מ-B15
-                return callback(true, "נעילה ידנית", serverStatus.unlockTime);
-            }
 
-            // אם השרת לא נעול ידנית, ממשיכים לבדיקת ה-Issue ב-GitHub (חסימה אוטומטית)
-            return fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open" + cacheBuster);
-        })
-        .then(response => {
-            if (!response) return; // כבר טיפלנו בחסימה בשלב הקודם
-            return response.json();
-        })
+    fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open" + cacheBuster)
+        .then(response => response.json())
         .then(data => {
             if (!data || !Array.isArray(data)) return callback(false);
 
+            // מחפשים אם יש Issue פתוח של נעילה (לא משנה אם ידנית או אוטומטית)
             const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
-            if (!lockIssue) return callback(false);
+            
+            if (!lockIssue) return callback(false); // אין נעילה - פתח מודאל
 
+            // המערכת נעולה - מחלצים את סיבת הנעילה וזמן השחרור מה-Body של ה-Issue
             try {
                 const lockData = JSON.parse(lockIssue.body);
-                const t_unlock = parseInt(lockData.t_unlock);
-                const currentTime = Date.now();
-
-                if (!t_unlock || currentTime < t_unlock) {
-                    return callback(true, "נעילה אוטומטית (עומס)");
-                }
-                
-                return callback(false); // זמן הנעילה עבר
+                // כאן אפשר להציג למשתמש הודעה מותאמת אישית אם זה ידני או אוטומטי
+                return callback(true, lockData.reason || "נעילה מערכתית");
             } catch (e) {
-                return callback(true, "נעילה מערכתית");
+                return callback(true, "המערכת סגורה זמנית");
             }
         })
         .catch(err => {
-            console.warn("External checks failed, allowing access.");
-            callback(false); // במקרה של תקשורת לקויה, מאפשרים גישה
+            console.warn("GitHub check failed, allowing access.");
+            callback(false); 
         });
     }
 
@@ -1032,7 +1012,7 @@ input[type="radio"], input[type="checkbox"] {
         };
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbxpLRHLHGJqnQo9roQ7FstxCzlQyUSv5wkoKnFuo-crMNHVNiEWjur2p2GYIy-jTmnw/exec", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycby9mChjAHVijFMbmWOqS74NvkDDsfyfUh8co9-F-InfAxZWfVs7gAA-mZlykwd3Ij7s/exec", {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
