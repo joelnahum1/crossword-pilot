@@ -807,7 +807,6 @@ input[type="radio"], input[type="checkbox"] {
               // 2. בניית אובייקט הנתונים לדיווח
               const blockedReport = {
                   action: 'REPORT_BLOCKED',
-                  userIP: cityLocation || 'לא ידוע',
                   topic: typeof definition === 'string' ? definition : (definition?.title || 'כללי'),
                   browser: navigator.userAgent,
                   mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
