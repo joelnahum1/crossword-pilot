@@ -817,7 +817,7 @@ input[type="radio"], input[type="checkbox"] {
               };
 
               // 3. שליחה שקטה לשרת
-              fetch("https://script.google.com/macros/s/AKfycby9mChjAHVijFMbmWOqS74NvkDDsfyfUh8co9-F-InfAxZWfVs7gAA-mZlykwd3Ij7s/exec", {
+              fetch("https://script.google.com/macros/s/AKfycbw8fP8gmtXGlEe13KKy9WkjxfLRfcdALEVh2P8ma1xxYsqHqJN2As1RHiLV9pd6_x63/exec", {
                   method: 'POST',
                   mode: 'no-cors',
                   body: JSON.stringify(blockedReport)
@@ -980,25 +980,27 @@ input[type="radio"], input[type="checkbox"] {
         document.getElementById('submitBtn').disabled = !(isTypeSelected && isLegalChecked && hasContent);
     }
 
-    // M5. שליחה התגובה 
+
+    // M5. שליחת התגובה לשרת
     async function sendFeedback() {
-        const now = new Date().toLocaleDateString();
-        let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
-        if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
-        
         const btn = document.getElementById('submitBtn');
         const formContent = document.getElementById('feedbackFormContent');
         
+        // 1. שינוי מצב כפתור למניעת לחיצות כפולות
         btn.disabled = true;
         btn.innerHTML = 'שולח... <span class="spinner"></span>';
 
+        // 2. ניסיון שליפת מיקום (אופציונלי - לא חוסם)
         let cityLocation = "Unknown";
         try {
             const locRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(2000) });
             const locData = await locRes.json();
             cityLocation = locData.city + ", " + locData.country_name;
-        } catch (e) { console.log("Location failed"); }
+        } catch (e) { 
+            console.warn("Location fetch failed, proceeding with Unknown"); 
+        }
 
+        // 3. הכנת האובייקט למשלוח (התאמה למבנה השרת)
         const data = {
             topic: typeof definition === 'string' ? definition : (definition.title || 'כללי'),
             content: document.getElementById('feedbackContent').value,
@@ -1006,70 +1008,53 @@ input[type="radio"], input[type="checkbox"] {
             location: cityLocation,
             browser: navigator.userAgent,
             mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-            resolution: window.screen.width + "x" + window.screen.height,
-            userReportCount: reportsToday.count + 1 // הוספת המונה האישי לשרת
+            resolution: window.screen.width + "x" + window.screen.height
         };
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycby9mChjAHVijFMbmWOqS74NvkDDsfyfUh8co9-F-InfAxZWfVs7gAA-mZlykwd3Ij7s/exec", {
+            // 4. משלוח הנתונים ל-Google Apps Script
+            const response = await fetch("https://script.google.com/macros/s/AKfycbw8fP8gmtXGlEe13KKy9WkjxfLRfcdALEVh2P8ma1xxYsqHqJN2As1RHiLV9pd6_x63/exec", {
                 method: 'POST',
                 body: JSON.stringify(data)
             });
 
-
             const resData = await response.json();
 
-            // בדיקה אם השרת חסם את הבקשה (הגנה אחרונה)
-            if (resData.success === false && resData.errorType === "SYSTEM_LOCKED") {
-                showBlockedUI(document.getElementById('modalContainer'), formContent);
-                return;
-            }
-
-
-
-            // --- טיפול בסיום השליחה (הצלחה) ---
-            
-            // 1. ניסיון עדכון מונה מקומי - מוגן בבלוק נפרד שלא יעצור את התצוגה
-            try {
-                if (typeof localStorage !== 'undefined') {
-                    reportsToday.count++;
-                    localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
-                }
-            } catch (storageErr) {
-                console.warn("Storage update blocked by browser, but message was sent.");
-            }
-
-            // 2. הסתרת הטופס והצגת הודעת ההצלחה
-            if (formContent) formContent.style.display = 'none';
-            const successDiv = document.getElementById('successMessage');
-            if (successDiv) successDiv.style.display = 'block';
-
-            // 3. עדכון מספר הפנייה אם התקבל מהשרת
-            if (resData && resData.serial) {
-                const ticketElem = document.getElementById('ticketNumber');
-                if (ticketElem) ticketElem.innerText = resData.serial;
+            // 5. טיפול בסיום השליחה (הצגת הצלחה)
+            if (resData.success) {
+                // הסתרת הטופס
+                if (formContent) formContent.style.display = 'none';
                 
-                const link = document.querySelector(".success-link");
-                if (link) link.href = "00_feedback.html?id=" + resData.serial;
+                // הצגת הודעת הצלחה
+                const successDiv = document.getElementById('successMessage');
+                if (successDiv) successDiv.style.display = 'block';
+
+                // עדכון מספר הפנייה (עובדים רק עם id - הסטנדרט החדש)
+                if (resData.id) {
+                    const ticketElem = document.getElementById('ticketNumber');
+                    if (ticketElem) ticketElem.innerText = resData.id;
+                    
+                    const link = document.querySelector(".success-link");
+                    if (link) link.href = "00_feedback.html?id=" + resData.id;
+                }
+            } else {
+                throw new Error(resData.message || "Server returned failure");
             }
 
         } catch (err) {
-            console.error('Submission or UI error:', err);
+            console.error('Submission error:', err);
             
-            // הגנה אחרונה: גם אם הכל קרס (כולל פיירפוקס), ננסה להראות הודעת הצלחה למשתמש
-            try {
-                if (formContent) formContent.style.display = 'none';
-                const successDiv = document.getElementById('successMessage');
-                if (successDiv) {
-                    successDiv.style.display = 'block';
-                    const ticketElem = document.getElementById('ticketNumber');
-                    if (ticketElem) ticketElem.innerText = "נשלח";
-                }
-            } catch (uiErr) {
-                console.error('Critical UI failure', uiErr);
+            // הגנה למקרה של תקלה: מציגים הצלחה גנרית (כי לרוב הנתונים כן הגיעו לגיליון)
+            if (formContent) formContent.style.display = 'none';
+            const successDiv = document.getElementById('successMessage');
+            if (successDiv) {
+                successDiv.style.display = 'block';
+                const ticketElem = document.getElementById('ticketNumber');
+                if (ticketElem) ticketElem.innerText = "נשלח";
             }
         }
     }
+
 
     // הפעלה ראשונית של הדף
     window.onload = renderList;
