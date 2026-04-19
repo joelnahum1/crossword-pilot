@@ -702,7 +702,8 @@ input[type="radio"], input[type="checkbox"] {
   </div>
 <script>
     // S1. הגדרות ומשתנים גלובליים
-    const definition = "חסר כל"; // <-- הוסף את השורה הזו
+    let cityLocation = "Unknown";
+    const definition = "חסר כל"; 
     var currentMode = 'letters';
     var MAX_DAILY_REPORTS = 5;
 
@@ -789,11 +790,10 @@ input[type="radio"], input[type="checkbox"] {
 
     // ************** MODAL LOGIC *******************/
     // M1. פתיחת מודאל ובדיקה אם יש חסימה
-    function openContactModal() {
+    async function openContactModal() {
       const modal = document.getElementById('contactModal');
       const formContent = document.getElementById('feedbackFormContent');
       const container = document.getElementById('modalContainer');
-      let cityLocation = "Unknown";
 
       // שליפת המיקום "בשקט" ברקע
       try {
