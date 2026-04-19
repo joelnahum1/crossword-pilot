@@ -805,15 +805,25 @@ input[type="radio"], input[type="checkbox"] {
               if (modal) modal.style.display = 'block';
 
               // 2. בניית אובייקט הנתונים לדיווח
+              // ניסיון שליפת מיקום (אופציונלי - לא חוסם)
+              let cityLocation = "Unknown 1";
+              try {
+                  const locRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(2000) });
+                  const locData = await locRes.json();
+                  cityLocation = locData.city + ", " + locData.country_name;
+              } catch (e) { 
+                  console.warn("Location fetch failed, proceeding with Unknown 1"); 
+              }
+
               const blockedReport = {
                   action: 'REPORT_BLOCKED',
+                  timestamp: new Date().getTime(),
                   topic: typeof definition === 'string' ? definition : (definition?.title || 'כללי'),
+                  location: cityLocation,
                   browser: navigator.userAgent,
                   mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
                   resolution: window.screen.width + "x" + window.screen.height,
-                  location: window.location.href,
-                  reason: reason || 'חריגת מכסה או נעילה ידנית',
-                  timestamp: new Date().getTime()
+                  reason: reason || 'חריגת מכסה או נעילה ידנית'
               };
 
               // 3. שליחה שקטה לשרת
