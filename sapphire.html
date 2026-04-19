@@ -786,17 +786,24 @@ input[type="radio"], input[type="checkbox"] {
         renderList();
     }
 
+
     // ************** MODAL LOGIC *******************/
-
-
-
-
-  // M1. פתיחת מודאל ובדיקה אם יש חסימה
-  function openContactModal() {
+    // M1. פתיחת מודאל ובדיקה אם יש חסימה
+    function openContactModal() {
       const modal = document.getElementById('contactModal');
       const formContent = document.getElementById('feedbackFormContent');
       const container = document.getElementById('modalContainer');
+      let cityLocation = "Unknown";
 
+      // שליפת המיקום "בשקט" ברקע
+      try {
+          const locRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(2500) });
+          const locData = await locRes.json();
+          cityLocation = locData.city + ", " + locData.country_name;
+      } catch (e) {
+          console.warn("Location pre-fetch failed");
+      }
+      
       checkIfBlocked(function(isBlocked, reason, unlockTime) {
           if (isBlocked) {
               
@@ -805,16 +812,6 @@ input[type="radio"], input[type="checkbox"] {
               if (modal) modal.style.display = 'block';
 
               // 2. בניית אובייקט הנתונים לדיווח
-              // ניסיון שליפת מיקום (אופציונלי - לא חוסם)
-              let cityLocation = "Unknown 1";
-              try {
-                  const locRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(2000) });
-                  const locData = await locRes.json();
-                  cityLocation = locData.city + ", " + locData.country_name;
-              } catch (e) { 
-                  console.warn("Location fetch failed, proceeding with Unknown 1"); 
-              }
-
               const blockedReport = {
                   action: 'REPORT_BLOCKED',
                   timestamp: new Date().getTime(),
@@ -1000,17 +997,7 @@ input[type="radio"], input[type="checkbox"] {
         btn.disabled = true;
         btn.innerHTML = 'שולח... <span class="spinner"></span>';
 
-        // 2. ניסיון שליפת מיקום (אופציונלי - לא חוסם)
-        let cityLocation = "Unknown";
-        try {
-            const locRes = await fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(2000) });
-            const locData = await locRes.json();
-            cityLocation = locData.city + ", " + locData.country_name;
-        } catch (e) { 
-            console.warn("Location fetch failed, proceeding with Unknown"); 
-        }
-
-        // 3. הכנת האובייקט למשלוח (התאמה למבנה השרת)
+        // 2. הכנת האובייקט למשלוח (התאמה למבנה השרת)
         const data = {
             topic: typeof definition === 'string' ? definition : (definition.title || 'כללי'),
             content: document.getElementById('feedbackContent').value,
@@ -1035,7 +1022,7 @@ input[type="radio"], input[type="checkbox"] {
             
             const resData = JSON.parse(resText);
             
-            // 5. טיפול בסיום השליחה (הצגת הצלחה)
+            // 3. טיפול בסיום השליחה (הצגת הצלחה)
             if (resData.success) {
                 // הסתרת הטופס
                 if (formContent) formContent.style.display = 'none';
