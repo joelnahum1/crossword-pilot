@@ -867,10 +867,12 @@ input[type="radio"], input[type="checkbox"] {
     fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues?state=open" + cacheBuster)
         .then(response => response.json())
         .then(data => {
+            console.log("checkIfBlocked: GitHub response data:", data); 
             if (!data || !Array.isArray(data)) return callback(false);
 
             // מחפשים אם יש Issue פתוח של נעילה (לא משנה אם ידנית או אוטומטית)
             const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
+            console.log("checkIfBlocked: Found lockIssue?", lockIssue); 
             
             if (!lockIssue) return callback(false); // אין נעילה - פתח מודאל
 
@@ -884,6 +886,7 @@ input[type="radio"], input[type="checkbox"] {
             }
         })
         .catch(err => {
+            console.log("checkIfBlocked: *** Error ***"); 
             console.warn("GitHub check failed, allowing access.");
             callback(false); 
         });
