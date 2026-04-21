@@ -862,7 +862,7 @@ input[type="radio"], input[type="checkbox"] {
     }
 
     // שלב 2: בדיקת שרת (דרך GitHub בלבד - מהיר מאוד)
-    const cacheBuster = "&t=" + Date.now();
+    const cacheBuster = "?t=" + Date.now();
 
     fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues" + cacheBuster)
         .then(response => response.json())
