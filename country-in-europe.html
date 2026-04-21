@@ -1027,6 +1027,18 @@ input[type="radio"], input[type="checkbox"] {
             
             // 3. טיפול בסיום השליחה (הצגת הצלחה)
             if (resData.success) {
+                // עדכון המונה המקומי לחסימת משתמש
+                try {
+                    if (typeof localStorage !== 'undefined') {
+                        // וודא ש-reportsToday מוגדר בתחילת הפונקציה (כפי ששלחת קודם)
+                        reportsToday.count++;
+                        localStorage.setItem('reportsCount', JSON.stringify(reportsToday));
+                        console.log("Local count updated to: " + reportsToday.count);
+                    }
+                } catch (storageErr) {
+                    console.warn("Storage update blocked, but message was sent.");
+                }
+
                 // הסתרת הטופס
                 if (formContent) formContent.style.display = 'none';
                 
