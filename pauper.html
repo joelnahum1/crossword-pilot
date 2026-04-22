@@ -993,6 +993,10 @@ input[type="radio"], input[type="checkbox"] {
 
     // M5. שליחת התגובה לשרת
     async function sendFeedback() {
+        const now = new Date().toLocaleDateString();
+        let reportsToday = JSON.parse(localStorage.getItem('reportsCount') || '{"date":"","count":0}');
+        if (reportsToday.date !== now) reportsToday = { date: now, count: 0 };
+
         const btn = document.getElementById('submitBtn');
         const formContent = document.getElementById('feedbackFormContent');
         
