@@ -804,92 +804,100 @@ input[type="radio"], input[type="checkbox"] {
           console.warn("Location pre-fetch failed");
       }
       
-      checkIfBlocked(function(isBlocked, reason, unlockTime) {
-          if (isBlocked) {
-              
-              // 1. הצגת הממשק החסום (נוכל להשתמש ב-reason וב-unlockTime אם תרצה בתוך showBlockedUI)
-              showBlockedUI(container, formContent, reason, unlockTime);
-              if (modal) modal.style.display = 'block';
+      checkIfBlocked(function(isBlocked, reason, type) {
+        if (isBlocked) {
+            // יש חסימה. מודיעים למשתמש לדווח מאוחר יותר
+            showBlockedUI(container, formContent, reason);
+            if (modal) modal.style.display = 'block';
 
-              // 2. בניית אובייקט הנתונים לדיווח
-              const blockedReport = {
-                  action: 'REPORT_BLOCKED',
-                  timestamp: new Date().getTime(),
-                  topic: typeof definition === 'string' ? definition : (definition?.title || 'כללי'),
-                  location: cityLocation,
-                  browser: navigator.userAgent,
-                  mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-                  resolution: window.screen.width + "x" + window.screen.height,
-                  reason: reason || 'חריגת מכסה או נעילה ידנית'
-              };
+            //   בדיקה האם לדווח לשרת כדי שישלח מייל
+            const today = new Date().toLocaleDateString();
+            const alreadyReported = localStorage.getItem('lastReportDate') === today;
 
-              // 3. שליחה שקטה לשרת
-              fetch("https://script.google.com/macros/s/AKfycbzw9RVfHxWnaKhUd2x9rvlyLnbrgW0sPQrQNVZlG9Aynns2RBthCxkvgug9YmpHsw/exec", {
-                  method: 'POST',
-                  mode: 'no-cors',
-                  body: JSON.stringify(blockedReport)
-              }).catch(err => console.log("Silent report failed"));
+            // שולחים דיווח רק אם המשתמש ננעל ורק אם טרם דיווחנו עליו היום
+            if (type === 'user_is_locked' && !alreadyReported) {
+                
+                const blockedReport = {
+                    action: 'REPORT_BLOCKED',
+                    timestamp: new Date().getTime(),
+                    reason: reason,
+                    topic: typeof definition === 'string' ? definition : (definition?.title || 'כללי'),
+                    location: cityLocation,
+                    browser: navigator.userAgent,
+                    mobile: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+                    resolution: window.screen.width + "x" + window.screen.height,
+                };
 
-          } else {
-              setupAndShowRegularModal(formContent, modal, container);
-          }
-      });
+                // שליחה שקטה לשרת
+                fetch("https://script.google.com/macros/s/AKfycbyqcf1b8g4Yl3kdnqmz4gxrg9TjtX8_SRcOl9PlBuRaQlG7O2jV7rgAHWPr4qqfZXRi/exec", {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(blockedReport)
+                })
+                .then(() => {
+                    localStorage.setItem('lastReportDate', today);
+                })
+                .catch(err => console.log("Silent report failed"));
+            }
+        } else {
+            setupAndShowRegularModal(formContent, modal, container);
+        }
+    });
   }
 
-  // M2. בדיקת חסימה מעודכנת (Local + Server B14 + GitHub)
-  function checkIfBlocked(callback) {
-    const nowStr = new Date().toLocaleDateString();
-    let reportsToday = { date: nowStr, count: 0 };
 
-    // שלב 1: בדיקת Local Storage (מהיר מאוד, מונע פנייה מיותרת לשרת)
-    try {
-        if (typeof localStorage !== 'undefined') {
-            const stored = localStorage.getItem('reportsCount');
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                if (parsed && parsed.date === nowStr) {
-                    reportsToday = parsed;
+    // M2. בדיקת חסימה (User vs System)
+    function checkIfBlocked(callback) {
+        const nowStr = new Date().toLocaleDateString();
+        let reportsToday = { date: nowStr, count: 0 };
+
+        // שלב 1: בדיקת Local Storage (חסימת משתמש מקומית)
+        try {
+            if (typeof localStorage !== 'undefined') {
+                const stored = localStorage.getItem('reportsCount');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.date === nowStr) {
+                        reportsToday = parsed;
+                    }
                 }
             }
+        } catch (storageError) {
+            console.warn("Manual override: Storage blocked.");
         }
-    } catch (storageError) {
-        console.warn("Manual override: Storage blocked.");
-    }
 
-    // אם המשתמש כבר חרג מהמכסה האישית שלו - חסום מיד
-    if (reportsToday.count >= MAX_DAILY_REPORTS) {
-        return callback(true, "חריגת מכסה אישית");
-    }
+        // בדיקה אם המשתמש חרג מהמכסה האישית שלו
+        if (reportsToday.count >= MAX_DAILY_REPORTS) {
+            // מחזירים: חסום, סיבה, וסוג נעילת משתמש
+            return callback(true, "חריגת מכסה אישית", "user_is_locked");
+        }
 
-    // שלב 2: בדיקת שרת (דרך GitHub בלבד - מהיר מאוד)
-    const cacheBuster = "?t=" + Date.now();
+        // שלב 2: בדיקת שרת (דרך GitHub - חסימת מערכת גלובלית)
+        const cacheBuster = "?t=" + Date.now();
 
-    fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues" + cacheBuster)
-        .then(response => response.json())
-        .then(data => {
-            console.log("checkIfBlocked: GitHub response data:", data); 
-            if (!data || !Array.isArray(data)) return callback(false);
+        fetch("https://api.github.com/repos/joelnahum1/crossword-pilot/issues" + cacheBuster)
+            .then(response => response.json())
+            .then(data => {
+                if (!data || !Array.isArray(data)) return callback(false);
 
-            // מחפשים אם יש Issue פתוח של נעילה (לא משנה אם ידנית או אוטומטית)
-            const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
-            console.log("checkIfBlocked: Found lockIssue?", lockIssue); 
-            
-            if (!lockIssue) return callback(false); // אין נעילה - פתח מודאל
+                // חיפוש Issue פתוח של נעילת מערכת
+                const lockIssue = data.find(issue => issue.title === "SYSTEM_LOCKED");
+                
+                if (!lockIssue) return callback(false); // אין נעילה - הכל תקין
 
-            // המערכת נעולה - מחלצים את סיבת הנעילה וזמן השחרור מה-Body של ה-Issue
-            try {
-                const lockData = JSON.parse(lockIssue.body);
-                // כאן אפשר להציג למשתמש הודעה מותאמת אישית אם זה ידני או אוטומטי
-                return callback(true, lockData.reason || "נעילה מערכתית");
-            } catch (e) {
-                return callback(true, "המערכת סגורה זמנית");
-            }
-        })
-        .catch(err => {
-            console.log("checkIfBlocked: *** Error ***"); 
-            console.warn("GitHub check failed, allowing access.");
-            callback(false); 
-        });
+                // המערכת נעולה - חילוץ סיבה מתוך ה-Body
+                try {
+                    const lockData = JSON.parse(lockIssue.body);
+                    // מחזירים: חסום, סיבה מהשרת, וסוג נעילת מערכת
+                    return callback(true, lockData.reason || "נעילה מערכתית", "system_is_locked");
+                } catch (e) {
+                    return callback(true, "המערכת סגורה זמנית", "system_is_locked");
+                }
+            })
+            .catch(err => {
+                console.warn("GitHub check failed, allowing access.");
+                callback(false); // במקרה של שגיאת תקשורת - מאפשרים גישה (Fail-safe)
+            });
     }
 
 
@@ -1016,7 +1024,7 @@ input[type="radio"], input[type="checkbox"] {
         };
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbzw9RVfHxWnaKhUd2x9rvlyLnbrgW0sPQrQNVZlG9Aynns2RBthCxkvgug9YmpHsw/exec", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbyqcf1b8g4Yl3kdnqmz4gxrg9TjtX8_SRcOl9PlBuRaQlG7O2jV7rgAHWPr4qqfZXRi/exec", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain;charset=utf-8', 
