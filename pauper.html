@@ -885,18 +885,28 @@ input[type="radio"], input[type="checkbox"] {
                 
                 if (!lockIssue) return callback(false); // אין נעילה - הכל תקין
 
-                // המערכת נעולה - חילוץ סיבה מתוך ה-Body
+                // המערכת נעולה - בדיקה האם זמן הנעילה פקע (Lazy Unlock Check)
                 try {
                     const lockData = JSON.parse(lockIssue.body);
-                    // מחזירים: חסום, סיבה מהשרת, וסוג נעילת מערכת
+                    const now = Date.now();
+
+                    // בדיקה קריטית: אם קיים זמן שחרור והוא כבר עבר
+                    if (lockData.t_unlock && now >= lockData.t_unlock) {
+                        console.log("Lazy Unlock: Time expired. Allowing access to trigger server cleanup.");
+                        return callback(false); // מחזירים false כדי לאפשר למשתמש להמשיך ולהעיר את השרת
+                    }
+
+                    // אם הזמן טרם עבר - חוסמים כרגיל
                     return callback(true, lockData.reason || "נעילה מערכתית", "system_is_locked");
+                    
                 } catch (e) {
+                    // אם ה-body לא תקין, מחמירים וחוסמים ליתר ביטחון
                     return callback(true, "המערכת סגורה זמנית", "system_is_locked");
                 }
             })
             .catch(err => {
                 console.warn("GitHub check failed, allowing access.");
-                callback(false); // במקרה של שגיאת תקשורת - מאפשרים גישה (Fail-safe)
+                callback(false); // Fail-safe
             });
     }
 
